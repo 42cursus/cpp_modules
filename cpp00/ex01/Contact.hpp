@@ -15,6 +15,7 @@
 #define __CONTACT_H__
 
 #include <string>
+#include <ostream>
 
 // ************************************************************************** //
 //                               Contact Class                                //
@@ -32,15 +33,11 @@ private:
 	std::string	_darkestSecret;
 
 public:
-	void	setFirstName(const std::string&);
-	void	setLastName(const std::string&);
-	void	setNickname(const std::string&);
-	void	setPhoneNumber(const std::string&);
-	void	setDarkestSecret(const std::string&);
-	void	printContact(void);
-	void	printContactColumn(void);
-	int		getContactId(void);
-	void	updateContactId(int);
+	Contact(int id, const std::string &first_name,
+			const std::string &last_name, const std::string &nickname,
+			const std::string &phone_number, const std::string &darkest_secret);
+
+	friend std::ostream &operator<<(std::ostream &os, const Contact &contact);
 };
 
 // ************************************************************************** //

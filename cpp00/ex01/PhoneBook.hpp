@@ -28,10 +28,11 @@ class PhoneBook
 public:
 	enum Command { ADD, SEARCH, EXIT, NOT_FOUND };
 	static Command getCommand(const std::string&);
+	static const int		PHONE_BOOK_SIZE;
 	PhoneBook();
 	~PhoneBook();
 private:
-	Contact _contacts[MAX_CONTACT_NUM];
+	static Contact 			_contacts[MAX_CONTACT_NUM];
 	struct CommandMap
 	{
 		const int	size;
@@ -41,7 +42,7 @@ private:
 			const Command		value;
 		}			map[3];
 	};
-	static const CommandMap _commandMap;
+	static const CommandMap	_commandMap;
 
 
 

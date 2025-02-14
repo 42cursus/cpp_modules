@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <cstring>
 #include "PhoneBook.hpp"
+
+const int  PhoneBook::PHONE_BOOK_SIZE = MAX_CONTACT_NUM;
 
 const PhoneBook::CommandMap PhoneBook::_commandMap = {
 	.size = 3,
@@ -23,7 +26,7 @@ const PhoneBook::CommandMap PhoneBook::_commandMap = {
 
 PhoneBook::PhoneBook()
 {
-
+	std::memset(_contacts, 0, sizeof(Contact) * PHONE_BOOK_SIZE);
 }
 
 PhoneBook::~PhoneBook()
