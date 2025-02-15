@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstring>
+#include <iomanip>
 #include "PhoneBook.hpp"
 
 const int  PhoneBook::PHONE_BOOK_SIZE = MAX_CONTACT_NUM;
+int  PhoneBook::amountOfContacts = 0;
+int  PhoneBook::nextIndex = 0;
 
 const PhoneBook::CommandMap PhoneBook::_commandMap = {
 	.size = 3,
@@ -24,21 +26,66 @@ const PhoneBook::CommandMap PhoneBook::_commandMap = {
 	}
 };
 
-PhoneBook::PhoneBook()
-{
-	std::memset(_contacts, 0, sizeof(Contact) * PHONE_BOOK_SIZE);
-}
-
-PhoneBook::~PhoneBook()
-{
-
-}
-
 PhoneBook::Command PhoneBook::getCommand(const std::string &input)
 {
-	Command	cmd = NOT_FOUND;
+	Command command = NOT_FOUND;
 	for (int i = 0; i < _commandMap.size; i++)
+	{
+		const CommandMap::CommandMapEntry &cmd = _commandMap.map[i];
 		if (_commandMap.map[i].key == input)
-			cmd = _commandMap.map[i].value;
-	return (cmd);
+			command = _commandMap.map[i].value;
+	}
+	return (command);
+}
+
+std::string PhoneBook::formatColumn(const std::string &str)
+{
+	const int width = 10;
+	if (str.length() > width)
+		return str.substr(0, width - 1) + ".";
+	return std::string(width - str.length(), ' ') + str;
+}
+
+void PhoneBook::print(std::ostream &os) const
+{
+	os << '|' << formatColumn("Index") << '|'
+	   << formatColumn("First name") << '|'
+	   << formatColumn("Last name") << '|'
+	   << formatColumn("Nickname") << '|'
+	   << std::endl;
+
+	for (int idx = 0; idx < PhoneBook::amountOfContacts; idx++)
+	{
+		const Contact &contact = this->_contacts[idx];
+		os << "|" << std::setw(10) << idx
+		   << "|" << formatColumn(contact.getFirstName())
+		   << "|" << formatColumn(contact.getLastName())
+		   << "|" << formatColumn(contact.getNickname()) << "|\n";
+	}
+}
+
+Contact &PhoneBook::getContactByIndex(int index)
+{
+	return this->_contacts[index];
+}
+
+Contact &PhoneBook::addContact(Contact &contact)
+{
+	Contact &c = this->_contacts[nextIndex++];
+	nextIndex %= MAX_CONTACT_NUM;
+	c = contact;
+	if (amountOfContacts < MAX_CONTACT_NUM)
+		amountOfContacts++;
+	return c;
+}
+
+Contact &PhoneBook::addContact()
+{
+	Contact &c = this->_contacts[nextIndex++];
+	nextIndex %= MAX_CONTACT_NUM;
+	c = Contact("Alice", "Smith", "Ali",
+				"1234567890", "hates secrets");
+	if (amountOfContacts < MAX_CONTACT_NUM)
+		amountOfContacts++;
+	return c;
 }

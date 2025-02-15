@@ -13,10 +13,15 @@
 #include <iostream>
 #include "PhoneBook.hpp"
 
+std::ostream &operator<<(std::ostream &os, const PhoneBook &phoneBook)
+{
+	phoneBook.print(os);
+	return os;
+}
 
 int	main()
 {
-	PhoneBook pb;
+	PhoneBook phoneBook;
 	std::string input;
 
 	while (true)
@@ -29,9 +34,11 @@ int	main()
 		switch (command)
 		{
 			case PhoneBook::ADD:
+				phoneBook.addContact();
 				break;
 			case PhoneBook::SEARCH:
 				std::cout << "SEARCH entered" << std::endl;
+				std::cout << phoneBook << std::endl;
 				break;
 			case PhoneBook::EXIT:
 				std::cout << "Exiting the program" << std::endl;

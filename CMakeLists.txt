@@ -13,7 +13,7 @@
 cmake_minimum_required(VERSION 3.27)
 
 #set(CMAKE_CXX_COMPILER clang++)
-set(CMAKE_CXX_COMPILER g++)
+set(CMAKE_CXX_COMPILER gcc)
 
 project(cpp_modules CXX)
 

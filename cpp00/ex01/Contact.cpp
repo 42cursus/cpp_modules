@@ -10,27 +10,65 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <iostream>
 #include "Contact.hpp"
 
-Contact::Contact(int id, const std::string &first_name,
-				 const std::string &last_name, const std::string &nickname,
-				 const std::string &phone_number,
-				 const std::string &darkest_secret)
-	: id(id),
-	  _firstName(first_name),
-	  _lastName(last_name),
-	  _nickname(nickname),
-	  _phoneNumber(phone_number),
-	  _darkestSecret(darkest_secret)
-{}
-
-std::ostream &operator<<(std::ostream &os, const Contact &contact)
+void Contact::print(std::ostream &os)
 {
-	os << "id: " << contact.id << " _firstName: " << contact._firstName
-	   << " _lastName: " << contact._lastName
-	   << " _nickname: " << contact._nickname << " _phoneNumber: "
-	   << contact._phoneNumber << " _darkestSecret: "
-	   << contact._darkestSecret;
+	os << "ID: " << id << "\n"
+	   << "First Name: " << _firstName << "\n"
+	   << "Last Name: " << _lastName << "\n"
+	   << "Nickname: " << _nickname << "\n"
+	   << "Phone Number: " << _phoneNumber << "\n"
+	   << "Darkest Secret: " << _darkestSecret;
+}
+
+const std::string &Contact::getFirstName() const
+{
+	return _firstName;
+}
+
+const std::string &Contact::getLastName() const
+{
+	return _lastName;
+}
+
+int Contact::getId() const
+{
+	return id;
+}
+
+const std::string &Contact::getNickname() const
+{
+	return _nickname;
+}
+
+Contact::Contact(const std::string &first_name, const std::string &last_name,
+				 const std::string &nickname, const std::string &phone_number,
+				 const std::string &darkest_secret):
+					_firstName(first_name),
+					_lastName(last_name),
+					_nickname(nickname),
+					_phoneNumber(phone_number),
+					_darkestSecret(darkest_secret)
+{
+	id = getUniqueId();
+}
+
+Contact::Contact()
+{
+	id = getUniqueId();
+}
+
+int Contact::getUniqueId()
+{
+	static int uid = { -8 };
+	return uid++;
+}
+
+std::ostream &operator<<(std::ostream &os, Contact &contact)
+{
+	contact.print(os);
 	return os;
 }
 

@@ -26,6 +26,7 @@ class Contact
 
 private:
 	int			id;
+	static int	getUniqueId();
 	std::string	_firstName;
 	std::string	_lastName;
 	std::string	_nickname;
@@ -33,11 +34,17 @@ private:
 	std::string	_darkestSecret;
 
 public:
-	Contact(int id, const std::string &first_name,
-			const std::string &last_name, const std::string &nickname,
-			const std::string &phone_number, const std::string &darkest_secret);
+	Contact();
+	Contact(const std::string &first_name, const std::string &last_name,
+			const std::string &nickname, const std::string &phone_number,
+			const std::string &darkest_secret);
 
-	friend std::ostream &operator<<(std::ostream &os, const Contact &contact);
+	void print(std::ostream &os);
+
+	int getId() const;
+	const std::string &getFirstName() const;
+	const std::string &getLastName() const;
+	const std::string &getNickname() const;
 };
 
 // ************************************************************************** //
