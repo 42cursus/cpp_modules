@@ -5,19 +5,21 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/17 22:40:07 by abelov            #+#    #+#              #
-#    Updated: 2025/02/17 22:40:17 by abelov           ###   ########.fr        #
+#    Created: 2025/02/18 14:16:15 by abelov            #+#    #+#              #
+#    Updated: 2025/02/18 14:16:15 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 			= accounting
+NAME 			= phonebook
 
 CFLAGS 			:= -Wall -Wextra -Werror -std=c++98
 CC 				= c++
 RM				:= /bin/rm
 
-SRCS 			= tests.cpp \
- 					Account.cpp
+SRCS 			= main.cpp \
+					Contact.cpp \
+					PhoneBook.cpp
+
 BUILD_DIR		= build
 OBJS			= $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 
@@ -42,3 +44,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+

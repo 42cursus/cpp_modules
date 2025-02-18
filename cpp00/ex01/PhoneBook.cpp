@@ -32,8 +32,8 @@ PhoneBook::Command PhoneBook::getCommand(const std::string &input)
 	for (int i = 0; i < _commandMap.size; i++)
 	{
 		const CommandMap::CommandMapEntry &cmd = _commandMap.map[i];
-		if (_commandMap.map[i].key == input)
-			command = _commandMap.map[i].value;
+		if (cmd.key == input)
+			command = cmd.value;
 	}
 	return (command);
 }
