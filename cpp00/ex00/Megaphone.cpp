@@ -13,6 +13,22 @@
 #include <iostream>
 #include <cctype>
 
+std::string ftStrTrim(const std::string& str) {
+	std::string substr;
+	const std::string whitespace = " \t\n\r\f\v";
+
+	// Find the first non-whitespace character
+	std::string::size_type start = str.find_first_not_of(whitespace);
+	if (start != std::string::npos)
+	{
+		std::string::size_type end = str.find_last_not_of(whitespace);
+		substr = str.substr(start, end - start + 1);
+	}
+	else
+		substr = "";
+	return substr;
+}
+
 /**
  * https://en.cppreference.com/w/cpp/string/byte/toupper
  * 	Like all other functions from <cctype>, the behavior of std::toupper is

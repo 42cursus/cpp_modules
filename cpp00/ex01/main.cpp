@@ -19,6 +19,22 @@ std::ostream &operator<<(std::ostream &os, const PhoneBook &phoneBook)
 	return os;
 }
 
+std::string ftStrTrim(const std::string& str) {
+	std::string substr;
+	const std::string whitespace = " \t\n\r\f\v";
+
+	// Find the first non-whitespace character
+	std::string::size_type start = str.find_first_not_of(whitespace);
+	if (start != std::string::npos)
+	{
+		std::string::size_type end = str.find_last_not_of(whitespace);
+		substr = str.substr(start, end - start + 1);
+	}
+	else
+		substr = "";
+	return substr;
+}
+
 int	main()
 {
 	PhoneBook phoneBook;
@@ -45,7 +61,8 @@ int	main()
 				break;
 			case PhoneBook::NOT_FOUND:
 			default:
-				std::cout << "Command not found. Please try again." << std::endl;
+				std::cout << "Command not found. Please try again."
+						  << std::endl;
 				break;
 		}
 		if (command == PhoneBook::EXIT)
