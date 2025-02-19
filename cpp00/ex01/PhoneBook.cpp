@@ -158,7 +158,7 @@ std::ostream &operator<<(std::ostream &os, Contact &contact)
 
 void PhoneBook::searchByIndex()
 {
-	std::cout << FT_BOLD_M "Select an index between 0 and "
+	std::cout << FT_BOLD_C "Select an index between 0 and "
 			  << getAmountOfContacts() - 1 << ": " FT_RESET;
 	bool validInput = false;
 	int index = 0;

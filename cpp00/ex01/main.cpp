@@ -50,7 +50,7 @@ int main()
 			std::cout << "Invalid input. Try again.\n";
 		}
 		else
-			std::cout << "You entered: " << toUpper(input) << std::endl;
+			std::cout << FT_BOLD_G"You entered: " << toUpper(input) << FT_RESET << std::endl;
 		PhoneBook::Command command = PhoneBook::getCommand(toUpper(input));
 		switch (command)
 		{
@@ -62,7 +62,7 @@ int main()
 				break;
 			case PhoneBook::SEARCH:
 				if (!phoneBook.getAmountOfContacts())
-					std::cout << "PhoneBook is empty" << std::endl;
+					std::cout << FT_BOLD_R"PhoneBook is empty" << FT_RESET << std::endl;
 				else
 				{
 					std::cout << phoneBook << std::endl << std::endl;
