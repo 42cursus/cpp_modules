@@ -68,6 +68,7 @@ private:
 	};
 	static const CommandMap	_commandMap;
 public:
+	PhoneBook();
 	static std::string	ftStrTrim(const std::string &str);
 	static Command		getCommand(const std::string&);
 	static int getSanitizedUserInput(Contact &c);

@@ -182,3 +182,5 @@ void PhoneBook::searchByIndex()
 	while (!validInput);
 	std::cout << getContactByIndex(index) << std::endl;
 }
+
+PhoneBook::PhoneBook() : _amountOfContacts(0), _nextIndex(0) {}
