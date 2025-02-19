@@ -15,7 +15,7 @@
 
 void Contact::print(std::ostream &os)
 {
-	os << "ID: " << id << "\n"
+	os << "Id: " << getId() << "\n"
 	   << "First Name: " << _firstName << "\n"
 	   << "Last Name: " << _lastName << "\n"
 	   << "Nickname: " << _nickname << "\n"
@@ -35,41 +35,52 @@ const std::string &Contact::getLastName() const
 
 int Contact::getId() const
 {
-	return id;
+	return _id;
 }
 
 const std::string &Contact::getNickname() const
 {
 	return _nickname;
 }
+// Default constructor
+Contact::Contact() : _id(getUniqueId()) {}
 
+// Copy constructor
+Contact::Contact(const Contact &other)
+	: _id(other._id), _firstName(other._firstName), _lastName(other._lastName),
+	  _nickname(other._nickname), _phoneNumber(other._phoneNumber),
+	  _darkestSecret(other._darkestSecret) {}
+
+// Parameterized constructor
 Contact::Contact(const std::string &first_name, const std::string &last_name,
 				 const std::string &nickname, const std::string &phone_number,
 				 const std::string &darkest_secret):
+					_id(getUniqueId()),
 					_firstName(first_name),
 					_lastName(last_name),
 					_nickname(nickname),
 					_phoneNumber(phone_number),
 					_darkestSecret(darkest_secret)
-{
-	id = getUniqueId();
-}
-
-Contact::Contact()
-{
-	id = getUniqueId();
-}
+{}
 
 int Contact::getUniqueId()
 {
-	static int uid = { -8 };
+	static int uid = { 0 };
 	return uid++;
 }
 
-std::ostream &operator<<(std::ostream &os, Contact &contact)
+// Copy assignment operator
+Contact &Contact::operator=(const Contact &other)
 {
-	contact.print(os);
-	return os;
+	if (this != &other) { // Self-assignment check
+		_id = other._id;
+		_firstName = other._firstName;
+		_lastName = other._lastName;
+		_nickname = other._nickname;
+		_phoneNumber = other._phoneNumber;
+		_darkestSecret = other._darkestSecret;
+	}
+	return *this;
 }
 
 // ************************************************************************** //

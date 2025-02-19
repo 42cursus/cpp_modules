@@ -25,7 +25,7 @@ class Contact
 {
 
 private:
-	int			id;
+	int			_id;
 	static int	getUniqueId();
 	std::string	_firstName;
 	std::string	_lastName;
@@ -34,13 +34,21 @@ private:
 	std::string	_darkestSecret;
 
 public:
+	// Default constructor
 	Contact();
+
+	// Parameterized constructor
 	Contact(const std::string &first_name, const std::string &last_name,
 			const std::string &nickname, const std::string &phone_number,
 			const std::string &darkest_secret);
 
+	// Copy constructor
+	Contact(const Contact& other);
+
 	void print(std::ostream &os);
 
+	// Copy assignment operator (deep copy)
+	Contact& operator=(const Contact& other);
 	int getId() const;
 	const std::string &getFirstName() const;
 	const std::string &getLastName() const;

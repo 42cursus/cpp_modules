@@ -12,7 +12,7 @@
 
 NAME 			= phonebook
 
-CFLAGS 			:= -Wall -Wextra -Werror -std=c++98
+CFLAGS 			:= -Wall -Wextra -Werror -std=c++98 -g3 -gdwarf-3 -O0
 CC 				= c++
 RM				:= /bin/rm
 

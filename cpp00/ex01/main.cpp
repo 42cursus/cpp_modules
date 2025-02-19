@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <iostream>
+#include <limits>
 #include "PhoneBook.hpp"
 
 std::ostream &operator<<(std::ostream &os, const PhoneBook &phoneBook)
@@ -19,42 +20,54 @@ std::ostream &operator<<(std::ostream &os, const PhoneBook &phoneBook)
 	return os;
 }
 
-std::string ftStrTrim(const std::string& str) {
-	std::string substr;
-	const std::string whitespace = " \t\n\r\f\v";
-
-	// Find the first non-whitespace character
-	std::string::size_type start = str.find_first_not_of(whitespace);
-	if (start != std::string::npos)
-	{
-		std::string::size_type end = str.find_last_not_of(whitespace);
-		substr = str.substr(start, end - start + 1);
-	}
-	else
-		substr = "";
-	return substr;
+std::string &toUpper(std::string &str)
+{
+	for (size_t i = 0; i < str.length(); i++)
+		str[i] = static_cast<char>(std::toupper(
+			static_cast<unsigned char>(str[i])));
+	return (str);
 }
 
-int	main()
+int main()
 {
 	PhoneBook phoneBook;
 	std::string input;
+	Contact c;
 
 	while (true)
 	{
-		std::cout << "Please enter one of the three commands: ADD, SEARCH, EXIT"
+		std::cout << std::endl
+				  << "Please enter one of the three commands: ADD, SEARCH, EXIT"
 				  << std::endl;
-		std::getline(std::cin, input);
 
-		PhoneBook::Command command = PhoneBook::getCommand(input);
+		if (!std::getline(std::cin, input)) {
+			if (std::cin.eof()) {
+				std::cout << "\nEOF reached. Exiting...\n";
+				break;
+			}
+			std::cin.clear();  // Clear error state (needed for other input errors, not EOF)
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Discard bad input
+			std::cout << "Invalid input. Try again.\n";
+		}
+		else
+			std::cout << "You entered: " << toUpper(input) << std::endl;
+		PhoneBook::Command command = PhoneBook::getCommand(toUpper(input));
 		switch (command)
 		{
 			case PhoneBook::ADD:
-				phoneBook.addContact();
+				if (!PhoneBook::getSanitizedUserInput(c))
+					phoneBook.addContact(c);
+				else
+					std::cout << "Input interrupted" << std::endl;
 				break;
 			case PhoneBook::SEARCH:
-				std::cout << "SEARCH entered" << std::endl;
-				std::cout << phoneBook << std::endl;
+				if (!phoneBook.getAmountOfContacts())
+					std::cout << "PhoneBook is empty" << std::endl;
+				else
+				{
+					std::cout << phoneBook << std::endl << std::endl;
+					phoneBook.searchByIndex();
+				}
 				break;
 			case PhoneBook::EXIT:
 				std::cout << "Exiting the program" << std::endl;
