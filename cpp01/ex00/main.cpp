@@ -15,9 +15,14 @@
 
 int main()
 {
-	Zombie zombie;
+	Zombie	stack("Bob");
+	stack.announce();
 
+	Zombie*	heap;
+	heap = Zombie::newZombie("Alice");
+	heap->announce();
+	delete heap;
+
+	Zombie::randomChump("Eve");
 	return (0);
 }
-
-

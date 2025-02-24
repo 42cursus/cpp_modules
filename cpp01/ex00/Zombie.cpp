@@ -14,15 +14,12 @@
 
 void Zombie::announce()
 {
-
+	std::cout << _name << ": BraiiiiiiinnnzzzZ..." << std::endl;
 }
 
-void Zombie::randomChump(const std::string& name)
-{
+Zombie::Zombie(const std::string& name) : _name(name){}
 
-}
-
-Zombie *Zombie::newZombie(const std::string& name)
+Zombie::~Zombie()
 {
-	return (NULL);
+	std::cout << _name << ": destroyed..." << std::endl;
 }

@@ -15,6 +15,7 @@
 #define ZOMBIE_HPP
 
 #include <string>
+#include <iostream>
 
 
 // ************************************************************************** //
@@ -27,9 +28,11 @@ private:
 	std::string _name;
 
 public:
+	explicit Zombie(const std::string&);
+	~Zombie();
+	static void randomChump(const std::string& name);
+	static Zombie* newZombie(const std::string& name);
 	void announce();
-	void randomChump(const std::string &name);
-	Zombie *newZombie(const std::string &name);
 };
 
 
