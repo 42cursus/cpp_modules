@@ -33,14 +33,14 @@ int main(int argc, char **argv)
 	if (!inFile.is_open())
 	{
 		std::cerr <<"The file cannot be opened\n";
-		return (1);
+		return (EXIT_FAILURE);
 	}
 
 	std::ofstream outFile((filename + ".replace").c_str()); // create new file
 	if (!outFile.is_open())
 	{
 		std::cerr << "The file cannot be opened\n";
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	std::string line;
 	while (std::getline(inFile, line))
