@@ -19,8 +19,15 @@ add_executable(${TARGET_EXE_NAME}
         main.cpp
         Zombie.cpp
         zombieHorde.cpp)
-target_compile_options(${TARGET_EXE_NAME} PRIVATE ${COMMON_CFLAGS})
-target_link_options(${TARGET_EXE_NAME} PRIVATE ${COMMON_LDFLAGS} -lstdc++)
+target_compile_options(${TARGET_EXE_NAME}
+        PRIVATE ${COMMON_CFLAGS}
+        -fsanitize=address
+)
+target_link_options(${TARGET_EXE_NAME}
+        PRIVATE ${COMMON_LDFLAGS}
+        -g3
+        -fsanitize=address
+        -lstdc++)
 set_target_properties(${TARGET_EXE_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
         OUTPUT_NAME "${TARGET_EXE_NAME}")

@@ -12,8 +12,14 @@
 
 #include "Zombie.hpp"
 
-Zombie *Zombie::zombieHorde(int N, std::string name)
+Zombie *Zombie::zombieHorde(int N, const std::string& name)
 {
-	return (NULL);
-}
+	Zombie *zombies;
+	// Allocate raw memory
+	zombies = static_cast<Zombie *>(operator new[](N * sizeof(Zombie)));
 
+	// Construct objects manually using placement new
+	for (int i = 0; i < N; i += 1)
+		new (&zombies[i]) Zombie(name);
+	return (zombies);
+}

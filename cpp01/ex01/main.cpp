@@ -12,9 +12,17 @@
 
 #include "Zombie.hpp"
 
-
-int main()
+int	main()
 {
-	Zombie zzzz;
+	int size = 10;
+
+	Zombie* zombies = Zombie::zombieHorde(size, "Goblin");
+	for (int i = 0; i < 10; i++)
+		zombies[i].announce();
+
+	for (int i = 0; i < size; ++i)
+		zombies[i].~Zombie();
+
+	operator delete[](zombies); // Free raw memory
 	return (0);
 }
