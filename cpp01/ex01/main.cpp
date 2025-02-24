@@ -16,13 +16,17 @@ int	main()
 {
 	int size = 10;
 
-	Zombie* zombies = Zombie::zombieHorde(size, "Goblin");
+	Zombie* zombies = Zombie::zombieHorde(size, "Goblin horde");
 	for (int i = 0; i < 10; i++)
 		zombies[i].announce();
 
 	for (int i = 0; i < size; ++i)
 		zombies[i].~Zombie();
 
+	// when we allocate memory using placement new,
+	// the normal delete operator cannot be used to free it.
+	// Instead, we must explicitly call operator delete
+	// to properly release the memory.
 	operator delete[](zombies); // Free raw memory
 	return (0);
 }
