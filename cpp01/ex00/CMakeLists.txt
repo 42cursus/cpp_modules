@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-project(cpp01_ex00 CXX C ASM)
+project(cpp01_ex00 CXX)
 set(CMAKE_CXX_STANDARD 98)
 
 set(TARGET_EXE_NAME "zombie")

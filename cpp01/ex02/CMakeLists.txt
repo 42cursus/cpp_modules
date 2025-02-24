@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-project(cpp00_ex02 CXX C ASM)
+project(cpp00_ex02 CXX)
 set(CMAKE_CXX_STANDARD 98)
 
 set(TARGET_EXE_NAME "brain")
