@@ -13,13 +13,11 @@
 project(cpp00_ex03 CXX C ASM)
 set(CMAKE_CXX_STANDARD 98)
 
-set(TARGET_EXE_NAME "violence")
+set(TARGET_EXE_NAME "replace")
 
 add_executable(${TARGET_EXE_NAME}
         main.cpp
-        Weapon.cpp
-        HumanA.cpp
-        HumanB.cpp)
+        Replace.cpp)
 target_compile_options(${TARGET_EXE_NAME} PRIVATE ${COMMON_CFLAGS})
 target_link_options(${TARGET_EXE_NAME} PRIVATE ${COMMON_LDFLAGS} -lstdc++)
 set_target_properties(${TARGET_EXE_NAME} PROPERTIES

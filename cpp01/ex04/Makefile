@@ -5,12 +5,12 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/23 23:35:33 by abelov            #+#    #+#              #
-#    Updated: 2025/02/23 23:35:33 by abelov           ###   ########.fr        #
+#    Created: 2025/02/24 12:48:49 by abelov            #+#    #+#              #
+#    Updated: 2025/02/24 12:48:50 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 			= violence
+NAME 			= replace
 
 CFLAGS 			:= -Wall -Wextra -Werror -std=c++98 -g3 -gdwarf-3 -O0
 CC 				= c++

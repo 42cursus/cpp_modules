@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #include "HumanB.hpp"
-#include "nullptr.hpp"
+#include "ft_nullptr.hpp"
 
 HumanB::HumanB(const std::string& name) : _name(name), _weapon(nullptr) {}
+
 void HumanB::attack()
 {
 	if (_weapon)
