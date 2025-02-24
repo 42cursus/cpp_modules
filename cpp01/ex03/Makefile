@@ -5,18 +5,18 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/20 00:18:03 by abelov            #+#    #+#              #
-#    Updated: 2025/02/20 00:18:04 by abelov           ###   ########.fr        #
+#    Created: 2025/02/23 23:35:33 by abelov            #+#    #+#              #
+#    Updated: 2025/02/23 23:35:33 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 			= brain
+NAME 			= attack
 
 CFLAGS 			:= -Wall -Wextra -Werror -std=c++98 -g3 -gdwarf-3 -O0
 CC 				= c++
 RM				:= /bin/rm
 
-SRCS 			= main.cpp
+SRCS 			= main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
 
 BUILD_DIR		= build
 OBJS			= $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
@@ -42,5 +42,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
 

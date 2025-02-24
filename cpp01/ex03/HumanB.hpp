@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Zombie.hpp                                         :+:      :+:    :+:   */
+/*   HumanB.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 00:14:03 by abelov            #+#    #+#             */
-/*   Updated: 2025/02/20 00:14:03 by abelov           ###   ########.fr       */
+/*   Created: 2025/02/23 23:39:56 by abelov            #+#    #+#             */
+/*   Updated: 2025/02/23 23:39:57 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#ifndef ZOMBIE_HPP
-#define ZOMBIE_HPP
+#ifndef HUMANB_HPP
+#define HUMANB_HPP
+
+// ************************************************************************** //
+//                                HumanB Class                                //
+// ************************************************************************** //
 
 #include <string>
+#include <iostream>
+#include "Weapon.hpp"
 
-// ************************************************************************** //
-//                                Zombie Class                                //
-// ************************************************************************** //
-
-class Zombie
+// HumanB may not always have a weapon
+class HumanB
 {
 private:
-	std::string _name;
+	std::string	_name;
+	Weapon		*_weapon;
 public:
-	Zombie* zombieHorde(int N, std::string name);
+	// Single-argument constructors must be marked explicit
+	// to avoid unintentional implicit conversions
+	explicit HumanB(const std::string& name);
+	~HumanB();
+	void setWeapon(Weapon& weapon);
+
+	void attack();
 };
 
-
-#endif //ZOMBIE_HPP
+#endif //HUMANB_HPP

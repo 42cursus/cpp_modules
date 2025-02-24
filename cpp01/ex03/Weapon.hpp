@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Zombie.hpp                                         :+:      :+:    :+:   */
+/*   Weapon.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 00:14:03 by abelov            #+#    #+#             */
-/*   Updated: 2025/02/20 00:14:03 by abelov           ###   ########.fr       */
+/*   Created: 2025/02/23 23:36:35 by abelov            #+#    #+#             */
+/*   Updated: 2025/02/23 23:36:36 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#ifndef ZOMBIE_HPP
-#define ZOMBIE_HPP
+#ifndef WEAPON_HPP
+#define WEAPON_HPP
 
 #include <string>
 
 // ************************************************************************** //
-//                                Zombie Class                                //
+//                                Weapon Class                                //
 // ************************************************************************** //
 
-class Zombie
+class Weapon
 {
 private:
-	std::string _name;
+	std::string _type;
 public:
-	Zombie* zombieHorde(int N, std::string name);
+	Weapon();
+	const std::string &getType() const;
+	void setType(const std::string &newType);
+
+	// Single-argument constructors must be marked explicit
+	// to avoid unintentional implicit conversions
+	explicit Weapon(const std::string& type);
 };
 
-
-#endif //ZOMBIE_HPP
+#endif //WEAPON_HPP
