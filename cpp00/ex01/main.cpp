@@ -50,7 +50,11 @@ int main()
 			std::cout << "Invalid input. Try again.\n";
 		}
 		else
-			std::cout << FT_BOLD_G"You entered: " << toUpper(input) << FT_RESET << std::endl;
+		{
+			input = PhoneBook::ftStrTrim(input);
+			std::cout << FT_BOLD_G"You entered: \"" << toUpper(input) << "\""
+					  << FT_RESET << std::endl;
+		}
 		PhoneBook::Command command = PhoneBook::getCommand(toUpper(input));
 		switch (command)
 		{

@@ -43,22 +43,26 @@ int PhoneBook::readField(const std::string &prompt, std::string &field)
 	while (true)
 	{
 		std::cout << prompt;
-		if (!std::getline(std::cin, input)) {
-			if (std::cin.eof()) {
+		if (!std::getline(std::cin, input))
+		{
+			if (std::cin.eof())
+			{
 				std::cin.clear();
 				freopen("/dev/tty", "r", stdin);
 				status = -1;
 				break;
 			}
 			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Discard bad input
-			std::cout << "Invalid input. Try again.\n";
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
+							'\n');  // Discard bad input
+			std::cout << "Invalid input. Try again." << std::endl;
 			continue;
 		}
 		field = ftStrTrim(input);
 		if (!field.empty())
 			break;
-		std::cout << "Field cannot be empty. Please enter a valid value.\n";
+		std::cout << "Field cannot be empty. Please enter a valid value."
+				  << std::endl;
 	}
 	return (status);
 }
@@ -94,11 +98,11 @@ std::string PhoneBook::formatColumn(const std::string &str)
 
 void PhoneBook::print(std::ostream &os) const
 {
-	os << '|' << formatColumn("Index") << '|'
-	   << formatColumn("First name") << '|'
-	   << formatColumn("Last name") << '|'
-	   << formatColumn("Nickname") << '|'
-	   << std::endl;
+	os << '|' << formatColumn("Index")
+	   << '|' << formatColumn("First name")
+	   << '|' << formatColumn("Last name")
+	   << '|' << formatColumn("Nickname")
+	   << '|' << std::endl;
 
 	for (int idx = 0; idx < PhoneBook::_amountOfContacts; idx++)
 	{
@@ -106,7 +110,8 @@ void PhoneBook::print(std::ostream &os) const
 		os << "|" << std::setw(10) << idx
 		   << "|" << formatColumn(contact.getFirstName())
 		   << "|" << formatColumn(contact.getLastName())
-		   << "|" << formatColumn(contact.getNickname()) << "|\n";
+		   << "|" << formatColumn(contact.getNickname())
+		   << "|" << std::endl;
 	}
 }
 
@@ -158,29 +163,40 @@ std::ostream &operator<<(std::ostream &os, Contact &contact)
 
 void PhoneBook::searchByIndex()
 {
-	std::cout << FT_BOLD_C "Select an index between 0 and "
-			  << getAmountOfContacts() - 1 << ": " FT_RESET;
+
 	bool validInput = false;
 	int index = 0;
 	do
 	{
+		std::cout << FT_BOLD_C "Select an index between 0 and "
+				  << getAmountOfContacts() - 1 << ": " FT_RESET;
 		std::cin >> index;
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		if (std::cin.fail())
 		{
+			if (std::cin.eof())
+			{
+				std::cin.clear();
+				freopen("/dev/tty", "r", stdin);
+				break;
+			}
 			std::cin.clear();
-			std::cout << FT_RED "The value entered is not valid\n" FT_RESET;
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
+							'\n');  // Discard bad input
+			std::cout << FT_RED "The value entered is not valid" << FT_RESET
+					  << std::endl;
 			validInput = false;
 		}
 		else if (index < 0 || index >= _amountOfContacts)
 			std::cout
-				<< FT_RED "Invalid index. Please select an index between 0 and "
-				<< _amountOfContacts - 1 << "\n" FT_RESET;
+				<< FT_RED "Invalid index." << FT_RESET << std::endl;
 		else
 			validInput = true;
 	}
 	while (!validInput);
-	std::cout << getContactByIndex(index) << std::endl;
+	if (validInput)
+		std::cout << getContactByIndex(index);
+	std::cout << std::endl;
 }
 
 PhoneBook::PhoneBook() : _amountOfContacts(0), _nextIndex(0) {}
