@@ -5,13 +5,19 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/14 19:18:08 by abelov            #+#    #+#              #
-#    Updated: 2025/02/14 19:18:09 by abelov           ###   ########.fr        #
+#    Created: 2025/02/26 00:10:58 by abelov            #+#    #+#              #
+#    Updated: 2025/02/26 00:10:59 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-build/
+ex00/fixed
+ex01/fixed
+ex02/fixed
+ex03/bsp
 
+/build
+/.build
+build/
 ### venv template
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
@@ -65,7 +71,30 @@ pip-selfcheck.json
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
-.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# AWS User-specific
+.idea/**/aws.xml
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,

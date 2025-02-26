@@ -5,17 +5,14 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/14 19:28:23 by abelov            #+#    #+#              #
-#    Updated: 2025/02/14 19:28:24 by abelov           ###   ########.fr        #
+#    Created: 2025/02/19 23:42:19 by abelov            #+#    #+#              #
+#    Updated: 2025/02/19 23:42:23 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 cmake_minimum_required(VERSION 3.27)
 
-#set(CMAKE_CXX_COMPILER clang++)
-set(CMAKE_CXX_COMPILER gcc)
-
-project(cpp_modules CXX)
+project(cpp02 CXX)
 
 set(CMAKE_CXX_STANDARD 98)
 
@@ -47,6 +44,7 @@ set(COMMON_CFLAGS
         -fsanitize=float-cast-overflow
 )
 
-add_subdirectory(cpp00)
-add_subdirectory(cpp01)
-add_subdirectory(cpp02)
+add_subdirectory(ex00)
+add_subdirectory(ex01)
+add_subdirectory(ex02)
+add_subdirectory(ex03)
