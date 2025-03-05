@@ -14,6 +14,9 @@
 #include <iostream>
 #include <limits>
 #include <cstdio>
+#include <cstdlib>
+#include <cerrno>
+#include <climits>
 #include "PhoneBook.hpp"
 
 const int  PhoneBook::_phoneBookSize = MAX_CONTACT_NUM;
@@ -164,15 +167,15 @@ std::ostream &operator<<(std::ostream &os, Contact &contact)
 void PhoneBook::searchByIndex()
 {
 
-	bool validInput = false;
+	std::string	input;
+	bool		validInput = false;
+
 	int index = 0;
 	do
 	{
 		std::cout << FT_BOLD_C "Select an index between 0 and "
 				  << getAmountOfContacts() - 1 << ": " FT_RESET;
-		std::cin >> index;
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		if (std::cin.fail())
+		if (!std::getline(std::cin, input))
 		{
 			if (std::cin.eof())
 			{
@@ -187,11 +190,31 @@ void PhoneBook::searchByIndex()
 					  << std::endl;
 			validInput = false;
 		}
-		else if (index < 0 || index >= _amountOfContacts)
-			std::cout
-				<< FT_RED "Invalid index." << FT_RESET << std::endl;
 		else
-			validInput = true;
+		{
+			std::string	trimmed = ftStrTrim(input);
+			const char	*str = trimmed.c_str();
+			char		*endptr = NULL;
+			long		to_convert;
+
+			to_convert = std::strtol(str, &endptr, 10);
+			if (errno == ERANGE || to_convert > INT_MAX
+				|| to_convert < INT_MIN
+				|| (endptr && (endptr == str || *endptr != '\0')))
+			{
+				std::cout << FT_RED "The value entered is not valid" << FT_RESET
+						  << std::endl;
+			}
+			else
+			{
+				index = static_cast<int>(to_convert);
+				if (index < 0 || index >= _amountOfContacts)
+					std::cout
+						<< FT_RED "Invalid index." << FT_RESET << std::endl;
+				else
+					validInput = true;
+			}
+		}
 	}
 	while (!validInput);
 	if (validInput)
