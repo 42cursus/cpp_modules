@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cmath>
 #include "Fixed.hpp"
 
-const int Fixed::_bits = 8;
+const int Fixed::_fracBits = 8;
 
 Fixed::Fixed() : _val(0) {
 	std::cout << "Default constructor called" << std::endl;
@@ -31,13 +30,13 @@ Fixed::Fixed(const Fixed &other) {
 Fixed::Fixed(const int value)
 {
 	std::cout << "Int constructor called" << std::endl;
-	this->_val = value << _bits;
+	this->_val = value << _fracBits;
 }
 
 Fixed::Fixed(const float value)
 {
 	std::cout << "Float constructor called" << std::endl;
-	this->_val = static_cast<int>(roundf(value * (1 << _bits)));
+	this->_val = static_cast<int>(roundf(value * (1 << _fracBits)));
 }
 
 /**
@@ -69,14 +68,27 @@ int Fixed::getRawBits() const
 	return _val;
 }
 
+/**
+ *
+ * @return
+ */
 float Fixed::toFloat() const
 {
-	return (static_cast<float >(_val) / (1 << _bits));
+	int integer_part = _val >> _fracBits; // Extract integer part
+	int fractional_part = _val & ((1 << _fracBits) - 1); // Extract lower 8 bits
+
+	float fraction = static_cast<float>(fractional_part) / (1 << _fracBits);
+
+	// If _val is negative, the fraction must be negative as well
+	if (_val < 0) fraction = -fraction;
+
+	return static_cast<float>(integer_part) + fraction;
+//	return (static_cast<float>(_val) / (1 << _fracBits));
 }
 
 int Fixed::toInt() const
 {
-	return (_val >> _bits);
+	return (_val >> _fracBits);
 }
 
 std::ostream &operator<<(std::ostream &o, Fixed const &num)

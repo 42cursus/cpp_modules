@@ -14,6 +14,7 @@
 #ifndef FIXED_HPP
 #define FIXED_HPP
 
+#include <cmath>
 #include <iostream>
 
 // ************************************************************************** //
@@ -24,7 +25,7 @@ class Fixed
 {
 private:
 	int					_val;
-	static const int	_bits;
+	static const int	_fracBits;
 public:
 	Fixed();
 	~Fixed();

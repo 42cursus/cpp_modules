@@ -24,7 +24,7 @@ class Fixed
 {
 private:
 	int					_val;
-	static const int	_bits;
+	static const int	_fracBits;
 public:
 	Fixed();
 	~Fixed();
