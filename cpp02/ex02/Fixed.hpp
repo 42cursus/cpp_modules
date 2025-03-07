@@ -15,23 +15,28 @@
 #define FIXED_HPP
 
 #include <cmath>
+#include <cstring>
+#include <climits>
 #include <iostream>
 
 // ************************************************************************** //
 //                                Fixed Class                                 //
 // ************************************************************************** //
 
+#define IEEE754_FLOAT_BIAS 127
+
 /**
  * A "fixed point Q24.8 format" refers to a binary fixed-point number
  * representation where the data is stored in a 32-bit word with 24 bits
  * dedicated to the integer part and 8 bits representing the fractional part;
+ * https://en.wikipedia.org/wiki/Q_(number_format)
  *
  * Notation:
  * 	 "Q" stands for "Quantized" and the "24.8" indicates 24 integer bits
  * 	 and 8 fractional bits.
  *
  * Mathematically:
- * 	Stored Value = (Integer part * 2^8) + Fractional part
+ * 	Stored Value = (Integer part * 2^nbits) + Fractional part
  */
 class Fixed
 {
@@ -49,6 +54,14 @@ public:
 	explicit Fixed(float value);
 	Fixed& operator=(const Fixed& other);
 
+	static float intToFloatX87(int x);
+	static float intToFloatSSE(int x);
+	static float intToFloatManual(int x);
+
+	static int floatToIntX87(float f);
+	static int floatToIntSSE(float f);
+	static int floatToIntManual(float f);
+
 	int getRawBits() const;
 	void setRawBits(int raw);
 
@@ -60,9 +73,9 @@ public:
 	Fixed operator*(const Fixed &num) const;
 	Fixed operator/(const Fixed &num) const;
 
-	Fixed &operator++(void);
+	Fixed &operator++();
 	Fixed operator++(int);
-	Fixed &operator--(void);
+	Fixed &operator--();
 	Fixed operator--(int);
 
 	bool operator>(const Fixed &num) const;
