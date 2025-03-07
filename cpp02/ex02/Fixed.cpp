@@ -12,15 +12,18 @@
 
 #include "Fixed.hpp"
 
-Fixed::Fixed() : _val(0) {
+Fixed::Fixed() : _val(0)
+{
 	std::cout << "Default constructor called" << std::endl;
 }
 
-Fixed::~Fixed() {
+Fixed::~Fixed()
+{
 	std::cout << "Destructor called" << std::endl;
 }
 
-Fixed::Fixed(const Fixed &other) {
+Fixed::Fixed(const Fixed &other)
+{
 	std::cout << "Copy constructor called" << std::endl;
 	*this = other;
 }
@@ -90,7 +93,8 @@ float Fixed::toFloat() const
 	int integer_part = _val >> _fracBits; // Extract integer part
 	int fractional_part = _val & mask; // Extract lower 8 bits
 
-	float fraction = static_cast<float>(fractional_part) / static_cast<float>(resolution);
+	float fraction =
+		static_cast<float>(fractional_part) / static_cast<float>(resolution);
 
 	// If _val is negative, the fraction must be negative as well
 	if (_val < 0) fraction = -fraction;
@@ -103,9 +107,106 @@ int Fixed::toInt() const
 	return (_val >> _fracBits);
 }
 
-std::ostream &operator<<(std::ostream &o, Fixed const &num)
+std::ostream &operator<<(std::ostream &o, Fixed const &other)
 {
-	// std::fixed prevents scientific notation for small numbers.
-	o << std::fixed << num.toFloat();
+	o << other.toFloat();
 	return o;
+}
+
+//overload of the arithmetic operators
+Fixed Fixed::operator+(const Fixed &other) const
+{
+	return Fixed(toFloat() + other.toFloat());
+}
+
+Fixed Fixed::operator-(const Fixed &other) const
+{
+	return Fixed(toFloat() - other.toFloat());
+}
+
+Fixed Fixed::operator*(const Fixed &num) const
+{
+	return Fixed(toFloat() * num.toFloat());
+}
+
+Fixed Fixed::operator/(const Fixed &num) const
+{
+	return Fixed(toFloat() / num.toFloat());
+}
+
+Fixed &Fixed::operator++()
+{
+	this->_val++;
+	return *this;
+}
+
+Fixed Fixed::operator++(int)
+{
+	Fixed tmp(*this);
+	operator++();
+	return tmp;
+}
+
+Fixed &Fixed::operator--()
+{
+	this->_val--;
+	return *this;
+}
+
+Fixed Fixed::operator--(int)
+{
+	Fixed tmp(*this);
+	operator--();
+	return tmp;
+}
+
+//overload of the comparison operators
+bool Fixed::operator>(const Fixed &num) const
+{
+	return _val > num.getRawBits();
+}
+
+bool Fixed::operator<(const Fixed &num) const
+{
+	return _val < num.getRawBits();
+}
+
+bool Fixed::operator>=(const Fixed &num) const
+{
+	return _val >= num.getRawBits();
+}
+
+bool Fixed::operator<=(const Fixed &num) const
+{
+	return _val <= num.getRawBits();
+}
+
+bool Fixed::operator==(const Fixed &num) const
+{
+	return _val == num.getRawBits();
+}
+
+bool Fixed::operator!=(const Fixed &num) const
+{
+	return _val != num.getRawBits();
+}
+
+Fixed &Fixed::min(Fixed &a, Fixed &b)
+{
+	return a < b ? a : b;
+}
+
+Fixed const &Fixed::min(const Fixed &a, const Fixed &b)
+{
+	return a < b ? a : b;
+}
+
+Fixed &Fixed::max(Fixed &a, Fixed &b)
+{
+	return a > b ? a : b;
+}
+
+Fixed const &Fixed::max(const Fixed &a, const Fixed &b)
+{
+	return a > b ? a : b;
 }

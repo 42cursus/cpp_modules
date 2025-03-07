@@ -54,6 +54,28 @@ public:
 
 	float toFloat() const;
 	int toInt() const;
+
+	Fixed operator+(const Fixed &num) const;
+	Fixed operator-(const Fixed &num) const;
+	Fixed operator*(const Fixed &num) const;
+	Fixed operator/(const Fixed &num) const;
+
+	Fixed &operator++(void);
+	Fixed operator++(int);
+	Fixed &operator--(void);
+	Fixed operator--(int);
+
+	bool operator>(const Fixed &num) const;
+	bool operator<(const Fixed &num) const;
+	bool operator>=(const Fixed &num) const;
+	bool operator<=(const Fixed &num) const;
+	bool operator==(const Fixed &num) const;
+	bool operator!=(const Fixed &num) const;
+
+	Fixed static const &max(const Fixed &a, const Fixed &b);
+	Fixed static const &min(const Fixed &a, const Fixed &b);
+	Fixed static &max(Fixed &a, Fixed &b);
+	Fixed static &min(Fixed &a, Fixed &b);
 };
 
 std::ostream &operator<<(std::ostream &o, Fixed const &num);
