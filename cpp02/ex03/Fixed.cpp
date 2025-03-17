@@ -13,6 +13,22 @@
 #include <limits>
 #include "Fixed.hpp"
 
+/**
+ * For a Q24.8 fixed-point number (which is 24 integer bits and 8 frac bits),
+ * the smallest possible difference between two distinct numbers is:
+ * 	2^(−8)= 1/256 ~ 0.00390625
+ * so an appropriate epsilon should be slightly larger than this
+ * to account for rounding errors.
+ *
+ * A safe epsilon could be:
+ * 		2^(−7)=1/128=0.0078125f
+ * 	or
+ * 		2^(−6)=1/64=0.015625f
+ * 	depending on the required precision.
+ */
+const float Fixed::_epsilon = (1.0f / 128); // 2^(−7) ~0.0078125F
+const float Fixed::_float_epsilon = __FLT_EPSILON__; // 1.19209289550781250000000000000000000e-7F
+
 /*
 ** ------------------------------- CONSTRUCTORS -------------------------------
 */
@@ -75,7 +91,7 @@ Fixed::~Fixed()
  */
 Fixed &Fixed::operator=(const Fixed &other)
 {
-	std::cout << "Copy assignment operator called" << std::endl;
+//	std::cout << "Copy assignment operator called" << std::endl;
 	// Self-Assignment Check
 	// Skipping self-assignment prevents unintended side effects like erasing
 	// data when dealing with dynamically allocated resources.
@@ -93,12 +109,16 @@ std::ostream &operator<<(std::ostream &o, Fixed const &other)
 //overload of the arithmetic operators
 Fixed Fixed::operator+(const Fixed &other) const
 {
-	return Fixed(toFloat() + other.toFloat());
+	Fixed fix;
+	fix._val = (_val + other._val);
+	return fix;
 }
 
 Fixed Fixed::operator-(const Fixed &other) const
 {
-	return Fixed(toFloat() - other.toFloat());
+	Fixed fix;
+	fix._val = (_val - other._val);
+	return fix;
 }
 
 Fixed Fixed::operator*(const Fixed &other) const
@@ -140,43 +160,43 @@ Fixed Fixed::operator--(int)
 }
 
 //overload of the comparison operators
-bool Fixed::operator>(const Fixed &num) const
+bool Fixed::operator>(const Fixed &other) const
 {
-	return _val > num.getRawBits();
+	return _val > other.getRawBits();
 }
 
-bool Fixed::operator<(const Fixed &num) const
+bool Fixed::operator<(const Fixed &other) const
 {
-	return _val < num.getRawBits();
+	return _val < other.getRawBits();
 }
 
-bool Fixed::operator>=(const Fixed &num) const
+bool Fixed::operator>=(const Fixed &other) const
 {
-	return _val >= num.getRawBits();
+	return _val >= other.getRawBits();
 }
 
-bool Fixed::operator<=(const Fixed &num) const
+bool Fixed::operator<=(const Fixed &other) const
 {
-	return _val <= num.getRawBits();
+	return _val <= other.getRawBits();
 }
 
-bool Fixed::operator==(const Fixed &num) const
+bool Fixed::operator==(const Fixed &other) const
 {
-	return _val == num.getRawBits();
+	return _val == other.getRawBits();
 }
 
-bool Fixed::operator!=(const Fixed &num) const
+bool Fixed::operator!=(const Fixed &other) const
 {
-	return _val != num.getRawBits();
+	return _val != other.getRawBits();
 }
 
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
 
-Fixed Fixed::div(const Fixed &num) const
+Fixed Fixed::div(const Fixed &other) const
 {
-	return Fixed();
+	return Fixed(toFloat() / other.toFloat());
 }
 
 float Fixed::floatDivManual(const float &a, const float &b)
@@ -372,6 +392,16 @@ Fixed const &Fixed::max(const Fixed &a, const Fixed &b)
 	return a > b ? a : b;
 }
 
+Fixed Fixed::abs() const
+{
+	Fixed ret;
+	if (this->_val < 0)
+		ret._val = -1 * (this->_val);
+	else
+		ret._val = this->_val;
+	return (ret);
+}
+
 /*
 ** -------------------------------- ACCESSORS ---------------------------------
 */
@@ -384,4 +414,9 @@ void Fixed::setRawBits(const int raw)
 int Fixed::getRawBits() const
 {
 	return _val;
+}
+
+const float Fixed::getEpsilon()
+{
+	return _epsilon;
 }

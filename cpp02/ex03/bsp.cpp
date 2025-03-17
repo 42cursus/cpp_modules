@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cmath>
-
 #include "Point.hpp"
 
 float distance(const Point &p1, const Point &p2)
@@ -132,6 +130,31 @@ bool bspCrossProductMethod(Point const &a, Point const &b, Point const &c, Point
 	return !(has_neg && has_pos); // True if all are positive or all are negative
 }
 
+Fixed	getArea(const Point &a, const Point &b, const Point &c)
+{
+	Fixed surf1 = a.getX() * (b.getY() - c.getY());
+	Fixed surf2 = b.getX() * (c.getY() - a.getY());
+	Fixed surf3 = c.getX() * (a.getY() - b.getY());
+
+	Fixed total = (surf1 + surf2 + surf3).abs() / Fixed(2);
+
+	return (total);
+}
+
+bool bspAreaMethod(Point const &a, Point const &b, Point const &c, Point const &point)
+{
+	Fixed total = getArea(a, b, c).abs();
+	Fixed PBC = getArea(point, b, c).abs();
+	Fixed PAC = getArea(point, a, c).abs();
+	Fixed PAB = getArea(point, a, b).abs();
+
+	// The comparison using == is problematic because
+	// floating-point calculations (or fixed-point arithmetic)
+	// may introduce tiny rounding errors.
+	return (total - (PBC + PAC + PAB)).abs() < Fixed(Fixed::getEpsilon()); // Approximately equal in Q24.8
+	return (total == (PBC + PAC + PAB));
+}
+
 bool bsp(Point const &a, Point const &b, Point const &c, Point const &point)
 {
 	// "This is not a triangle !"
@@ -143,5 +166,6 @@ bool bsp(Point const &a, Point const &b, Point const &c, Point const &point)
 		return (false);
 
 	return (bspCrossProductMethod(a, b, c, point)); // faster and more numerically stable
+	return (bspAreaMethod(a, b, c, point));
 	return (bspAngleMethod(a, b, c, point));
 }

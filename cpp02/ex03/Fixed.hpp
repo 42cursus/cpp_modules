@@ -22,6 +22,7 @@
 #include <stdint.h>
 #include <xmmintrin.h> // (SSE)
 #include <emmintrin.h> // (SSE2)
+
 // ************************************************************************** //
 //                                Fixed Class                                 //
 // ************************************************************************** //
@@ -50,6 +51,8 @@ private:
 	//	The higher 24 bits store the integer part.
 	//	The lower 8 bits store the fractional part.
 	int					_val;
+	static const float 	_epsilon;
+	static const float 	_float_epsilon;
 	static const int	_fracBits = 8; // _bits remains a compile-time constant.
 
 	typedef union {
@@ -64,6 +67,8 @@ public:
 	explicit Fixed(int value);
 	explicit Fixed(float value);
 	Fixed& operator=(const Fixed& other);
+
+	static const float getEpsilon();
 
 	static float intToFloatX87(int x);
 	static float intToFloatSSE(int x);
@@ -81,6 +86,7 @@ public:
 
 	float toFloat() const;
 	int toInt() const;
+	Fixed abs() const;
 
 	Fixed operator+(const Fixed &num) const;
 	Fixed operator-(const Fixed &num) const;
