@@ -183,7 +183,7 @@ fabric.properties
 *.exe
 *.out
 *.app
-*.i*86
+*.u*86
 *.x86_64
 *.hex
 

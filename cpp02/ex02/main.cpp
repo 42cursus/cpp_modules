@@ -26,5 +26,14 @@ int main()
 	std::cout << b << std::endl;
 	std::cout << Fixed::max(a, b) << std::endl;
 
+	float f1 = 5.05f;
+	float f2 = 5.05f;
+
+	Fixed const c(Fixed(f1) / Fixed(f2));
+	Fixed const p(f1 / f2);
+
+	std::cout << c << std::endl;
+	std::cout << p << std::endl;
+
 	return 0;
 }

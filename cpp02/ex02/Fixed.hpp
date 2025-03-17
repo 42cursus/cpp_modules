@@ -18,12 +18,16 @@
 #include <cstring>
 #include <climits>
 #include <iostream>
+#include <inttypes.h>
+#include <stdint.h>
 
 // ************************************************************************** //
 //                                Fixed Class                                 //
 // ************************************************************************** //
 
-#define IEEE754_FLOAT_BIAS 127
+#define IEEE754_BIAS 127 // 0x80
+#define IEEE754_FRACBITS 23
+#define IEEE754_IMPLICIT (1 << IEEE754_FRACBITS)
 
 /**
  * A "fixed point Q24.8 format" refers to a binary fixed-point number
@@ -68,22 +72,22 @@ public:
 	float toFloat() const;
 	int toInt() const;
 
-	Fixed operator+(const Fixed &num) const;
-	Fixed operator-(const Fixed &num) const;
-	Fixed operator*(const Fixed &num) const;
-	Fixed operator/(const Fixed &num) const;
+	Fixed operator+(const Fixed &other) const;
+	Fixed operator-(const Fixed &other) const;
+	Fixed operator*(const Fixed &other) const;
+	Fixed operator/(const Fixed &other) const;
 
 	Fixed &operator++();
 	Fixed operator++(int);
 	Fixed &operator--();
 	Fixed operator--(int);
 
-	bool operator>(const Fixed &num) const;
-	bool operator<(const Fixed &num) const;
-	bool operator>=(const Fixed &num) const;
-	bool operator<=(const Fixed &num) const;
-	bool operator==(const Fixed &num) const;
-	bool operator!=(const Fixed &num) const;
+	bool operator>(const Fixed &other) const;
+	bool operator<(const Fixed &other) const;
+	bool operator>=(const Fixed &other) const;
+	bool operator<=(const Fixed &other) const;
+	bool operator==(const Fixed &other) const;
+	bool operator!=(const Fixed &other) const;
 
 	Fixed static const &max(const Fixed &a, const Fixed &b);
 	Fixed static const &min(const Fixed &a, const Fixed &b);

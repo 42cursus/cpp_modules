@@ -13,7 +13,7 @@
 cmake_minimum_required(VERSION 3.27)
 
 #set(CMAKE_CXX_COMPILER clang++)
-set(CMAKE_CXX_COMPILER gcc)
+set(CMAKE_CXX_COMPILER g++)
 
 project(cpp_modules CXX)
 
@@ -24,7 +24,7 @@ include_directories(include)
 set(COMMON_LDFLAGS
         -fsanitize=address
         -fsanitize=undefined
-        -fno-sanitize-recover
+        -fno-sanitize-recover=all
         -fsanitize=float-divide-by-zero
         -fsanitize=float-cast-overflow)
 set(COMMON_CFLAGS
@@ -42,7 +42,7 @@ set(COMMON_CFLAGS
         -fasynchronous-unwind-tables
         -fsanitize=address
         -fsanitize=undefined
-        -fno-sanitize-recover
+        -fno-sanitize-recover=all
         -fsanitize=float-divide-by-zero
         -fsanitize=float-cast-overflow
 )

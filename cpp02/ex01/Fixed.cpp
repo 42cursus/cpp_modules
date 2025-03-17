@@ -74,16 +74,7 @@ int Fixed::getRawBits() const
  */
 float Fixed::toFloat() const
 {
-	int integer_part = _val >> _fracBits; // Extract integer part
-	int fractional_part = _val & ((1 << _fracBits) - 1); // Extract lower 8 bits
-
-	float fraction = static_cast<float>(fractional_part) / (1 << _fracBits);
-
-	// If _val is negative, the fraction must be negative as well
-	if (_val < 0) fraction = -fraction;
-
-	return static_cast<float>(integer_part) + fraction;
-//	return (static_cast<float>(_val) / (1 << _fracBits));
+	return (static_cast<float>(_val) / (1 << _fracBits));
 }
 
 int Fixed::toInt() const

@@ -16,6 +16,7 @@ Zombie *Zombie::zombieHorde(int N, const std::string& name)
 {
 	Zombie *zombies;
 	// Allocate raw memory with operator new
+	// https://en.cppreference.com/w/cpp/memory/new/operator_new
 	zombies = static_cast<Zombie *>(operator new[](N * sizeof(Zombie)));
 
 	// Construct objects manually using placement new

@@ -6,11 +6,10 @@
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 00:10:32 by abelov            #+#    #+#             */
-/*   Updated: 2025/02/26 00:10:32 by abelov           ###   ########.fr       */
+/*   Updated: 2025/03/10 00:07:36 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <systemc>
 #include "Fixed.hpp"
 
 Fixed::Fixed() : _val(0)
@@ -72,28 +71,30 @@ int Fixed::getRawBits() const
 
 float Fixed::intToFloatManual(int x)
 {
-	if (x == 0) return 0; // Zero case (special case)
+	if (x == 0) return 0.0f; // Zero case (special case)
 
-	float	result;
-	int		float_bits;
-	int		exponent;
-	int		mantissa;
-	int		shift;
+	float result;
+	int float_bits;
 
-	int		sign = (x < 0) ? INT_MIN : 0;	// Sign bit
-	int		abs_x = (x < 0) ? -x : x;		// Absolute value
+	int sign;
+	int exponent;
+	int mantissa;
+	int shift;
+
+	sign = (x < 0) ? INT_MIN : 0;    // Sign bit
+	int abs_x = (x < 0) ? -x : x;        // Absolute value
 
 	// Find the position of the highest set bit (index of MSB)
 	for (shift = 31; (abs_x & (1U << shift)) == 0; shift--);
 
 	// Compute exponent (bias 127 + shift index)
-	exponent = IEEE754_FLOAT_BIAS + shift;
+	exponent = IEEE754_BIAS + shift;
 
 	// Normalize mantissa (remove leading 1, shift left to fill 23-bit space)
 	mantissa = (abs_x << (31 - shift)) & INT_MAX; // Align MSB to bit 31
 	mantissa = mantissa >> 8; // Drop the implicit leading 1
 
-	float_bits = sign | (exponent << 23) | mantissa;
+	float_bits = sign | (exponent << IEEE754_FRACBITS) | mantissa;
 
 	// Assemble IEEE 754 binary representation
 	std::memcpy(&result, &float_bits, sizeof(result));
@@ -104,10 +105,7 @@ float Fixed::intToFloatSSE(int x)
 {
 	register float f;
 
-	__asm__ volatile (
-		"cvtsi2ss %1, %0"
-		: "=x"(f)
-		: "r"(x));
+	__asm__ volatile ("cvtsi2ss %1, %0" : "=x"(f) : "r"(x));
 	return (f);
 }
 
@@ -125,7 +123,7 @@ float Fixed::intToFloatX87(int x)
 
 int Fixed::floatToIntX87(float f)
 {
-	register int	i;
+	int	i;
 
 	__asm__ volatile (
 		"fld %1\n\t"	// Load float onto FPU stack
@@ -140,37 +138,43 @@ int Fixed::floatToIntSSE(float f)
 {
 	register int	i;
 
-	__asm__ volatile (
-		"cvttss2si %1, %0"
-		: "=r"(i)
-		: "x"(f)
-		);
+	__asm__ volatile ("cvttss2si %1, %0" : "=r"(i) : "x"(f));
 	return (i);
 }
 
 int Fixed::floatToIntManual(float f)
 {
-	uint32_t	bits;
-	int			sign;
-	int			exponent;
-	uint32_t	mantissa;
-	int 		result = 0;
+	uint32_t bits;
+	uint32_t sign;
+	int exponent;
+	int32_t shift; // shift amount for normalization
+	uint32_t mantissa;
 
 	std::memcpy(&bits, &f, sizeof(bits));
-	sign = (bits >> 31) & 1;
-	exponent = ((bits >> 23) & 0xFF) - IEEE754_FLOAT_BIAS;
-	mantissa = (bits & 0x7FFFFF) | 0x800000; // Implicit leading 1
 
-	if (exponent < 0)  		 // Too small to be an integer
-		result = 0;
-	else if (exponent > 31)  // Too large for 32-bit int
-		result = INT_MAX;
-	else
+	sign = (bits >> 31) & 1;
+	exponent = (((bits >> IEEE754_FRACBITS) & 0xFF) - IEEE754_BIAS);
+
+	// Extract mantissa (bits 22-0) and restore the implicit leading 1
+	// 0b01111111 11111111 11111111 - mask					(0x007fffff)
+	// 0b10000000 00000000 00000000 - implicit leading one	(0x00800000)
+	mantissa = (bits & 0x007fffff) | 0x800000;
+
+	// Align mantissa to 30-bit position for easier shifting
+	mantissa <<= 7;
+
+	// Compute shift: we need to scale the mantissa back to integer range
+	shift = -(exponent - 29);
+
+	// If the exponent is too small, shift right to scale down the value
+	if (shift > 0)
 	{
-		result = (int) (mantissa >> (23 - exponent));
-		result = sign ? -result : result;
+		if (shift < 31)
+			mantissa >>= shift; // Normal case: shift right by the calculated amount
+		else
+			mantissa = 0; // If shift is too large, result is zero (underflow)
 	}
-	return (result);
+	return (sign ? -mantissa : mantissa);
 }
 
 /**
@@ -193,10 +197,11 @@ int Fixed::floatToIntManual(float f)
  */
 float Fixed::toFloat() const
 {
-	int resolution = (1 << _fracBits);
-	int mask = resolution - 1;
-	int integer_part = _val >> _fracBits; // Extract integer part
-	int fractional_part = _val & mask; // Extract lower 8 bits
+	float	to_return;
+	int		resolution = (1 << _fracBits);
+	int		mask = resolution - 1;
+	int		integer_part = _val >> _fracBits;	// Extract integer part
+	int		fractional_part = _val & mask;		// Extract lower 8 bits
 
 	float fraction =
 		static_cast<float>(fractional_part) / intToFloatManual(resolution);
@@ -204,8 +209,10 @@ float Fixed::toFloat() const
 	// If _val is negative, the fraction must be negative as well
 	if (_val < 0) fraction *= -1;
 
-	return static_cast<float>(integer_part) + fraction;
-//	return (static_cast<float>(_val) / (1 << _fracBits));
+	to_return = static_cast<float>(integer_part) + fraction;
+
+	return to_return;
+	to_return = (static_cast<float>(_val) / (1 << _fracBits)); // hack
 }
 
 int Fixed::toInt() const
@@ -222,22 +229,32 @@ std::ostream &operator<<(std::ostream &o, Fixed const &other)
 //overload of the arithmetic operators
 Fixed Fixed::operator+(const Fixed &other) const
 {
-	return Fixed(toFloat() + other.toFloat());
+	Fixed fix;
+	fix._val = (_val + other._val);
+	return fix;
 }
 
 Fixed Fixed::operator-(const Fixed &other) const
 {
-	return Fixed(toFloat() - other.toFloat());
+	Fixed fix;
+	fix._val = (_val - other._val);
+	return fix;
 }
 
-Fixed Fixed::operator*(const Fixed &num) const
+Fixed Fixed::operator*(const Fixed &other) const
 {
-	return Fixed(toFloat() * num.toFloat());
+	Fixed fix;
+	long tmp = static_cast<long>(_val) * other._val;
+	fix._val = static_cast<int>(tmp >> _fracBits);
+	return fix;
 }
 
-Fixed Fixed::operator/(const Fixed &num) const
+Fixed Fixed::operator/(const Fixed &other) const
 {
-	return Fixed(toFloat() / num.toFloat()); //hack
+	Fixed fix;
+	long tmp = (_val << _fracBits);
+	fix._val = static_cast<int>(tmp / other._val);
+	return fix;
 }
 
 Fixed &Fixed::operator++()

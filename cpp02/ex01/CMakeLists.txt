@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-project(cpp00_ex01 CXX)
+project(cpp02_ex01 CXX)
 set(CMAKE_CXX_STANDARD 98)
 
 set(TARGET_EXE_NAME "${PROJECT_NAME}_fixed")
