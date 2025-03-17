@@ -50,3 +50,4 @@ set(COMMON_CFLAGS
 add_subdirectory(cpp00)
 add_subdirectory(cpp01)
 add_subdirectory(cpp02)
+add_subdirectory(cpp03)
