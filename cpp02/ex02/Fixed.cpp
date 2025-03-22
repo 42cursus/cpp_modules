@@ -109,25 +109,41 @@ float Fixed::intToFloatSSE(int x)
 	return (f);
 }
 
+/**
+ * filds: Loads a single-precision (32-bit) integer.
+ * fildl: Loads a double-precision (64-bit) integer.
+ *
+ * @param x
+ * @return
+ */
 float Fixed::intToFloatX87(int x)
 {
 	float f;
 
 	__asm__ volatile (
-		"fild %1\n\t"	// load the integer onto the FPU stack.
-		"fstps %0"  	// store the float back to memory.
+		"filds %1\n\t"	// load the integer onto the FPU stack. (could be 'filds', or 'fildl')
+		"fstps %0"  	// store the float back to memory.q (could be 'fstps', 'fstpl', or 'fstpt')
 		: "=m"(f)
 		: "m"(x));
 	return (f);
 }
 
+/**
+ * (could be 'flds', 'fldl', or 'fldt')
+ *
+ * fstps: Single precision (32-bit)
+ * fstpl: Double precision (64-bit)
+ * fstpt: Extended precision (80-bit)
+ * @param f
+ * @return
+ */
 int Fixed::floatToIntX87(float f)
 {
 	int	i;
 
 	__asm__ volatile (
-		"fld %1\n\t"	// Load float onto FPU stack
-		"fistp %0"		// Store as integer (truncating)
+		"flds %1\n\t"	// Load float onto FPU stack
+		"fstps %0"		// Store as integer (truncating)
 		: "=m"(i)
 		: "m"(f)
 		);
