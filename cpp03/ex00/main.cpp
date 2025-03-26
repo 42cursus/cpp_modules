@@ -17,12 +17,24 @@ int main()
 	ClapTrap jim("Jimmy");
 	ClapTrap bob("Bobby");
 
-	jim.attack("Bobby");
-	bob.takeDamage(2);
+	jim.setDamage(5);
+	bob.setDamage(3);
 
-	jim.attack("Bobby");
-	bob.takeDamage(3);
-	bob.beRepaired(1);
+	jim.attack(bob.getName());
+	bob.takeDamage(jim.getDamage());
+
+	jim.attack(bob.getName());
+	bob.beRepaired(42);
+	bob.beRepaired(42);
+	bob.takeDamage(jim.getDamage());
+	bob.takeDamage(jim.getDamage());
+	bob.takeDamage(jim.getDamage());
+
+	ClapTrap some;
+	some.setDamage(11);
+	some.attack(jim.getName());
+	jim.takeDamage(some.getDamage());
+	jim.beRepaired(5);
 
 	return (0);
 }

@@ -195,6 +195,3 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
-
-
-/cpp02/ex03/main2.cpp

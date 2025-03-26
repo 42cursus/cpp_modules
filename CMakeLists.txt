@@ -12,8 +12,8 @@
 
 cmake_minimum_required(VERSION 3.27)
 
-#set(CMAKE_CXX_COMPILER clang++)
-set(CMAKE_CXX_COMPILER g++)
+set(CMAKE_CXX_COMPILER clang++)
+#set(CMAKE_CXX_COMPILER g++)
 
 project(cpp_modules CXX)
 
@@ -37,7 +37,7 @@ set(COMMON_CFLAGS
         -fno-omit-frame-pointer
         -fdwarf2-cfi-asm
         -fcf-protection=none
-        -mmanual-endbr
+#        -mmanual-endbr
         -g3 -gdwarf-3
         -fasynchronous-unwind-tables
         -fsanitize=address
