@@ -53,7 +53,7 @@ int main()
 		{
 			input = PhoneBook::ftStrTrim(input);
 			std::cout << FT_BOLD_G"You entered: \"" << toUpper(input) << "\""
-					  << FT_RESET << std::endl;
+					  << FT_RST << std::endl;
 		}
 		PhoneBook::Command command = PhoneBook::getCommand(toUpper(input));
 		switch (command)
@@ -66,7 +66,7 @@ int main()
 				break;
 			case PhoneBook::SEARCH:
 				if (!phoneBook.getAmountOfContacts())
-					std::cout << FT_BOLD_R"PhoneBook is empty" << FT_RESET << std::endl;
+					std::cout << FT_BOLD_R"PhoneBook is empty" << FT_RST << std::endl;
 				else
 				{
 					std::cout << phoneBook << std::endl << std::endl;

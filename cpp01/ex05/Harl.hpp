@@ -29,7 +29,7 @@
 #define FT_BOLD_M "\033[1;35m"    /* Bold magenta */
 #define FT_BOLD_C "\033[1;36m"    /* Bold cyan */
 #define FT_BOLD_W "\033[1;37m"    /* Bold white */
-#define FT_RESET  "\033[0m"        /* Reset to default color */
+#define FT_RST  "\033[0m"        /* Reset to default color */
 
 // ************************************************************************** //
 //                                 Harl Class                                 //

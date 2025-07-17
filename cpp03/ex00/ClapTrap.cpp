@@ -16,32 +16,24 @@
 ** ------------------------------- CONSTRUCTORS -------------------------------
 */
 
-ClapTrap::ClapTrap() : _name("John Doe"), _health(_HEALTH_CAP),
-					   _energy(_DEFAULT_ENERGY), _damage(_DEFAULT_DAMAGE)
+ClapTrap::ClapTrap() : _name("John Doe"), _health(HEALTH_CAP),
+					   _energy(DEFAULT_ENERGY), _damage(DEFAULT_DAMAGE)
 {
-	const char *className = typeid(*this).name();
-	char buf[42];
-	size_t length = 42;
-	char *demangledClassName = abi::__cxa_demangle(
-		className, buf, &length, NULL);
+	_className = __func__;
 
-	std::cout << demangledClassName << " " << _name
-			  << " 'default' constructor called" << std::endl;
+	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+			  << FT_CYAN" 'default' constructor called" FT_RST << std::endl;
 }
 
 ClapTrap::ClapTrap(const std::string &name) : _name(name),
-											  _health(_HEALTH_CAP),
-											  _energy(_DEFAULT_ENERGY),
-											  _damage(_DEFAULT_DAMAGE)
+											  _health(HEALTH_CAP),
+											  _energy(DEFAULT_ENERGY),
+											  _damage(DEFAULT_DAMAGE)
 {
-	const char *className = typeid(*this).name();
-	char buf[CLASSNAME_BUF_SIZE];
-	size_t length = CLASSNAME_BUF_SIZE;
-	char *demangledClassName = abi::__cxa_demangle(
-		className, buf, &length, NULL);
+	_className = __func__;
 
-	std::cout << demangledClassName << " " << _name
-			  << " 'name' constructor called\n";
+	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+			  << FT_CYAN" 'name' constructor called" FT_RST << std::endl;;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
@@ -49,14 +41,10 @@ ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 											_energy(other._energy),
 											_damage(other._damage)
 {
-	const char *className = typeid(*this).name();
-	char buf[CLASSNAME_BUF_SIZE];
-	size_t length = CLASSNAME_BUF_SIZE;
-	char *demangledClassName = abi::__cxa_demangle(
-		className, buf, &length, NULL);
+	_className = __func__;
 
-	std::cout << demangledClassName << " " << _name
-			  << " 'copy' constructor called\n";
+	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+			  << FT_CYAN" 'copy' constructor called" FT_RST<< std::endl;;
 }
 
 /*
@@ -65,13 +53,8 @@ ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 
 ClapTrap::~ClapTrap()
 {
-	const char *className = typeid(*this).name();
-	char buf[CLASSNAME_BUF_SIZE];
-	size_t length = CLASSNAME_BUF_SIZE;
-	char *demangledClassName = abi::__cxa_demangle(
-		className, buf, &length, NULL);
-	std::cout << demangledClassName << " " << _name
-			  << " destructor called" << std::endl;
+	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+			  << FT_SALMON" destructor called" FT_RST << std::endl;
 }
 
 /*
@@ -83,7 +66,7 @@ ClapTrap::~ClapTrap()
  * @param other
  * @return
  */
-ClapTrap &ClapTrap::operator=(const ClapTrap &other)
+ClapTrap &ClapTrap::operator = (const ClapTrap &other)
 {
 	if (this != &other)
 	{
@@ -101,75 +84,60 @@ ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 
 void ClapTrap::beRepaired(unsigned int amount)
 {
-	const char *className = typeid(*this).name();
-	char buf[CLASSNAME_BUF_SIZE];
-	size_t length = CLASSNAME_BUF_SIZE;
-	char *demangledClassName = abi::__cxa_demangle(
-		className, buf, &length, NULL);
-
 	if (!_energy || !_health)
 	{
-		std::cout << demangledClassName << " " << _name
-				  << " can't repaire itself." << std::endl;
+		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+				  << " can't repair itself." << std::endl;
 		return;
 	}
-	else if (_health >= _HEALTH_CAP) // we could set
+	else if (_health >= HEALTH_CAP) // we could set
 	{
-		std::cout << demangledClassName << " " << _name
-				  << "already has maximum health." << std::endl;
+		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+				  << " already has the maximum health." << std::endl;
 		return;
 	}
 
 	unsigned int delta = 0;
 	unsigned int amountHealed = _health + amount;
-	delta = (amountHealed > _HEALTH_CAP) ? _HEALTH_CAP - _health : amountHealed;
+	delta = (amountHealed > HEALTH_CAP) ? HEALTH_CAP - _health : amountHealed;
 
 	_energy--;
 	_health += delta;
-	std::cout << demangledClassName << " " << _name << " repairs itself with "
-			  << delta << " hit points." << std::endl;
+	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+			  << " repairs itself regaining "
+			  << FT_GREEN << delta << FT_RST" hit points." << std::endl;
+	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+			  << "'s health is now " FT_BOLD_Y << _health << FT_RST"." << std::endl;
 }
 
 void ClapTrap::takeDamage(unsigned int amount)
 {
-
-	const char *className = typeid(*this).name();
-	char buf[CLASSNAME_BUF_SIZE];
-	size_t length = CLASSNAME_BUF_SIZE;
-	char *demangledClassName = abi::__cxa_demangle(
-		className, buf, &length, NULL);
-
 	if (_health)
 	{
 		if (amount > _health)
 		{
 			_health = 0;
-			std::cout << demangledClassName << " " << _name
+			std::cout << FT_BOLD_G << _className << FT_RST": " << _name
 					  << " received an Overkill!" << std::endl;
 		}
 		else
 		{
 			_health -= amount;
-			std::cout << demangledClassName << " " << _name << " took "
-					  << amount << " of damage." << std::endl;
+			std::cout << FT_BOLD_G << _className << FT_RST": " << _name << " took "
+					  << FT_RED << amount << FT_RST" of damage." << std::endl;
 		}
-		std::cout << demangledClassName << " " << _name
-				  << "'s health is now " << _health << "." << std::endl;
+		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+				  << "'s health is now " FT_BOLD_Y << _health << FT_RST"." << std::endl;
 	}
 	else
-		std::cout << demangledClassName << " " << _name
+		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
 				  << " is already dead ;(" << std::endl;
 }
 
 void ClapTrap::attack(const std::string &target)
 {
-	const char *className = typeid(*this).name();
-	char buf[CLASSNAME_BUF_SIZE];
-	size_t length = CLASSNAME_BUF_SIZE;
-	char *demangledClassName = abi::__cxa_demangle(
-		className, buf, &length, NULL);
-
-	std::cout << demangledClassName << " " << _name << " attacks " << target
+	std::cout << FT_BOLD_G << _className << FT_RST": "
+			  << _name << " attacks " << target
 			  << ", causing " << _damage << " points of damage!" << std::endl;
 }
 
@@ -215,4 +183,9 @@ void ClapTrap::setEnergy(unsigned int energy)
 void ClapTrap::setDamage(unsigned int damage)
 {
 	_damage = damage;
+}
+
+const std::string &ClapTrap::getClassName() const
+{
+	return _className;
 }

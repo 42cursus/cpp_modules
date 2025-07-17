@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 			= ClapTrap
+NAME 			= clapTrap
 
 CFLAGS 			:= -Wall -Wextra -Werror -std=c++98 -g3 -gdwarf-3 -O0
 CC 				= c++

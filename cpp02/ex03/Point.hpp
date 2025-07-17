@@ -25,7 +25,7 @@
 # define FT_RED   "\033[0;31m"
 # define FT_GREEN "\033[0;32m"
 # define FT_CYAN  "\033[36m"
-# define FT_RESET "\e[0m"
+# define FT_RST "\e[0m"
 # define EPSILON 0.000001
 
 class Point

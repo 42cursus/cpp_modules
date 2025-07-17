@@ -27,7 +27,7 @@
 
 #define IEEE754_BIAS 127 // 0x80
 #define IEEE754_FRACBITS 23
-#define IEEE754_IMPLICIT (1 << IEEE754_FRACBITS)
+#define IEEE754_IMPLICIT_ONE (1 << IEEE754_FRACBITS)
 
 /**
  * A "fixed point Q24.8 format" refers to a binary fixed-point number

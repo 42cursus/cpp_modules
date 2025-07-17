@@ -29,7 +29,7 @@
 
 #define IEEE754_BIAS 127 // 0x80
 #define IEEE754_FRACBITS 23
-#define IEEE754_IMPLICIT (1 << IEEE754_FRACBITS)
+#define IEEE754_IMPLICIT_ONE (1 << IEEE754_FRACBITS)
 
 /**
  * A "fixed point Q24.8 format" refers to a binary fixed-point number
@@ -56,10 +56,10 @@ private:
 	static const int	_fracBits = 8; // _bits remains a compile-time constant.
 
 	typedef union {
-		float f;
-		int32_t l;
-		uint32_t u;
-	} FloatBits;
+		float		f;
+		int32_t		l;
+		uint32_t	u;
+	}	FloatBits;
 public:
 	Fixed();
 	~Fixed();
@@ -68,7 +68,7 @@ public:
 	explicit Fixed(float value);
 	Fixed& operator=(const Fixed& other);
 
-	static const float getEpsilon();
+	static float getEpsilon();
 
 	static float intToFloatX87(int x);
 	static float intToFloatSSE(int x);
@@ -84,9 +84,9 @@ public:
 	int getRawBits() const;
 	void setRawBits(int raw);
 
-	float toFloat() const;
-	int toInt() const;
-	Fixed abs() const;
+	float	toFloat() const;
+	int		toInt() const;
+	Fixed	abs() const;
 
 	Fixed operator+(const Fixed &num) const;
 	Fixed operator-(const Fixed &num) const;
@@ -94,17 +94,17 @@ public:
 	Fixed div(const Fixed &num) const;
 	Fixed operator/(const Fixed &num) const;
 
-	Fixed &operator++();
-	Fixed operator++(int);
-	Fixed &operator--();
-	Fixed operator--(int);
+	Fixed &operator ++ ();
+	Fixed operator ++ (int);
+	Fixed &operator -- ();
+	Fixed operator -- (int);
 
-	bool operator>(const Fixed &num) const;
-	bool operator<(const Fixed &num) const;
-	bool operator>=(const Fixed &num) const;
-	bool operator<=(const Fixed &num) const;
-	bool operator==(const Fixed &num) const;
-	bool operator!=(const Fixed &num) const;
+	bool operator > (const Fixed &num) const;
+	bool operator < (const Fixed &num) const;
+	bool operator >= (const Fixed &num) const;
+	bool operator <= (const Fixed &num) const;
+	bool operator == (const Fixed &num) const;
+	bool operator != (const Fixed &num) const;
 
 	Fixed static const &max(const Fixed &a, const Fixed &b);
 	Fixed static const &min(const Fixed &a, const Fixed &b);
@@ -115,7 +115,7 @@ public:
 	static void floatBatchDivSSE(const float *a, const float *b, float *result);
 };
 
-std::ostream &operator<<(std::ostream &o, Fixed const &num);
+std::ostream &operator << (std::ostream &o, Fixed const &num);
 
 // ************************************************************************** //
 // vim: set ts=4 sw=4 tw=80 noexpandtab:                                      //

@@ -23,11 +23,16 @@ int main()
 	jim.attack(bob.getName());
 	bob.takeDamage(jim.getDamage());
 
+	bob.beRepaired(42);
 	jim.attack(bob.getName());
-	bob.beRepaired(42);
-	bob.beRepaired(42);
 	bob.takeDamage(jim.getDamage());
+
+	bob.beRepaired(42);
+	jim.attack(bob.getName());
 	bob.takeDamage(jim.getDamage());
+	jim.attack(bob.getName());
+	bob.takeDamage(jim.getDamage());
+	jim.attack(bob.getName());
 	bob.takeDamage(jim.getDamage());
 
 	ClapTrap some;

@@ -26,7 +26,7 @@
  * 		2^(−6)=1/64=0.015625f
  * 	depending on the required precision.
  */
-const float Fixed::_epsilon = (1.0f / 128); // 2^(−7) ~0.0078125F
+const float Fixed::_epsilon = (1.0f / 128); // 2^(−7)
 const float Fixed::_float_epsilon = __FLT_EPSILON__; // 1.19209289550781250000000000000000000e-7F
 
 /*
@@ -232,7 +232,7 @@ float Fixed::floatDivManual(const float &a, const float &b)
 
 	// 0b10000000 00000000 00000000 - implicit leading 1 (0x00800000)
 	// 0b01111111 11111111 11111111 - mask (0x007fffff)
-	fl1.l = (fl1.u & 0x7FFFFF) | (IEEE754_IMPLICIT);
+	fl1.l = (fl1.u & 0x7FFFFF) | (IEEE754_IMPLICIT_ONE);
 	fl2.l = (fl2.u & 0x7FFFFF) | 0x800000;  // Add implicit 1
 
 	uint32_t quotient = 0;
@@ -257,7 +257,7 @@ float Fixed::floatDivManual(const float &a, const float &b)
 	resultExponent++;
 	quotient >>= 1;
 
-	quotient &= ~IEEE754_IMPLICIT;
+	quotient &= ~IEEE754_IMPLICIT_ONE;
 
 	// Pack result into IEEE 754 format
 	uint32_t resultBits = (sign << 31)
@@ -416,7 +416,7 @@ int Fixed::getRawBits() const
 	return _val;
 }
 
-const float Fixed::getEpsilon()
+float Fixed::getEpsilon()
 {
 	return _epsilon;
 }

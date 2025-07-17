@@ -21,9 +21,10 @@ struct Input
 
 void check(bool succes)
 {
-	std::cout
-		<< (succes ? "> " FT_GREEN".OK " FT_RESET : "> " FT_RED".KO " FT_RESET)
-	<< std::endl;
+	const char *ok = "> " FT_GREEN".OK " FT_RST;
+	const char *ko = "> " FT_RED".KO " FT_RST;
+
+	std::cout << (succes ? ok : ko) << std::endl;
 }
 
 int ftDoTest(Input &input)
@@ -43,8 +44,10 @@ int ftDoTest(Input &input)
 	return (0);
 }
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "modernize-loop-convert"
+#ifdef __clang__
+#  pragma clang diagnostic push
+#  pragma ide diagnostic ignored "modernize-loop-convert"
+#endif
 
 int main()
 {
@@ -202,9 +205,11 @@ int main()
 		},
 	};
 
-	for (int i = 0; i < (sizeof(inputs) / sizeof(inputs[0])); i++)
+	for (u_int i = 0; i < (sizeof(inputs) / sizeof(inputs[0])); i++)
 		ftDoTest(inputs[i]);
 	return (0);
 }
 
-#pragma clang diagnostic pop
+#ifdef __clang__
+#  pragma clang diagnostic pop
+#endif

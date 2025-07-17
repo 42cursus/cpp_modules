@@ -174,7 +174,7 @@ void PhoneBook::searchByIndex()
 	do
 	{
 		std::cout << FT_BOLD_C "Select an index between 0 and "
-				  << getAmountOfContacts() - 1 << ": " FT_RESET;
+				  << getAmountOfContacts() - 1 << ": " FT_RST;
 		if (!std::getline(std::cin, input))
 		{
 			if (std::cin.eof())
@@ -186,7 +186,7 @@ void PhoneBook::searchByIndex()
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
 							'\n');  // Discard bad input
-			std::cout << FT_RED "The value entered is not valid" << FT_RESET
+			std::cout << FT_RED "The value entered is not valid" << FT_RST
 					  << std::endl;
 			validInput = false;
 		}
@@ -202,7 +202,7 @@ void PhoneBook::searchByIndex()
 				|| to_convert < INT_MIN
 				|| (endptr && (endptr == str || *endptr != '\0')))
 			{
-				std::cout << FT_RED "The value entered is not valid" << FT_RESET
+				std::cout << FT_RED "The value entered is not valid" << FT_RST
 						  << std::endl;
 			}
 			else
@@ -210,7 +210,7 @@ void PhoneBook::searchByIndex()
 				index = static_cast<int>(to_convert);
 				if (index < 0 || index >= _amountOfContacts)
 					std::cout
-						<< FT_RED "Invalid index." << FT_RESET << std::endl;
+						<< FT_RED "Invalid index." << FT_RST << std::endl;
 				else
 					validInput = true;
 			}

@@ -11,3 +11,30 @@
 /* ************************************************************************** */
 
 #include "ScavTrap.hpp"
+
+ScavTrap::ScavTrap() : ClapTrap()
+{
+	this->_name = "ScavTrapDefault";
+	_className = __func__;
+	_health = 100;
+	_energy = 50;
+	_damage = 20;
+	std::cout << _className << ": " << _name
+			  << " 'default' constructor called" << std::endl;
+}
+
+ScavTrap::ScavTrap(const std::string &Name) : ClapTrap(Name)
+{
+	_className = __func__;
+	_health = 100;
+	_energy = 50;
+	_damage = 20;
+	std::cout << _className << ": " << _name
+			  << " 'default' constructor called" << std::endl;
+}
+
+ScavTrap::~ScavTrap()
+{
+	std::cout << _className << ": " << _name
+			  << " destructor called" << std::endl;
+}

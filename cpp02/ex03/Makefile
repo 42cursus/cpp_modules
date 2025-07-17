@@ -18,6 +18,8 @@ RM				:= /bin/rm
 
 SRCS			= main.cpp \
 					Fixed.cpp \
+					FixedSSE.cpp \
+					FixedX87.cpp \
 					Point.cpp \
 					bsp.cpp
 BUILD_DIR		= build
