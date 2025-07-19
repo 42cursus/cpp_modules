@@ -16,33 +16,42 @@
 ** ------------------------------- CONSTRUCTORS -------------------------------
 */
 
-ClapTrap::ClapTrap() : _name("John Doe"), _health(HEALTH_CAP),
-					   _energy(DEFAULT_ENERGY), _damage(DEFAULT_DAMAGE)
-{
-	_className = __func__;
+const char ClapTrap::_className[] = "ClapTrap";
+const std::string& ClapTrap::DEFAULT_NAME = "John Doe";
+const unsigned int ClapTrap::DEFAULT_HEALTH;
+const unsigned int ClapTrap::DEFAULT_ENERGY;
+const unsigned int ClapTrap::DEFAULT_DAMAGE;
 
+/*
+** ------------------------------- CONSTRUCTORS -------------------------------
+*/
+
+ClapTrap::ClapTrap() : _name(DEFAULT_NAME),
+					   _health(DEFAULT_HEALTH),
+					   _maxHealth(DEFAULT_HEALTH),
+					   _energy(DEFAULT_ENERGY),
+					   _damage(DEFAULT_DAMAGE)
+{
 	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
 			  << FT_CYAN" 'default' constructor called" FT_RST << std::endl;
 }
 
 ClapTrap::ClapTrap(const std::string &name) : _name(name),
-											  _health(HEALTH_CAP),
+											  _health(DEFAULT_HEALTH),
+											  _maxHealth(DEFAULT_HEALTH),
 											  _energy(DEFAULT_ENERGY),
 											  _damage(DEFAULT_DAMAGE)
 {
-	_className = __func__;
-
 	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
 			  << FT_CYAN" 'name' constructor called" FT_RST << std::endl;;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 											_health(other._health),
+											_maxHealth(other._health),
 											_energy(other._energy),
 											_damage(other._damage)
 {
-	_className = __func__;
-
 	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
 			  << FT_CYAN" 'copy' constructor called" FT_RST<< std::endl;;
 }
@@ -66,7 +75,7 @@ ClapTrap::~ClapTrap()
  * @param other
  * @return
  */
-ClapTrap &ClapTrap::operator = (const ClapTrap &other)
+ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 {
 	if (this != &other)
 	{
@@ -90,16 +99,15 @@ void ClapTrap::beRepaired(unsigned int amount)
 				  << " can't repair itself." << std::endl;
 		return;
 	}
-	else if (_health >= HEALTH_CAP) // we could set
+	else if (_health >= _maxHealth)
 	{
 		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
 				  << " already has the maximum health." << std::endl;
 		return;
 	}
 
-	unsigned int delta = 0;
 	unsigned int amountHealed = _health + amount;
-	delta = (amountHealed > HEALTH_CAP) ? HEALTH_CAP - _health : amountHealed;
+	unsigned int delta = (amountHealed > _maxHealth) ? _maxHealth - _health : amount;
 
 	_energy--;
 	_health += delta;
@@ -136,9 +144,17 @@ void ClapTrap::takeDamage(unsigned int amount)
 
 void ClapTrap::attack(const std::string &target)
 {
-	std::cout << FT_BOLD_G << _className << FT_RST": "
-			  << _name << " attacks " << target
-			  << ", causing " << _damage << " points of damage!" << std::endl;
+	if (_energy <= 0 || _health <= 0)
+		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
+				  << " can't act (no energy or dead)." << std::endl;
+	else
+	{
+		_energy--;
+		std::cout << FT_BOLD_G << _className << FT_RST": "
+				  << _name << " attacks " << target
+				  << ", causing " << _damage << " points of damage!"
+				  << std::endl;
+	}
 }
 
 /*
@@ -185,7 +201,14 @@ void ClapTrap::setDamage(unsigned int damage)
 	_damage = damage;
 }
 
-const std::string &ClapTrap::getClassName() const
-{
+const char* ClapTrap::getClassName() const {
 	return _className;
+}
+
+void ClapTrap::printStatus() const
+{
+	std::cout << getClassName() << ": " << _name
+			  << " [HP: " << _health
+			  << ", EP: " << _energy
+			  << ", DMG: " << _damage << "]" << std::endl;
 }

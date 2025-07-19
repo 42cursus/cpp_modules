@@ -42,14 +42,16 @@ class ClapTrap
 {
 
 private:
-	static const unsigned int HEALTH_CAP = 10;
-	static const unsigned int DEFAULT_ENERGY = 10;
-	static const unsigned int DEFAULT_DAMAGE = 0;
+	static const unsigned int	DEFAULT_HEALTH = 10;
+	static const unsigned int	DEFAULT_ENERGY = 10;
+	static const unsigned int	DEFAULT_DAMAGE = 0;
+	static const std::string&	DEFAULT_NAME;
 
 protected:
+	static const char _className[];
 	std::string _name;
-	std::string _className;
 	unsigned int _health;
+	unsigned int _maxHealth;
 	unsigned int _energy;
 	unsigned int _damage;
 
@@ -59,13 +61,14 @@ public:
 	ClapTrap(const ClapTrap &);
 	~ClapTrap();
 
-	ClapTrap& operator =(const ClapTrap &);
-	void attack(const std::string &target);
+	ClapTrap& operator=(const ClapTrap &);
+	virtual void attack(const std::string &target);
 	void takeDamage(unsigned int amount);
 	void beRepaired(unsigned int amount);
+	void printStatus() const;
 
 	const std::string &getName() const;
-	const std::string &getClassName() const;
+	virtual const char* getClassName() const;
 	unsigned int getHealth() const;
 	unsigned int getEnergy() const;
 	unsigned int getDamage() const;

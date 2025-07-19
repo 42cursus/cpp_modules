@@ -12,7 +12,7 @@
 
 NAME 			= scavTrap
 
-CFLAGS 			:= -Wall -Wextra -Werror -std=c++98 -g3 -gdwarf-3 -O0
+CFLAGS 			:= -Wall -Wextra -Werror -std=c++98 -g3 -gdwarf-3 -O0 -fsanitize=address,undefined
 CC 				= c++
 RM				:= /bin/rm
 

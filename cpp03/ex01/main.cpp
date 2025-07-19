@@ -14,34 +14,55 @@
 
 int main()
 {
-	std::cout << "-----------------------------------"  << std::endl;
-	std::cout << BOLD_GREEN << "CONSTRUCTORS" << RESET << std::endl;
-	std::cout << "-----------------------------------"  << std::endl;
+	std::cout << "-----------------------------------" << std::endl;
+	std::cout << FT_BOLD_G << "CONSTRUCTORS" << FT_RST << std::endl;
+	std::cout << "-----------------------------------" << std::endl;
 
-	ScavTrap foo;
-	ScavTrap bar("Bar");
-	ScavTrap buz(foo); // buz will have name "Foo"
-	ScavTrap qux;
-	qux = bar; // qux will have name "Bar"
+	ScavTrap jim("Jimmy");
+	ScavTrap bob("Bobby");
+	ScavTrap foo(jim); // foo will have name "Jimmy"
+	ScavTrap bar;
+	bar = bob; // bar will have name "Bobby"
+
+	jim.printStatus();
+	bob.printStatus();
+	foo.printStatus();
+	bar.printStatus();
 
 	std::cout << "-----------------------------------"  << std::endl;
 	std::cout << FT_BOLD_Y << "MAIN" << FT_RST << std::endl;
 	std::cout << "-----------------------------------"  << std::endl;
 
-	foo.attack("Bar");
-	bar.takeDamage(20);
-	foo.attack("Bar");
-	bar.takeDamage(20);
-	bar.takeDamage(20);
-	bar.takeDamage(20);
-	bar.takeDamage(20);
-	buz.attack("Bar");
-	qux.takeDamage(200);
-	qux.attack("Foo");
+	jim.attack(bob.getName());
+	jim.printStatus();
+	bob.takeDamage(jim.getDamage());
 
-	qux.guardGate();
+	bob.beRepaired(42);
+	jim.attack(bob.getName());
+	jim.printStatus();
+	bob.takeDamage(jim.getDamage());
 
-	std::cout << "-----------------------------------"  << std::endl;
-	std::cout << FT_BOLD_R << "DESTRUCTORS" << FT_RST << std::endl;
-	std::cout << "-----------------------------------"  << std::endl;
+	bob.beRepaired(42);
+	jim.attack(bob.getName());
+	bob.takeDamage(jim.getDamage());
+	jim.attack(bob.getName());
+	bob.takeDamage(jim.getDamage());
+	jim.attack(bob.getName());
+	bob.takeDamage(jim.getDamage());
+
+	bar.setDamage(11);
+	bar.attack(foo.getName());
+	foo.takeDamage(bar.getDamage());
+	foo.beRepaired(5);
+
+	{
+		ScavTrap temp("Scoped");
+		temp.attack("Target");
+	}
+
+	bar.guardGate();
+
+	std::cout << "-----------------------------------" << std::endl;
+	std::cout << FT_BOLD_R << "DESTRUCTORS" << FT_RST  << std::endl;
+	std::cout << "-----------------------------------" << std::endl;
 }

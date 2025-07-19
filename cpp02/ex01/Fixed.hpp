@@ -46,7 +46,7 @@ public:
 	int toInt() const;
 };
 
-std::ostream &operator<<(std::ostream &o, Fixed const &num);
+std::ostream &operator << (std::ostream &o, Fixed const &num);
 
 // ************************************************************************** //
 // vim: set ts=4 sw=4 tw=80 noexpandtab:                                      //
