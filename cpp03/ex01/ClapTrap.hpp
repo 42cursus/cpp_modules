@@ -15,8 +15,14 @@
 #define CLAPTRAP_HPP
 
 #include <iostream>
+#include <sstream>
 #include <string>
 
+/**
+ * https://www.ditig.com/256-colors-cheat-sheet
+ * List of ansi color escape sequences:
+ * 	https://stackoverflow.com/questions/4842424/
+ */
 #define FT_BOLD  	"\033[1m"       // Bold
 #define FT_UND   	"\033[4m"       // Underline
 #define FT_RED   	"\033[0;31m"
@@ -25,6 +31,16 @@
 #define FT_CYAN  	"\033[36m"
 #define FT_PINK		"\033[1;95m"    // Pink (Bright Magenta)
 #define FT_SALMON	"\033[38;5;210m"
+#define FT_ORANGE	"\033[38;5;202m"
+#define FT_PUMPKIN	"\033[38;5;202m"
+#define FT_PUMPKIN2		"\033[38;5;208m"
+#define FT_STEEL_BLUE	"\033[38;5;67m"
+#define FT_SKY_BLUE		"\033[38;5;117m"
+#define FT_BRIGHT_RED2	"\033[38;5;196m"
+#define FT_BRIGHT_RED3	"\033[38;5;160m"
+#define FT_LIME_GREEN	"\033[38;5;196m"
+#define FT_LIGHT_PURPLE	"\033[38;5;135m"
+#define FT_HOT_PINK	"\033[38;5;197m"
 #define FT_BOLD_R	"\033[1;31m"    // Bold red
 #define FT_BOLD_G	"\033[1;32m"    // Bold green
 #define FT_BOLD_B	"\033[1;34m"    // Bold blue
@@ -78,6 +94,5 @@ public:
 	void setEnergy(unsigned int energy);
 	void setDamage(unsigned int damage);
 };
-
 
 #endif //CLAPTRAP_HPP

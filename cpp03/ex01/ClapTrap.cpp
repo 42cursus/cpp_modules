@@ -63,7 +63,7 @@ ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 ClapTrap::~ClapTrap()
 {
 	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-			  << FT_SALMON" destructor called" FT_RST << std::endl;
+			  << FT_LIGHT_PURPLE" destructor called" FT_RST << std::endl;
 }
 
 /*
@@ -113,9 +113,24 @@ void ClapTrap::beRepaired(unsigned int amount)
 	_health += delta;
 	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
 			  << " repairs itself regaining "
-			  << FT_GREEN << delta << FT_RST" hit points." << std::endl;
+			  << FT_GREEN << delta << FT_RST" HP." << std::endl;
 	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
 			  << "'s health is now " FT_BOLD_Y << _health << FT_RST"." << std::endl;
+}
+
+std::string renderBar(unsigned int current, unsigned int max, size_t width, const char* color)
+{
+	std::ostringstream oss;
+	unsigned int filled = (max == 0) ? 0 : (current * width) / max;
+	unsigned int empty = width - filled;
+
+	oss << color;
+	while (filled--)
+		oss << "█";
+	while (empty--)
+		oss << "░";
+	oss << FT_RST;
+	return oss.str();
 }
 
 void ClapTrap::takeDamage(unsigned int amount)
@@ -132,7 +147,7 @@ void ClapTrap::takeDamage(unsigned int amount)
 		{
 			_health -= amount;
 			std::cout << FT_BOLD_G << _className << FT_RST": " << _name << " took "
-					  << FT_RED << amount << FT_RST" of damage." << std::endl;
+					  << FT_SALMON << amount << FT_RST" of damage." << std::endl;
 		}
 		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
 				  << "'s health is now " FT_BOLD_Y << _health << FT_RST"." << std::endl;
@@ -205,10 +220,16 @@ const char* ClapTrap::getClassName() const {
 	return _className;
 }
 
-void ClapTrap::printStatus() const
-{
-	std::cout << getClassName() << ": " << _name
-			  << " [HP: " << _health
-			  << ", EP: " << _energy
-			  << ", DMG: " << _damage << "]" << std::endl;
+void ClapTrap::printStatus() const {
+	const size_t barWidth = 10;
+
+	std::string hpBar = renderBar(_health, _maxHealth, barWidth, FT_BOLD_G); // assume 100 max for simplicity
+	std::string epBar = renderBar(_energy, 50, barWidth, FT_PUMPKIN2);    // adjust if you have max values
+
+	std::cout << FT_STEEL_BLUE << _className << FT_RST": " << _name
+			  << "  HP:  [" << hpBar << "] "
+			  << FT_BOLD_G << _health << "/100" << FT_RST
+			  << ",  EP:  [" << epBar << "] "
+			  << FT_ORANGE << _energy << "/50"  << FT_RST
+			  << ",  DMG: " << FT_HOT_PINK << _damage << FT_RST << std::endl;
 }
