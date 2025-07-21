@@ -25,7 +25,8 @@
 class ScavTrap : public ClapTrap
 {
 protected:
-	static const char _className[];
+	static const std::string _className;
+	static const std::string _classLabel;
 public:
 	ScavTrap();
 	explicit ScavTrap(const std::string& Name);
@@ -34,9 +35,8 @@ public:
 	ScavTrap &operator = (const ScavTrap &other);
 
 	~ScavTrap();
-
-
-	const char* getClassName() const;
+	const std::string& getClassName() const;
+	const std::string& getClassLabel() const;
 
 	void attack(const std::string& target);
 	void guardGate();

@@ -10,17 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "ClapTrap.hpp"
 
 /*
-** ------------------------------- CONSTRUCTORS -------------------------------
+** -------------------------------- STATIC VARS -------------------------------
 */
 
-const char ClapTrap::_className[] = "ClapTrap";
+const std::string ClapTrap::_className = "ClapTrap";
+const std::string ClapTrap::_classLabel = buildClassLabel(_className,
+														  FT_PALE_TURQUOISE4_B);
 const std::string& ClapTrap::DEFAULT_NAME = "John Doe";
-const unsigned int ClapTrap::DEFAULT_HEALTH;
-const unsigned int ClapTrap::DEFAULT_ENERGY;
-const unsigned int ClapTrap::DEFAULT_DAMAGE;
+const u_int ClapTrap::DEFAULT_HEALTH;
+const u_int ClapTrap::DEFAULT_ENERGY;
+const u_int ClapTrap::DEFAULT_DAMAGE;
+const u_int ClapTrap::DEFAULT_BAR_WIDTH;
+const u_int ClapTrap::_barWidth;
 
 /*
 ** ------------------------------- CONSTRUCTORS -------------------------------
@@ -30,30 +37,33 @@ ClapTrap::ClapTrap() : _name(DEFAULT_NAME),
 					   _health(DEFAULT_HEALTH),
 					   _maxHealth(DEFAULT_HEALTH),
 					   _energy(DEFAULT_ENERGY),
+					   _maxEnergy(DEFAULT_ENERGY),
 					   _damage(DEFAULT_DAMAGE)
 {
-	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-			  << FT_CYAN" 'default' constructor called" FT_RST << std::endl;
+	std::cout << _classLabel << _name
+			  << FT_DIM_GREEN" 'default' constructor called" FT_RST << std::endl;
 }
 
 ClapTrap::ClapTrap(const std::string &name) : _name(name),
 											  _health(DEFAULT_HEALTH),
 											  _maxHealth(DEFAULT_HEALTH),
 											  _energy(DEFAULT_ENERGY),
+											  _maxEnergy(DEFAULT_ENERGY),
 											  _damage(DEFAULT_DAMAGE)
 {
-	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-			  << FT_CYAN" 'name' constructor called" FT_RST << std::endl;;
+	std::cout << _classLabel << _name
+			  << FT_DIM_GREEN" 'name' constructor called" FT_RST << std::endl;;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 											_health(other._health),
 											_maxHealth(other._health),
 											_energy(other._energy),
+											_maxEnergy(other._maxEnergy),
 											_damage(other._damage)
 {
-	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-			  << FT_CYAN" 'copy' constructor called" FT_RST<< std::endl;;
+	std::cout << _classLabel << _name
+			  << FT_DIM_GREEN" 'copy' constructor called" << std::endl;;
 }
 
 /*
@@ -62,8 +72,8 @@ ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-			  << FT_LIGHT_PURPLE" destructor called" FT_RST << std::endl;
+	std::cout << _classLabel << _name
+			  << FT_LIGHT_BROWN" destructor" FT_RST << " called" << std::endl;
 }
 
 /*
@@ -81,7 +91,9 @@ ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 	{
 		this->_damage = other._damage;
 		this->_energy = other._energy;
+		this->_maxEnergy = other._maxEnergy;
 		this->_health = other._health;
+		this->_maxHealth = other._maxHealth;
 		this->_name = other._name;
 	}
 	return (*this);
@@ -91,84 +103,163 @@ ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void ClapTrap::beRepaired(unsigned int amount)
+std::string ClapTrap::buildNameLabel(const char *colour)
 {
-	if (!_energy || !_health)
-	{
-		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-				  << " can't repair itself." << std::endl;
-		return;
-	}
-	else if (_health >= _maxHealth)
-	{
-		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-				  << " already has the maximum health." << std::endl;
-		return;
-	}
-
-	unsigned int amountHealed = _health + amount;
-	unsigned int delta = (amountHealed > _maxHealth) ? _maxHealth - _health : amount;
-
-	_energy--;
-	_health += delta;
-	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-			  << " repairs itself regaining "
-			  << FT_GREEN << delta << FT_RST" HP." << std::endl;
-	std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-			  << "'s health is now " FT_BOLD_Y << _health << FT_RST"." << std::endl;
+	return std::string(colour);
 }
 
-std::string renderBar(unsigned int current, unsigned int max, size_t width, const char* color)
+std::string ClapTrap::buildClassLabel(const std::string& classname,
+									  const char *colour)
 {
 	std::ostringstream oss;
-	unsigned int filled = (max == 0) ? 0 : (current * width) / max;
-	unsigned int empty = width - filled;
+	oss << std::left << std::setw(CLASS_NAME_PADDING) << (classname + ":");
+
+	std::string label = oss.str();
+	label.insert(0, colour);
+	label.insert(classname.length() + std::strlen(colour), FT_RST);
+	return label;
+}
+
+std::string ClapTrap::renderBar(u_int current, u_int max, const char* color)
+{
+	std::ostringstream oss;
+	u_int filled = (current * _barWidth + max - 1) / max;
+	u_int empty = _barWidth - filled;
+
+	const char full = '#';
+	const char empt = '-';
+
+	oss << color
+		<< std::string(filled, full)
+		<< std::string(empty, empt)
+		<< FT_RST;
+	return oss.str();
+}
+
+std::string ClapTrap::renderBarWchar(u_int current,
+									 u_int max, const char* color)
+{
+	std::ostringstream oss;
+	u_int filled = (current * _barWidth + max - 1) / max;
+	u_int empty = _barWidth - filled;
+
+	const char *full = "█";
+	const char *empt = "░";
 
 	oss << color;
 	while (filled--)
-		oss << "█";
+		oss << full;
 	while (empty--)
-		oss << "░";
+		oss << empt;
 	oss << FT_RST;
 	return oss.str();
 }
 
-void ClapTrap::takeDamage(unsigned int amount)
+void ClapTrap::printStatusFull() const
 {
+	std::string hpBar = renderBar(_health, _maxHealth, FT_BOLD_G);
+	std::string epBar = renderBar(_energy, _maxEnergy, FT_PUMPKIN2);
+
+	std::cout << getClassLabel() << _name
+			  << " HP:  [" << hpBar << "] "
+			  << FT_BOLD_G << _health << "/" << _maxHealth << FT_RST
+			  << ", EP:  [" << epBar << "] "
+			  << FT_ORANGE << _energy << "/" << _maxEnergy  << FT_RST
+			  << ", DMG: " << FT_HOT_PINK << _damage << FT_RST << std::endl;
+}
+
+
+void ClapTrap::printStatus() const
+{
+	std::string hpBar = renderBar(_health, _maxHealth, FT_SOFT_GREEN);
+	std::string epBar = renderBar(_energy, _maxEnergy, FT_SAND_TAN);
+
+	std::ostringstream oss;
+	oss << std::left << std::setw(12) << " "
+		<< FT_DIM << "HP: [" << hpBar << FT_DIM << "] "
+		<< _health << "/" << _maxHealth
+		<< " | EP: [" << epBar << FT_DIM << "] "
+		<< _energy << "/" << _maxEnergy << FT_RST;
+	std::cout << oss.str() << std::endl;
+}
+
+void ClapTrap::printHealth() const
+{
+	std::string hpBar = renderBar(_health, _maxHealth, FT_SOFT_GREEN);
+
+	std::ostringstream oss;
+	oss << std::left << std::setw(12) << " "
+		<< FT_DIM << "HP: [" << hpBar << FT_DIM << "] "
+		<< _health << "/" << _maxHealth << FT_RST;
+	std::cout << oss.str() << std::endl;
+}
+
+void ClapTrap::beRepaired(u_int amount)
+{
+	std::cout << getClassLabel() << _name;
+	if (!_energy || !_health)
+	{
+		std::cout << " can't repair itself." << std::endl;
+		return;
+	}
+	else if (_health >= _maxHealth)
+	{
+		std::cout << " already has the maximum health." << std::endl;
+		return;
+	}
+
+	u_int amountHealed = _health + amount;
+	u_int delta = (amountHealed > _maxHealth) ? _maxHealth - _health : amount;
+
+	_energy--;
+	_health += delta;
+	std::string hpBar = renderBar(_health, _maxHealth, FT_CHARTREUSE4_B);
+	std::cout << " repairs itself."
+			  << FT_BOLD_G << " (+" << delta << " HP)" << FT_RST << std::endl;
+	printStatus();
+}
+
+void ClapTrap::takeDamage(u_int amount)
+{
+	std::cout << getClassLabel() << _name;
+
 	if (_health)
 	{
 		if (amount > _health)
 		{
 			_health = 0;
-			std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-					  << " received an Overkill!" << std::endl;
+			std::cout << " received an Overkill!";
 		}
 		else
 		{
 			_health -= amount;
-			std::cout << FT_BOLD_G << _className << FT_RST": " << _name << " took "
-					  << FT_SALMON << amount << FT_RST" of damage." << std::endl;
+			std::cout << " been attacked";
 		}
-		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-				  << "'s health is now " FT_BOLD_Y << _health << FT_RST"." << std::endl;
+
+		ssize_t amountLost = _health - amount;
+		u_int delta = (amountLost < 0) ? amount - _health : amount;
+
+		std::string hpBar = renderBar(_health, _maxHealth, FT_CHARTREUSE4_B);
+		std::cout << FT_SALMON_B << " (-" << delta << " HP)" FT_RST << std::endl;
+		printHealth();
 	}
 	else
-		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-				  << " is already dead ;(" << std::endl;
+		std::cout << " is already dead ;(" << std::endl;
 }
 
 void ClapTrap::attack(const std::string &target)
 {
+	std::cout << getClassLabel() << _name;
+
 	if (_energy <= 0 || _health <= 0)
-		std::cout << FT_BOLD_G << _className << FT_RST": " << _name
-				  << " can't act (no energy or dead)." << std::endl;
+		std::cout << " can't act (no energy or dead)." << std::endl;
 	else
 	{
 		_energy--;
-		std::cout << FT_BOLD_G << _className << FT_RST": "
-				  << _name << " attacks " << target
-				  << ", causing " << _damage << " points of damage!"
-				  << std::endl;
+		std::string epBar = renderBar(_energy, _maxEnergy, FT_PUMPKIN2);
+		std::cout << " attacks " << target << ", inflicting "
+				  << FT_SALMON << _damage << FT_RST << " DMG." << std::endl;
+		printStatus();
 	}
 }
 
@@ -181,17 +272,17 @@ const std::string &ClapTrap::getName() const
 	return _name;
 }
 
-unsigned int ClapTrap::getEnergy() const
+u_int ClapTrap::getEnergy() const
 {
 	return _energy;
 }
 
-unsigned int ClapTrap::getHealth() const
+u_int ClapTrap::getHealth() const
 {
 	return _health;
 }
 
-unsigned int ClapTrap::getDamage() const
+u_int ClapTrap::getDamage() const
 {
 	return _damage;
 }
@@ -201,35 +292,27 @@ void ClapTrap::setName(const std::string &name)
 	_name = name;
 }
 
-void ClapTrap::setHealth(unsigned int health)
+void ClapTrap::setHealth(u_int health)
 {
 	_health = health;
 }
 
-void ClapTrap::setEnergy(unsigned int energy)
+void ClapTrap::setEnergy(u_int energy)
 {
 	_energy = energy;
 }
 
-void ClapTrap::setDamage(unsigned int damage)
+void ClapTrap::setDamage(u_int damage)
 {
 	_damage = damage;
 }
 
-const char* ClapTrap::getClassName() const {
+const std::string& ClapTrap::getClassName() const
+{
 	return _className;
 }
 
-void ClapTrap::printStatus() const {
-	const size_t barWidth = 10;
-
-	std::string hpBar = renderBar(_health, _maxHealth, barWidth, FT_BOLD_G); // assume 100 max for simplicity
-	std::string epBar = renderBar(_energy, 50, barWidth, FT_PUMPKIN2);    // adjust if you have max values
-
-	std::cout << FT_STEEL_BLUE << _className << FT_RST": " << _name
-			  << "  HP:  [" << hpBar << "] "
-			  << FT_BOLD_G << _health << "/100" << FT_RST
-			  << ",  EP:  [" << epBar << "] "
-			  << FT_ORANGE << _energy << "/50"  << FT_RST
-			  << ",  DMG: " << FT_HOT_PINK << _damage << FT_RST << std::endl;
+const std::string& ClapTrap::getClassLabel() const
+{
+	return _classLabel;
 }

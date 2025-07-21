@@ -12,31 +12,31 @@
 
 #include "ScavTrap.hpp"
 
-const char ScavTrap::_className[] = "ScavTrap";
+const std::string ScavTrap::_className = "ScavTrap";
+const std::string ScavTrap::_classLabel = buildClassLabel(_className, FT_DARK_SEA_GREEN4_B);
+
 ScavTrap::ScavTrap() : ClapTrap()
 {
-	_health = 100;
-	_maxHealth = 100;
-	_energy = 50;
+	_health = _maxHealth = 100;
+	_energy = _maxEnergy = 50;
 	_damage = 20;
-	std::cout << _className << ": " << _name
-			  << " 'default' constructor called" << std::endl;
+	std::cout << _classLabel << _name << FT_OLIVE_GREEN
+			  << " 'default' constructor called" FT_RST << std::endl;
 }
 
 ScavTrap::ScavTrap(const std::string &Name) : ClapTrap(Name)
 {
-	_health = 100;
-	_maxHealth = 100;
-	_energy = 50;
+	_health = _maxHealth = 100;
+	_energy = _maxEnergy = 50;
 	_damage = 20;
-	std::cout << _className << ": " << _name
-			  << " 'name' constructor called" << std::endl;
+	std::cout << _classLabel << _name << FT_OLIVE_GREEN
+			  << " 'name' constructor called" FT_RST << std::endl;
 }
 
 ScavTrap::ScavTrap(ScavTrap &other) : ClapTrap(other)
 {
-	std::cout << _className << ": " << _name
-			  << " 'copy' constructor called" << std::endl;
+	std::cout << _classLabel << _name << FT_OLIVE_GREEN
+			  << " 'copy' constructor called" FT_RST << std::endl;
 }
 
 ScavTrap &ScavTrap::operator=(const ScavTrap &other)
@@ -47,7 +47,8 @@ ScavTrap &ScavTrap::operator=(const ScavTrap &other)
 }
 
 
-const char* ScavTrap::getClassName() const {
+const std::string& ScavTrap::getClassName() const
+{
 	return _className;
 }
 
@@ -56,15 +57,18 @@ void ScavTrap::attack(const std::string &target)
 	ClapTrap::attack(target);
 }
 
-
 void ScavTrap::guardGate() {
-	std::cout << _className << ": " << _name
-			  << " is now is now in the "
-			  FT_BOLD_Y "Gate keeper mode" FT_RST << std::endl;
-};
+	std::cout << getClassLabel() << _name
+			  << FT_BOLD_Y " Gate keeper mode engaged" FT_RST << std::endl;
+}
 
 ScavTrap::~ScavTrap()
 {
-	std::cout << _className << ": " << _name
-			  << " destructor called" << std::endl;
+	std::cout << _classLabel << _name
+			  << FT_PUMPKIN2" destructor" FT_RST << " called" << std::endl;
+}
+
+const std::string &ScavTrap::getClassLabel() const
+{
+	return _classLabel;
 }
