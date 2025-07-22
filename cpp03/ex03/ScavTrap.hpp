@@ -13,11 +13,38 @@
 #ifndef SCAVTRAP_HPP
 #define SCAVTRAP_HPP
 
+#include <iostream>
+#include <string>
+#include <cxxabi.h>
+#include "ClapTrap.hpp"
 
-class ScavTrap
+// ************************************************************************** //
+//                              ScavTrap Class                                //
+// ************************************************************************** //
+
+class ScavTrap : virtual public ClapTrap
 {
+private:
+	static const u_int	DEFAULT_HEALTH = 100;
+	static const u_int	DEFAULT_ENERGY = 50;
+	static const u_int	DEFAULT_DAMAGE = 20;
+	static const std::string& DEFAULT_NAME;
+protected:
+	static const std::string _className;
+	static const std::string _classLabel;
+public:
+	ScavTrap();
+	explicit ScavTrap(const std::string& Name);
+	ScavTrap(ScavTrap &other);
 
+	ScavTrap &operator = (const ScavTrap &other);
+
+	~ScavTrap();
+	const std::string& getClassName() const;
+	const std::string& getClassLabel() const;
+
+	void attack(const std::string& target);
+	void guardGate();
 };
-
 
 #endif //SCAVTRAP_HPP

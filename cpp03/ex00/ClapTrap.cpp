@@ -238,7 +238,7 @@ void ClapTrap::takeDamage(u_int amount)
 
 		ssize_t amountLost = _health - amount;
 		u_int delta = (amountLost < 0) ? amount - _health : amount;
-		std::cout << FT_SALMON_B << " (-" << delta << " HP)" FT_RST << std::endl;
+		std::cout << FT_SALMON << " (-" << delta << " HP)" FT_RST << std::endl;
 		printHealth();
 	}
 	else

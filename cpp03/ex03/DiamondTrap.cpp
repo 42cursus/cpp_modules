@@ -11,3 +11,8 @@
 /* ************************************************************************** */
 
 #include "DiamondTrap.hpp"
+
+DiamondTrap::DiamondTrap() : ScavTrap(), FragTrap()
+{
+
+}
