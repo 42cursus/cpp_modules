@@ -33,6 +33,7 @@
 #define FT_GREEN 	"\033[0;32m"    // Green
 #define FT_BLUE 	"\033[0;32m"    // Blue
 #define FT_CYAN  	"\033[36m"
+#define FT_WHITE_B 	"\033[1;38;5;15m"
 #define FT_PINK		"\033[1;95m"    // Pink (Bright Magenta)
 #define FT_SALMON	"\033[38;5;210m"
 #define FT_SALMON_B	"\033[1;38;5;210m"
@@ -78,6 +79,9 @@
 //                              ClapTrap Class                                //
 // ************************************************************************** //
 
+/**
+ * https://borderlands.fandom.com/wiki/Claptrap
+ */
 class ClapTrap
 {
 

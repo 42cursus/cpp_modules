@@ -22,7 +22,7 @@
 const std::string ClapTrap::_className = "ClapTrap";
 const std::string ClapTrap::_classLabel = buildClassLabel(_className,
 														  FT_PALE_TURQUOISE4_B);
-const std::string& ClapTrap::DEFAULT_NAME = "John Doe";
+const std::string& ClapTrap::DEFAULT_NAME = "CL4P-TP#";
 const u_int ClapTrap::DEFAULT_HEALTH;
 const u_int ClapTrap::DEFAULT_ENERGY;
 const u_int ClapTrap::DEFAULT_DAMAGE;
@@ -177,7 +177,7 @@ void ClapTrap::printStatus() const
 	std::ostringstream oss;
 	oss << std::left << std::setw(12) << " "
 		<< FT_DIM << "HP: [" << hpBar << FT_DIM << "] "
-		<< _health << "/" << _maxHealth
+		<< std::right << std::setw(3) << _health << "/" << _maxHealth
 		<< " | EP: [" << epBar << FT_DIM << "] "
 		<< _energy << "/" << _maxEnergy << FT_RST;
 	std::cout << oss.str() << std::endl;
@@ -199,12 +199,12 @@ void ClapTrap::beRepaired(u_int amount)
 	std::cout << getClassLabel() << _name;
 	if (!_energy || !_health)
 	{
-		std::cout << " can't repair itself." << std::endl;
+		std::cout << " can't repair itself (no energy or dead)." << std::endl;
 		return;
 	}
 	else if (_health >= _maxHealth)
 	{
-		std::cout << " already has the maximum health." << std::endl;
+		std::cout << " won't repair itself (maximum health)." << std::endl;
 		return;
 	}
 
@@ -238,8 +238,6 @@ void ClapTrap::takeDamage(u_int amount)
 
 		ssize_t amountLost = _health - amount;
 		u_int delta = (amountLost < 0) ? amount - _health : amount;
-
-		std::string hpBar = renderBar(_health, _maxHealth, FT_CHARTREUSE4_B);
 		std::cout << FT_SALMON_B << " (-" << delta << " HP)" FT_RST << std::endl;
 		printHealth();
 	}
@@ -256,7 +254,6 @@ void ClapTrap::attack(const std::string &target)
 	else
 	{
 		_energy--;
-		std::string epBar = renderBar(_energy, _maxEnergy, FT_PUMPKIN2);
 		std::cout << " attacks " << target << ", inflicting "
 				  << FT_SALMON << _damage << FT_RST << " DMG." << std::endl;
 		printStatus();
@@ -294,12 +291,20 @@ void ClapTrap::setName(const std::string &name)
 
 void ClapTrap::setHealth(u_int health)
 {
-	_health = health;
+	if (health <= _maxHealth)
+		_health = health;
+	else
+		_health = _maxHealth;
+	printStatus();
 }
 
 void ClapTrap::setEnergy(u_int energy)
 {
-	_energy = energy;
+	if (energy <= _maxEnergy)
+		_energy = energy;
+	else
+		_energy = _maxEnergy;
+	printStatus();
 }
 
 void ClapTrap::setDamage(u_int damage)
