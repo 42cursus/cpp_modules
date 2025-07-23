@@ -31,7 +31,7 @@ public:
 	explicit FragTrap(const std::string& Name);
 	FragTrap(FragTrap &other);
 
-	FragTrap &operator = (const FragTrap &other);
+	FragTrap &operator=(const FragTrap &other);
 
 	~FragTrap();
 	const std::string& getClassName() const;

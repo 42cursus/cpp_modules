@@ -29,6 +29,7 @@ set(COMMON_LDFLAGS
         -fsanitize=float-cast-overflow)
 set(COMMON_CFLAGS
         -Wwrite-strings -Wnarrowing
+		-frtti
         -O0
         -masm=att
         -fno-exceptions

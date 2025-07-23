@@ -25,7 +25,8 @@ const std::string FragTrap::_classLabel = buildClassLabel(_className,
 */
 FragTrap::FragTrap() : ClapTrap()
 {
-
+	std::cout << _classLabel << _name << FT_OLIVE_GREEN
+			  << " 'default' constructor called" FT_RST << std::endl;
 }
 
 FragTrap::~FragTrap()
@@ -36,7 +37,8 @@ FragTrap::~FragTrap()
 
 FragTrap::FragTrap(const std::string &Name) : ClapTrap(Name)
 {
-
+	std::cout << _classLabel << _name << FT_OLIVE_GREEN
+			  << " 'name' constructor called" FT_RST << std::endl;
 }
 
 FragTrap &FragTrap::operator=(const FragTrap &other)
@@ -52,14 +54,9 @@ FragTrap::FragTrap(FragTrap &other) : ClapTrap(other)
 			  << " 'copy' constructor called" FT_RST << std::endl;
 }
 
-void FragTrap::attack(const std::string &target)
-{
-	ClapTrap::attack(target);
-}
-
 void FragTrap::highFivesGuys()
 {
-	std::cout << _classLabel << _name
+	std::cout << getClassLabel() << _name
 			  << " - 'High five, guys!'" FT_RST << std::endl;
 }
 

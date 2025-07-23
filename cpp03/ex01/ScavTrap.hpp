@@ -32,7 +32,7 @@ public:
 	explicit ScavTrap(const std::string& Name);
 	ScavTrap(ScavTrap &other);
 
-	ScavTrap &operator = (const ScavTrap &other);
+	ScavTrap &operator=(const ScavTrap &other);
 
 	~ScavTrap();
 	const std::string& getClassName() const;

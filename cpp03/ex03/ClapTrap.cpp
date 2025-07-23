@@ -175,7 +175,7 @@ void ClapTrap::printStatus() const
 	std::string epBar = renderBar(_energy, _maxEnergy, FT_SAND_TAN);
 
 	std::ostringstream oss;
-	oss << std::left << std::setw(12) << " "
+	oss << std::left << std::setw(CLASS_NAME_PADDING) << " "
 		<< FT_DIM << "HP: [" << hpBar << FT_DIM << "] "
 		<< std::right << std::setw(3) << _health << "/" << _maxHealth
 		<< " | EP: [" << epBar << FT_DIM << "] "
@@ -188,7 +188,7 @@ void ClapTrap::printHealth() const
 	std::string hpBar = renderBar(_health, _maxHealth, FT_SOFT_GREEN);
 
 	std::ostringstream oss;
-	oss << std::left << std::setw(12) << " "
+	oss << std::left << std::setw(CLASS_NAME_PADDING) << " "
 		<< FT_DIM << "HP: [" << hpBar << FT_DIM << "] "
 		<< _health << "/" << _maxHealth << FT_RST;
 	std::cout << oss.str() << std::endl;

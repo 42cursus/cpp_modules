@@ -46,6 +46,7 @@ ScavTrap::ScavTrap(const std::string &Name) : ClapTrap(Name)
 
 ScavTrap::ScavTrap(ScavTrap &other) : ClapTrap(other)
 {
+
 	std::cout << _classLabel << _name << FT_OLIVE_GREEN
 			  << " 'copy' constructor called" FT_RST << std::endl;
 }
@@ -72,7 +73,17 @@ ScavTrap &ScavTrap::operator=(const ScavTrap &other)
 
 void ScavTrap::attack(const std::string &target)
 {
-	ClapTrap::attack(target);
+	std::cout << _classLabel << _name;
+
+	if (_energy <= 0 || _health <= 0)
+		std::cout << " can't act (no energy or dead)." << std::endl;
+	else
+	{
+		_energy--;
+		std::cout << " ferociously attacks " << target << ", inflicting "
+				  << FT_SALMON << _damage << FT_RST << " DMG." << std::endl;
+		printStatus();
+	}
 }
 
 void ScavTrap::guardGate() {
