@@ -22,14 +22,14 @@
 //                              ScavTrap Class                                //
 // ************************************************************************** //
 
-class ScavTrap : public ClapTrap
+class ScavTrap : public virtual ClapTrap
 {
 private:
+	static const std::string& DEFAULT_NAME;
+protected:
 	static const u_int	DEFAULT_HEALTH = 100;
 	static const u_int	DEFAULT_ENERGY = 50;
 	static const u_int	DEFAULT_DAMAGE = 20;
-	static const std::string& DEFAULT_NAME;
-protected:
 	static const std::string _className;
 	static const std::string _classLabel;
 public:

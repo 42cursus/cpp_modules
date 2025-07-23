@@ -16,14 +16,14 @@
 
 #include "ClapTrap.hpp"
 
-class FragTrap : public ClapTrap
+class FragTrap : public virtual ClapTrap
 {
 private:
+	static const std::string& DEFAULT_NAME;
+protected:
 	static const u_int	DEFAULT_HEALTH = 100;
 	static const u_int	DEFAULT_ENERGY = 50;
 	static const u_int	DEFAULT_DAMAGE = 20;
-	static const std::string& DEFAULT_NAME;
-protected:
 	static const std::string _className;
 	static const std::string _classLabel;
 public:
@@ -37,7 +37,6 @@ public:
 	const std::string& getClassName() const;
 	const std::string& getClassLabel() const;
 
-	void attack(const std::string& target);
 	void highFivesGuys();
 };
 

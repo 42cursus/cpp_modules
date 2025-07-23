@@ -34,35 +34,38 @@ const u_int ClapTrap::_barWidth;
 */
 
 ClapTrap::ClapTrap() : _name(DEFAULT_NAME),
+					   _nameLabel(buildNameLabel(_name, FT_WHITE_B)),
 					   _health(DEFAULT_HEALTH),
 					   _maxHealth(DEFAULT_HEALTH),
 					   _energy(DEFAULT_ENERGY),
 					   _maxEnergy(DEFAULT_ENERGY),
 					   _damage(DEFAULT_DAMAGE)
 {
-	std::cout << _classLabel << _name
+	std::cout << _classLabel << _nameLabel
 			  << FT_DIM_GREEN" 'default' constructor called" FT_RST << std::endl;
 }
 
 ClapTrap::ClapTrap(const std::string &name) : _name(name),
+											  _nameLabel(buildNameLabel(_name, FT_WHITE_B)),
 											  _health(DEFAULT_HEALTH),
 											  _maxHealth(DEFAULT_HEALTH),
 											  _energy(DEFAULT_ENERGY),
 											  _maxEnergy(DEFAULT_ENERGY),
 											  _damage(DEFAULT_DAMAGE)
 {
-	std::cout << _classLabel << _name
+	std::cout << _classLabel << _nameLabel
 			  << FT_DIM_GREEN" 'name' constructor called" FT_RST << std::endl;;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
+											_nameLabel(buildNameLabel(_name, FT_WHITE_B)),
 											_health(other._health),
 											_maxHealth(other._health),
 											_energy(other._energy),
 											_maxEnergy(other._maxEnergy),
 											_damage(other._damage)
 {
-	std::cout << _classLabel << _name
+	std::cout << _classLabel << _nameLabel
 			  << FT_DIM_GREEN" 'copy' constructor called" << std::endl;;
 }
 
@@ -72,7 +75,7 @@ ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 
 ClapTrap::~ClapTrap()
 {
-	std::cout << _classLabel << _name
+	std::cout << _classLabel << _nameLabel
 			  << FT_LIGHT_BROWN" destructor" FT_RST << " called" << std::endl;
 }
 
@@ -95,6 +98,7 @@ ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 		this->_health = other._health;
 		this->_maxHealth = other._maxHealth;
 		this->_name = other._name;
+		this->_nameLabel = other._nameLabel;
 	}
 	return (*this);
 }
@@ -103,9 +107,13 @@ ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-std::string ClapTrap::buildNameLabel(const char *colour)
+std::string ClapTrap::buildNameLabel(const std::string& name,
+									 const char *colour)
 {
-	return std::string(colour);
+	std::string label = name;
+	label.insert(0, colour);
+	label.insert(name.length() + std::strlen(colour), FT_RST);
+	return label;
 }
 
 std::string ClapTrap::buildClassLabel(const std::string& classname,
@@ -160,14 +168,13 @@ void ClapTrap::printStatusFull() const
 	std::string hpBar = renderBar(_health, _maxHealth, FT_BOLD_G);
 	std::string epBar = renderBar(_energy, _maxEnergy, FT_PUMPKIN2);
 
-	std::cout << getClassLabel() << _name
+	std::cout << getClassLabel() << getNameLabel()
 			  << " HP:  [" << hpBar << "] "
 			  << FT_BOLD_G << _health << "/" << _maxHealth << FT_RST
 			  << ", EP:  [" << epBar << "] "
 			  << FT_ORANGE << _energy << "/" << _maxEnergy  << FT_RST
 			  << ", DMG: " << FT_HOT_PINK << _damage << FT_RST << std::endl;
 }
-
 
 void ClapTrap::printStatus() const
 {
@@ -196,7 +203,7 @@ void ClapTrap::printHealth() const
 
 void ClapTrap::beRepaired(u_int amount)
 {
-	std::cout << getClassLabel() << _name;
+	std::cout << getClassLabel() << getNameLabel();
 	if (!_energy || !_health)
 	{
 		std::cout << " can't repair itself (no energy or dead)." << std::endl;
@@ -221,7 +228,7 @@ void ClapTrap::beRepaired(u_int amount)
 
 void ClapTrap::takeDamage(u_int amount)
 {
-	std::cout << getClassLabel() << _name;
+	std::cout << getClassLabel() << getNameLabel();
 
 	if (_health)
 	{
@@ -247,7 +254,7 @@ void ClapTrap::takeDamage(u_int amount)
 
 void ClapTrap::attack(const std::string &target)
 {
-	std::cout << getClassLabel() << _name;
+	std::cout << getClassLabel() << getNameLabel();
 
 	if (_energy <= 0 || _health <= 0)
 		std::cout << " can't act (no energy or dead)." << std::endl;
@@ -320,4 +327,9 @@ const std::string& ClapTrap::getClassName() const
 const std::string& ClapTrap::getClassLabel() const
 {
 	return _classLabel;
+}
+
+const std::string &ClapTrap::getNameLabel() const
+{
+	return _nameLabel;
 }

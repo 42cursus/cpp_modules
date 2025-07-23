@@ -61,6 +61,7 @@
 #define FT_CHARTREUSE4	"\033[38;5;64m"
 #define FT_CHARTREUSE4_B	"\033[1;38;5;64m"
 #define FT_SEA_GREEN2	"\033[38;5;83m"
+#define FT_SEA_GREEN2_B	"\033[1;38;5;83m"
 #define FT_DARK_SEA_GREEN4	"\033[38;5;71m"
 #define FT_DARK_SEA_GREEN4_B	"\033[1;38;5;71m"
 #define FT_SOFT_GREEN "\033[38;5;108m"   // muted green (greenish gray)
@@ -90,17 +91,21 @@ private:
 	static const u_int	DEFAULT_ENERGY = 10;
 	static const u_int	DEFAULT_DAMAGE = 0;
 	static const u_int	DEFAULT_BAR_WIDTH = 10;
-	static const u_int	CLASS_NAME_PADDING = 12;
+	static const u_int	CLASS_NAME_PADDING = 13;
 	static const std::string& DEFAULT_NAME;
 
 protected:
-	static std::string buildClassLabel(const std::string& classname, const char *colour);
-	static std::string buildNameLabel(const char *colour);
+	static std::string buildClassLabel(const std::string& classname,
+									   const char *colour);
+	static std::string buildNameLabel(const std::string& classname,
+									  const char *colour);
 	static std::string renderBar(u_int current, u_int max, const char *color);
-	static std::string renderBarWchar(u_int current, u_int max, const char *color);
+	static std::string renderBarWchar(u_int current, u_int max,
+									  const char *color);
 	static const std::string _className;
 	static const std::string _classLabel;
 	virtual const std::string& getClassLabel() const;
+	virtual const std::string& getNameLabel() const;
 	static const u_int _barWidth = DEFAULT_BAR_WIDTH;
 	std::string _name;
 	std::string _nameLabel;

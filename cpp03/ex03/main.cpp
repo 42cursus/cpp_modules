@@ -52,6 +52,8 @@ int main()
 	Sam.highFivesGuys();
 	hfg.whoAmI();
 	hfg.highFivesGuys();
+	hfg.attack(Sam.getName());
+	Sam.takeDamage(hfg.getDamage());
 
 	std::cout << std::endl;
 	std::cout << "-----------------------------------" << std::endl;
