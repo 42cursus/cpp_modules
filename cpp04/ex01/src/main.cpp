@@ -5,24 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 22:48:31 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/17 22:48:32 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/24 23:29:56 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/24 23:29:56 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "Cat.hpp"
-#include "Dog.hpp"
-
 int main()
 {
-	const Animal* meta = new Animal();
 	const Animal* j = new Dog();
 	const Animal* i = new Cat();
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	i->makeSound(); //will output the cat sound!
-	j->makeSound();
-	meta->makeSound();
+	delete j;//should not create a leak
+	delete i;
+	// ...
 	return 0;
 }

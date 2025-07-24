@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   ICharacter.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 22:48:31 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/17 22:48:32 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/24 23:47:31 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/24 23:47:31 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef ICHARACTER_HPP
+#define ICHARACTER_HPP
 
-#include "Cat.hpp"
-#include "Dog.hpp"
 
-int main()
+class ICharacter
 {
-	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	i->makeSound(); //will output the cat sound!
-	j->makeSound();
-	meta->makeSound();
-	return 0;
-}
+public:
+	virtual ~ICharacter() {}
+	virtual std::string const & getName() const = 0;
+	virtual void equip(AMateria* m) = 0;
+	virtual void unequip(int idx) = 0;
+	virtual void use(int idx, ICharacter& target) = 0;
+};
+
+
+#endif //ICHARACTER_HPP

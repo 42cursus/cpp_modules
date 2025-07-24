@@ -14,6 +14,9 @@
 #ifndef CLAPTRAP_HPP
 #define CLAPTRAP_HPP
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <iomanip> // for std::setw, std::setfill
 #include <sstream> // for std::ostringstream
@@ -93,20 +96,6 @@ private:
 	static const u_int	DEFAULT_BAR_WIDTH = 10;
 	static const u_int	CLASS_NAME_PADDING = 13;
 	static const std::string& DEFAULT_NAME;
-
-protected:
-	static std::string buildClassLabel(const std::string& classname,
-									   const char *colour);
-	static std::string buildNameLabel(const std::string& classname,
-									  const char *colour);
-	static std::string renderBar(u_int current, u_int max, const char *color);
-	static std::string renderBarWchar(u_int current, u_int max,
-									  const char *color);
-	static const std::string _className;
-	static const std::string _classLabel;
-	virtual const std::string& getClassLabel() const;
-	virtual const std::string& getNameLabel() const;
-	static const u_int _barWidth = DEFAULT_BAR_WIDTH;
 	std::string _name;
 	std::string _nameLabel;
 	u_int _health;
@@ -115,6 +104,18 @@ protected:
 	u_int _maxEnergy;
 	u_int _damage;
 
+protected:
+	static std::string buildClassLabel(const std::string& classname,
+									   const char *colour);
+	static std::string buildNameLabel(const std::string& classname,
+									  const char *colour);
+	static std::string renderBar(u_int current, u_int max, const char *color);
+	static const std::string _className;
+	static const std::string _classLabel;
+	virtual const std::string& getClassLabel() const;
+	virtual const std::string& getNameLabel() const;
+	static const u_int _barWidth = DEFAULT_BAR_WIDTH;
+
 public:
 	ClapTrap();
 	explicit ClapTrap(const std::string &name);
@@ -122,14 +123,14 @@ public:
 	~ClapTrap();
 
 	ClapTrap& operator=(const ClapTrap &);
-	virtual void attack(const std::string &target);
+	void attack(const std::string &target);
 	void takeDamage(u_int amount);
 	void beRepaired(u_int amount);
 	void printStatus() const;
 	void printStatusFull() const;
 
 	const std::string &getName() const;
-	virtual const std::string& getClassName() const;
+	const std::string& getClassName() const;
 	u_int getHealth() const;
 	u_int getEnergy() const;
 	u_int getDamage() const;

@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   AMateria.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/17 22:48:31 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/17 22:48:32 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/24 23:46:13 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/24 23:46:14 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef AMATERIA_HPP
+#define AMATERIA_HPP
 
-#include "Cat.hpp"
-#include "Dog.hpp"
 
-int main()
+class AMateria
 {
-	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	i->makeSound(); //will output the cat sound!
-	j->makeSound();
-	meta->makeSound();
-	return 0;
-}
+protected:
+	//[...]
+public:
+	AMateria(std::string const & type);
+	//[...]
+	std::string const & getType() const; //Returns the materia type
+	virtual AMateria* clone() const = 0;
+	virtual void use(ICharacter& target);
+};
+
+#endif //AMATERIA_HPP

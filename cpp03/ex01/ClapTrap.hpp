@@ -14,6 +14,9 @@
 #ifndef CLAPTRAP_HPP
 #define CLAPTRAP_HPP
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <iomanip> // for std::setw, std::setfill
 #include <sstream> // for std::ostringstream

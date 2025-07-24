@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 #include "ClapTrap.hpp"
 
 /*
@@ -90,6 +87,8 @@ ClapTrap::~ClapTrap()
  */
 ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 {
+	std::cout << _classLabel << _nameLabel
+			  << " assignment operator called" << std::endl;
 	if (this != &other)
 	{
 		this->_damage = other._damage;
@@ -220,7 +219,6 @@ void ClapTrap::beRepaired(u_int amount)
 
 	_energy--;
 	_health += delta;
-	std::string hpBar = renderBar(_health, _maxHealth, FT_CHARTREUSE4_B);
 	std::cout << " repairs itself."
 			  << FT_BOLD_G << " (+" << delta << " HP)" << FT_RST << std::endl;
 	printStatus();

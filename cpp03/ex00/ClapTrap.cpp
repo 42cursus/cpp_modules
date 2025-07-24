@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 #include "ClapTrap.hpp"
 
 /*
@@ -90,6 +87,8 @@ ClapTrap::~ClapTrap()
  */
 ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 {
+	std::cout << _classLabel << _nameLabel
+			  << " assignment operator called" << std::endl;
 	if (this != &other)
 	{
 		this->_damage = other._damage;
@@ -141,25 +140,6 @@ std::string ClapTrap::renderBar(u_int current, u_int max, const char* color)
 		<< std::string(filled, full)
 		<< std::string(empty, empt)
 		<< FT_RST;
-	return oss.str();
-}
-
-std::string ClapTrap::renderBarWchar(u_int current,
-									 u_int max, const char* color)
-{
-	std::ostringstream oss;
-	u_int filled = (current * _barWidth + max - 1) / max;
-	u_int empty = _barWidth - filled;
-
-	const char *full = "█";
-	const char *empt = "░";
-
-	oss << color;
-	while (filled--)
-		oss << full;
-	while (empty--)
-		oss << empt;
-	oss << FT_RST;
 	return oss.str();
 }
 
@@ -220,7 +200,6 @@ void ClapTrap::beRepaired(u_int amount)
 
 	_energy--;
 	_health += delta;
-	std::string hpBar = renderBar(_health, _maxHealth, FT_CHARTREUSE4_B);
 	std::cout << " repairs itself."
 			  << FT_BOLD_G << " (+" << delta << " HP)" << FT_RST << std::endl;
 	printStatus();

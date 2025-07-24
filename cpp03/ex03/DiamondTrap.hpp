@@ -40,12 +40,12 @@ class DiamondTrap : public ScavTrap, public FragTrap
 {
 private:
 	static const std::string& DEFAULT_NAME;
+	std::string _name;
+	std::string _nameLabel;
 protected:
 	static const std::string _className;
 	static const std::string _classLabel;
 
-	std::string _name;
-	std::string _nameLabel;
 public:
 	DiamondTrap();
 	explicit DiamondTrap(const std::string& Name);

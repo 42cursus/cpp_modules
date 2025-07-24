@@ -22,8 +22,8 @@ private:
 	static const std::string& DEFAULT_NAME;
 protected:
 	static const u_int	DEFAULT_HEALTH = 100;
-	static const u_int	DEFAULT_ENERGY = 50;
-	static const u_int	DEFAULT_DAMAGE = 20;
+	static const u_int	DEFAULT_ENERGY = 100;
+	static const u_int	DEFAULT_DAMAGE = 30;
 	static const std::string _className;
 	static const std::string _classLabel;
 public:
