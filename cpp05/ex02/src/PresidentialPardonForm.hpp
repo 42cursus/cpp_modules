@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.cpp                                            :+:      :+:    :+:   */
+/*   PresidentialPardonForm.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 15:29:51 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/23 15:29:52 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/25 21:30:13 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/25 21:30:14 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Cat.hpp"
+#ifndef PRESIDENTIALPARDONFORM_HPP
+#define PRESIDENTIALPARDONFORM_HPP
 
-void Cat::makeSound() const
+
+class PresidentialPardonForm
 {
-	Animal::makeSound();
-}
+
+};
+
+
+#endif //PRESIDENTIALPARDONFORM_HPP

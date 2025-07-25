@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.cpp                                            :+:      :+:    :+:   */
+/*   ShrubberyCreationForm.hpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 15:29:51 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/23 15:29:52 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/25 21:28:30 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/25 21:28:30 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Cat.hpp"
+#ifndef SHRUBBERYCREATIONFORM_HPP
+#define SHRUBBERYCREATIONFORM_HPP
 
-void Cat::makeSound() const
+
+class ShrubberyCreationForm
 {
-	Animal::makeSound();
-}
+
+};
+
+
+#endif //SHRUBBERYCREATIONFORM_HPP

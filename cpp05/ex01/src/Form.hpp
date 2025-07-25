@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.cpp                                            :+:      :+:    :+:   */
+/*   Form.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 15:29:51 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/23 15:29:52 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/25 21:25:44 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/25 21:25:45 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Cat.hpp"
+#ifndef FORM_HPP
+#define FORM_HPP
 
-void Cat::makeSound() const
+class Form
 {
-	Animal::makeSound();
-}
+
+};
+
+#endif //FORM_HPP

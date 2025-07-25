@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.cpp                                            :+:      :+:    :+:   */
+/*   RobotomyRequestForm.hpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 15:29:51 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/23 15:29:52 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/25 21:28:47 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/25 21:28:48 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Cat.hpp"
+#ifndef ROBOTOMYREQUESTFORM_HPP
+#define ROBOTOMYREQUESTFORM_HPP
 
-void Cat::makeSound() const
+
+class RobotomyRequestForm
 {
-	Animal::makeSound();
-}
+
+};
+
+
+#endif //ROBOTOMYREQUESTFORM_HPP

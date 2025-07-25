@@ -5,14 +5,14 @@
 #                                                     +:+ +:+         +:+      #
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/07/17 22:43:40 by abelov            #+#    #+#              #
-#    Updated: 2025/07/17 22:43:40 by abelov           ###   ########.fr        #
+#    Created: 2025/07/25 21:19:27 by abelov            #+#    #+#              #
+#    Updated: 2025/07/25 21:19:27 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 cmake_minimum_required(VERSION 3.27)
 
-project(cpp04 CXX)
+project(cpp05 CXX)
 
 set(CMAKE_CXX_STANDARD 98)
 
@@ -22,4 +22,3 @@ add_subdirectory(ex00)
 add_subdirectory(ex01)
 add_subdirectory(ex02)
 add_subdirectory(ex03)
-

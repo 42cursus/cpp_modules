@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.cpp                                            :+:      :+:    :+:   */
+/*   Intern.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 15:29:51 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/23 15:29:52 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/25 21:31:16 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/25 21:31:17 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Cat.hpp"
+#ifndef INTERN_HPP
+#define INTERN_HPP
 
-void Cat::makeSound() const
+
+class Intern
 {
-	Animal::makeSound();
-}
+
+};
+
+
+#endif //INTERN_HPP

@@ -21,7 +21,7 @@
 class Animal
 {
 protected:
-	std::string type_;
+	std::string _type;
 public:
 	Animal();
 	explicit Animal(std::string type);
