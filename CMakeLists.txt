@@ -38,7 +38,6 @@ set(COMMON_CFLAGS
         -fno-omit-frame-pointer
         -fdwarf2-cfi-asm
         -fcf-protection=none
-#        -mmanual-endbr
         -g3 -gdwarf-3
         -fasynchronous-unwind-tables
         -fsanitize=address
@@ -55,3 +54,4 @@ add_subdirectory(cpp03)
 add_subdirectory(cpp04)
 add_subdirectory(cpp05)
 add_subdirectory(cpp06)
+add_subdirectory(cpp07)
