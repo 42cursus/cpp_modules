@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   WrongCat.cpp                                       :+:      :+:    :+:   */
+/*   Dog.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 23:37:47 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/24 23:37:48 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/23 15:30:14 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/23 15:30:15 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "WrongCat.hpp"
+#include "Dog.hpp"
 
 /*
 ** -------------------------------- STATIC VARS -------------------------------
 */
 
-const std::string WrongCat::_className = "WrongCat";
-const std::string WrongCat::_classLabel = buildClassLabel(_className,
+const std::string Dog::_className = "Dog";
+const std::string Dog::_classLabel = buildClassLabel(_className,
 													 FT_PALE_TURQUOISE4_B);
 
 /*
 ** ------------------------------- CONSTRUCTORS -------------------------------
 */
 
-WrongCat::WrongCat() : WrongAnimal()
+Dog::Dog() : Animal(), _brain(new Brain())
 {
-	this->_type = "WrongCat";
+	this->_type = "Dog";
 	std::cout << _classLabel
-			  << FT_DIM_GREEN" 'default' constructor called" FT_RST << std::endl;
+			  << FT_DIM_GREEN"'default' constructor called" FT_RST << std::endl;
 
 }
 
-WrongCat::WrongCat(const WrongCat& other) : WrongAnimal(other)
+Dog::Dog(const Dog& other) : Animal(other), _brain(new Brain(*other._brain))
 {
 	_type = other._type;
 	std::cout << _classLabel
-			  << FT_DIM_GREEN" 'copy' constructor called" << std::endl;
+			  << FT_DIM_GREEN"'copy' constructor called" << std::endl;
 
 }
 
@@ -44,20 +44,28 @@ WrongCat::WrongCat(const WrongCat& other) : WrongAnimal(other)
 ** ------------------------------- DESTRUCTOR ---------------------------------
 */
 
-WrongCat::~WrongCat()
+Dog::~Dog()
 {
+	delete _brain;
 	std::cout << _classLabel
-			  << FT_LIGHT_BROWN" destructor" FT_RST << " called" << std::endl;
+			  << FT_LIGHT_BROWN"destructor" FT_RST << " called" << std::endl;
 }
 
 /*
 ** -------------------------------- OPERATORS ---------------------------------
 */
 
-WrongCat &WrongCat::operator=(const WrongCat &other)
+Dog &Dog::operator=(const Dog &other)
 {
+	std::cout << _classLabel
+			  << "copy assignment operator called" << std::endl;
 	if (this != &other)
-		WrongAnimal::operator=(other);
+	{
+		Animal::operator=(other);
+		if (!_brain)
+			_brain = new Brain();
+		*_brain = *other._brain;  // Deep copy
+	}
 	return (*this);
 }
 
@@ -65,17 +73,22 @@ WrongCat &WrongCat::operator=(const WrongCat &other)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void WrongCat::makeSound() const
+void Dog::makeSound() const
 {
 	std::cout << _classLabel
-			  << "says " << FT_BOLD_Y"Meow???" FT_RST << std::endl;
+			  << "says " << FT_BOLD_Y "Woof, woof!" FT_RST << std::endl;
 }
 
 /*
 ** -------------------------------- ACCESSORS ---------------------------------
 */
 
-const std::string &WrongCat::getClassLabel() const
+Brain *Dog::getBrain() const
+{
+	return _brain;
+}
+
+const std::string &Dog::getClassLabel() const
 {
 	return _classLabel;
 }

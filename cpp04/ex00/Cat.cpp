@@ -68,7 +68,7 @@ Cat &Cat::operator=(const Cat &other)
 void Cat::makeSound() const
 {
 	std::cout << _classLabel
-			  << FT_BOLD_Y "says Meow!" FT_RST << std::endl;
+			  << "says " << FT_BOLD_Y "Meow!" FT_RST << std::endl;
 }
 
 /*

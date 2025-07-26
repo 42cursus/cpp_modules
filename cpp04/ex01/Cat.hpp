@@ -1,53 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Brain.hpp                                          :+:      :+:    :+:   */
+/*   Cat.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 23:30:55 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/24 23:30:56 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/23 15:28:58 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/23 15:28:58 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BRAIN_HPP
-#define BRAIN_HPP
+#pragma once
+#ifndef CAT_HPP
+#define CAT_HPP
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <iomanip> // for std::setw, std::setfill
-#include <sstream> // for std::ostringstream
-#include <string>
-#include <sys/types.h>
-#include "generic.h"
+#include "Animal.hpp"
+#include "Brain.hpp"
 
-// ************************************************************************** //
-//                                Brain Class                                 //
-// ************************************************************************** //
-
-#define ARRAY_SIZE 100
-
-class Brain
+class Cat : public Animal
 {
 private:
+	Brain* _brain;
 	static const std::string _className;
 	static const std::string _classLabel;
-	std::string _ideas[ARRAY_SIZE];
 public:
-	Brain();
-	Brain(const Brain& other);
-	Brain& operator=(const Brain& other);
-	~Brain();
+	Cat();
+	Cat(const Cat &other);
+	~Cat();
 
-	void setIdea(int i, const std::string& idea);
-	std::string getIdea(int i) const;
+	Cat &operator=(const Cat &other);
+	void makeSound() const;
 
-	static std::string buildClassLabel(const std::string &classname,
-									   const char *colour);
-	const std::string *getIdeas() const;
-	static u_int getArraySize();
+	const std::string &getClassLabel() const;
+
+	Brain *getBrain() const;
 };
 
 // ************************************************************************** //
@@ -57,4 +43,4 @@ public:
 // -*- fill-column: 75; comment-column: 75;                                  -*-
 // ************************************************************************** //
 
-#endif //BRAIN_HPP
+#endif //CAT_HPP

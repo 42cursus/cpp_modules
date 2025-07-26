@@ -26,6 +26,7 @@ int main()
 	const Animal* generic = new Animal();
 	std::cout << std::endl;
 	const WrongAnimal* wCat = new WrongCat();
+	const WrongCat* wrongCat = new WrongCat();
 	const WrongAnimal* wGeneric = new WrongAnimal();
 
 	std::cout << std::endl;
@@ -33,18 +34,30 @@ int main()
 	std::cout << FT_BOLD_Y << "MAIN" << FT_RST << std::endl;
 	std::cout << "-----------------------------------"  << std::endl;
 
-	std::cout << dog->getClassLabel() << dog->getType() << " " << std::endl;
-	std::cout << cat->getClassLabel() << cat->getType() << " " << std::endl;
+	std::cout << dog->getClassLabel()
+			  << "type " << dog->getType() << " " << std::endl;
+	std::cout << cat->getClassLabel()
+			  << "type " << cat->getType() << " " << std::endl;
+	std::cout << generic->getClassLabel()
+			  << "type " << generic->getType() << " " << std::endl;
+	std::cout << std::endl;
 	cat->makeSound(); // will output the cat sound!
 	dog->makeSound(); // will output the dog sound!
 	generic->makeSound();
 	std::cout << std::endl;
-	std::cout << wCat->getClassLabel() << wCat->getType() << " " << std::endl;
-	std::cout << wGeneric->getClassLabel() << wGeneric->getType() << " " << std::endl;
+	std::cout << wCat->getClassLabel()
+			  << "type " << wCat->getType() << " " << std::endl;
+	std::cout << wrongCat->getClassLabel()
+			  << "type " << wrongCat->getType() << " " << std::endl;
+	std::cout << wGeneric->getClassLabel()
+			  << "type " << wGeneric->getType() << " " << std::endl;
+	std::cout << std::endl;
+	wGeneric->makeSound();
+	wrongCat->makeSound();	// will output the cat sound
 	wCat->makeSound();	// will not output the cat sound as
 						// the pointer is of a type WrongAnimal and makeSound()
 						// is not virtual!
-	wGeneric->makeSound();
+
 
 	std::cout << std::endl;
 	std::cout << "-----------------------------------" << std::endl;
@@ -56,6 +69,7 @@ int main()
 	delete generic;
 
 	delete wCat;
+	delete wrongCat;
 	delete wGeneric;
 
 	return 0;

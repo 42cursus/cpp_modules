@@ -1,56 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   WrongAnimal.cpp                                    :+:      :+:    :+:   */
+/*   Animal.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 23:39:07 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/24 23:39:07 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/23 15:30:05 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/23 15:30:06 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "WrongAnimal.hpp"
+#include "Animal.hpp"
 
 /*
 ** -------------------------------- STATIC VARS -------------------------------
 */
 
-const std::string WrongAnimal::_className = "WrongAnimal";
-const std::string WrongAnimal::_classLabel = buildClassLabel(_className,
+const std::string Animal::_className = "Animal";
+const std::string Animal::_classLabel = buildClassLabel(_className,
 														FT_PALE_TURQUOISE4_B);
 
 /*
 ** ------------------------------- CONSTRUCTORS -------------------------------
 */
 
-WrongAnimal::WrongAnimal() : _type("none")
+Animal::Animal() : _type("none")
 {
 	std::cout << _classLabel
-			  << FT_DIM_GREEN" 'default' constructor called" FT_RST << std::endl;
+			  << FT_DIM_GREEN"'default' constructor called" FT_RST << std::endl;
 
 }
 
-WrongAnimal::WrongAnimal(const std::string &type) : _type(type)
+Animal::Animal(const std::string &type) : _type(type)
 {
 	std::cout << _classLabel
-			  << FT_DIM_GREEN" 'type' constructor called" << std::endl;
+			  << FT_DIM_GREEN"'type' constructor called" << std::endl;
 }
 
-WrongAnimal::WrongAnimal(const WrongAnimal &other) : _type(other._type)
+
+Animal::Animal(const Animal &other) : _type(other._type)
 {
 	std::cout << _classLabel
-			  << FT_DIM_GREEN" 'copy' constructor called" << std::endl;
+			  << FT_DIM_GREEN"'copy' constructor called" << std::endl;
 }
 
 /*
 ** ------------------------------- DESTRUCTOR ---------------------------------
 */
 
-WrongAnimal::~WrongAnimal()
+Animal::~Animal()
 {
 	std::cout << _classLabel
-			  << FT_LIGHT_BROWN" destructor" FT_RST << " called" << std::endl;
+			  << FT_LIGHT_BROWN"destructor" FT_RST << " called" << std::endl;
 }
 
 /*
@@ -63,13 +64,12 @@ WrongAnimal::~WrongAnimal()
  * @param other
  * @return
  */
-WrongAnimal &WrongAnimal::operator=(const WrongAnimal &other)
+Animal& Animal::operator=(const Animal& other)
 {
 	std::cout << _classLabel
-			  << " copy assignment operator called" << std::endl;
+			  << "copy assignment operator called" << std::endl;
 	if (this != &other)
-		this->_type = other._type;
-
+		_type = other._type;
 	return (*this);
 }
 
@@ -77,18 +77,14 @@ WrongAnimal &WrongAnimal::operator=(const WrongAnimal &other)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-/**
- * https://tvtropes.org/pmwiki/pmwiki.php/Main/SymbolSwearing
- * https://english.stackexchange.com/questions/86838/what-the-is-that-called
- */
-void WrongAnimal::makeSound() const
+void Animal::makeSound() const
 {
 	std::cout << _classLabel
-			  << FT_DIM"says .... #$@&%!" FT_RST<< std::endl;
+			  << FT_DIM"says .... nothing..." FT_RST << std::endl;
 }
 
-std::string WrongAnimal::buildClassLabel(const std::string& classname,
-										 const char *colour)
+std::string Animal::buildClassLabel(const std::string& classname,
+									const char *colour)
 {
 	std::ostringstream oss;
 	oss << std::left << std::setw(CLASS_NAME_PADDING) << (classname + ":");
@@ -99,22 +95,21 @@ std::string WrongAnimal::buildClassLabel(const std::string& classname,
 	return label;
 }
 
-
 /*
 ** -------------------------------- ACCESSORS ---------------------------------
 */
 
-std::string WrongAnimal::getType() const
+std::string Animal::getType() const
 {
 	return _type;
 }
 
-void WrongAnimal::setType(const std::string &type)
+void Animal::setType(const std::string &type)
 {
 	_type = type;
 }
 
-const std::string &WrongAnimal::getClassLabel() const
+const std::string &Animal::getClassLabel() const
 {
 	return _classLabel;
 }

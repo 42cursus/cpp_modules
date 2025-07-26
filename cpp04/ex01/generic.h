@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   WrongAnimal.hpp                                    :+:      :+:    :+:   */
+/*   generic.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 20:18:41 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/24 20:18:41 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/26 19:49:56 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/26 19:49:56 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
-#ifndef WRONG_ANIMAL_HPP
-#define WRONG_ANIMAL_HPP
+#ifndef GENERIC_H
+#define GENERIC_H
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <iomanip> // for std::setw, std::setfill
-#include <sstream> // for std::ostringstream
-#include <string>
-#include <sys/types.h>
-
+/**
+ * https://www.ditig.com/256-colors-cheat-sheet
+ * List of ansi color escape sequences:
+ * 	https://stackoverflow.com/questions/4842424/
+ * 	https://en.wikipedia.org/wiki/ANSI_escape_code
+ */
 #define FT_DIM  	"\033[2m"       // Dim
 #define FT_RED   	"\033[0;31m"
 #define FT_GREEN 	"\033[0;32m"    // Green
@@ -54,37 +50,4 @@
 #define FT_RST		"\033[0m"       // Reset to default color
 #define CLASS_NAME_PADDING 13
 
-// ************************************************************************** //
-//                            WrongAnimal Class                               //
-// ************************************************************************** //
-
-
-class WrongAnimal
-{
-private:
-	static const std::string _className;
-	static const std::string _classLabel;
-protected:
-	std::string _type;
-public:
-	WrongAnimal();
-	WrongAnimal(const WrongAnimal& other);
-	explicit WrongAnimal(const std::string& type);
-	WrongAnimal& operator=(const WrongAnimal& other);
-	virtual ~WrongAnimal();
-	void makeSound() const;
-	static std::string buildClassLabel(const std::string& classname,
-									   const char *colour);
-	void setType(const std::string &type);
-	std::string getType() const;
-	virtual const std::string &getClassLabel() const;
-};
-
-// ************************************************************************** //
-// vim: set ts=4 sw=4 tw=80 noexpandtab:                                      //
-// -*- indent-tabs-mode:t;                                                   -*-
-// -*- mode: c++-mode;                                                       -*-
-// -*- fill-column: 75; comment-column: 75;                                  -*-
-// ************************************************************************** //
-
-#endif //WRONG_ANIMAL_HPP
+#endif //GENERIC_H

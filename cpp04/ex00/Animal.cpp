@@ -34,7 +34,7 @@ Animal::Animal() : _type("none")
 Animal::Animal(const std::string &type) : _type(type)
 {
 	std::cout << _classLabel
-			  << FT_DIM_GREEN" 'copy' constructor called" << std::endl;
+			  << FT_DIM_GREEN" 'type' constructor called" << std::endl;
 }
 
 
@@ -80,10 +80,11 @@ Animal& Animal::operator=(const Animal& other)
 void Animal::makeSound() const
 {
 	std::cout << _classLabel
-			  << "says .... nothing..." << std::endl;
+			  << FT_DIM"says .... nothing..." FT_RST << std::endl;
 }
 
-std::string Animal::buildClassLabel(const std::string& classname, const char *colour)
+std::string Animal::buildClassLabel(const std::string& classname,
+									const char *colour)
 {
 	std::ostringstream oss;
 	oss << std::left << std::setw(CLASS_NAME_PADDING) << (classname + ":");

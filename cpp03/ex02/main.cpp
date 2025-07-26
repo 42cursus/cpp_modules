@@ -33,9 +33,8 @@ int main()
 	Sally.attack(Bob.getName());
 	Bob.takeDamage(Sally.getDamage());
 	Bob.beRepaired(15);
-
-	std::cout << std::endl;
 	{
+		std::cout << std::endl;
 		std::cout << FT_BOLD_Y << "SCOPE" << FT_RST << std::endl;
 		std::cout << "-----------------------------------"  << std::endl;
 		ScavTrap Robot("Warden");
