@@ -18,6 +18,9 @@
 
 class Cat : public Animal
 {
+private:
+	static const std::string _className;
+	static const std::string _classLabel;
 public:
 	Cat();
 	Cat(const Cat &other);
@@ -25,6 +28,17 @@ public:
 
 	Cat &operator=(const Cat &other);
 	void makeSound() const;
+
+	const std::string &getClassLabel() const;
 };
+
+
+
+// ************************************************************************** //
+// vim: set ts=4 sw=4 tw=80 noexpandtab:                                      //
+// -*- indent-tabs-mode:t;                                                   -*-
+// -*- mode: c++-mode;                                                       -*-
+// -*- fill-column: 75; comment-column: 75;                                  -*-
+// ************************************************************************** //
 
 #endif //CAT_HPP

@@ -46,7 +46,6 @@ ScavTrap::ScavTrap(const std::string &Name) : ClapTrap(Name)
 
 ScavTrap::ScavTrap(ScavTrap &other) : ClapTrap(other)
 {
-
 	std::cout << _classLabel << _nameLabel << FT_OLIVE_GREEN
 			  << " 'copy' constructor called" FT_RST << std::endl;
 }
@@ -57,19 +56,16 @@ ScavTrap::~ScavTrap()
 			  << FT_PUMPKIN2" destructor" FT_RST << " called" << std::endl;
 }
 
-
-
 ScavTrap &ScavTrap::operator=(const ScavTrap &other)
 {
 	if (this != &other)
 		ClapTrap::operator=(other);
-	return *this;
+	return (*this);
 }
 
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
-
 
 void ScavTrap::attack(const std::string &target)
 {

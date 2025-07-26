@@ -17,6 +17,11 @@ set(TARGET_EXE_NAME "${PROJECT_NAME}_poly")
 
 add_executable(${TARGET_EXE_NAME}
 		main.cpp
+		WrongAnimal.cpp
+		Animal.cpp
+		Cat.cpp
+		Dog.cpp
+		WrongCat.cpp
 )
 target_compile_options(${TARGET_EXE_NAME} PRIVATE ${COMMON_CFLAGS})
 target_link_options(${TARGET_EXE_NAME} PRIVATE ${COMMON_LDFLAGS} -lstdc++)

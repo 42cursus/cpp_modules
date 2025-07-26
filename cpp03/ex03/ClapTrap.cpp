@@ -63,7 +63,7 @@ ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 											_damage(other._damage)
 {
 	std::cout << _classLabel << _nameLabel
-			  << FT_DIM_GREEN" 'copy' constructor called" << std::endl;;
+			  << FT_DIM_GREEN" 'copy' constructor called" << std::endl;
 }
 
 /*
@@ -77,18 +77,19 @@ ClapTrap::~ClapTrap()
 }
 
 /*
-** -------------------------------- OVERLOADS ---------------------------------
+** -------------------------------- OPERATORS ---------------------------------
 */
 
 /**
  * Copy assignment operator
+ * https://en.cppreference.com/w/cpp/language/as_operator.html
  * @param other
  * @return
  */
 ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 {
 	std::cout << _classLabel << _nameLabel
-			  << " assignment operator called" << std::endl;
+			  << " copy assignment operator called" << std::endl;
 	if (this != &other)
 	{
 		this->_damage = other._damage;

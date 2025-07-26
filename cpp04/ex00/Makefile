@@ -10,14 +10,25 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 			= animal
+NAME 			= animals
 
-CFLAGS 			:= -Wall -Wextra -Werror -std=c++98 -g3 -gdwarf-3 -O0
-CC 				= c++
-RM				:= /bin/rm
+MANDATORY_FLAGS	:= -Wall -Wextra -Werror -std=c++98 \
+					-Wshadow -Woverloaded-virtual -Wstrict-aliasing=2
+OPTIMIZE_FLAGS	:= -O0 -fasynchronous-unwind-tables
+DEBUG_FLAGS		:= -g3 -gdwarf-3 \
+					-fsanitize=address,undefined
+INCLUDE_FLAGS	:= -I. -I./src -I$(INC_DIR) -I/usr/include
+
+CFLAGS 			:= $(MANDATORY_FLAGS) $(DEBUG_FLAGS) $(OPTIMIZE_FLAGS) \
+                   					$(INCLUDE_FLAGS)
+CPP 			= c++
 
 SRCS			= main.cpp \
-					ClapTrap.cpp
+					WrongAnimal.cpp \
+					Animal.cpp \
+					Cat.cpp \
+					Dog.cpp \
+					WrongCat.cpp
 
 BUILD_DIR		= build
 OBJS			= $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
@@ -25,12 +36,12 @@ OBJS			= $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o $@
+		$(CPP) $(CFLAGS) $(OBJS) -o $@
 		@echo "$(NAME) BUILD COMPLETE!"
 
 $(BUILD_DIR)/%.o: %.cpp
 		@if [ ! -d $(@D) ]; then mkdir -p $(@D); fi
-		$(CC) $(CFLAGS) -c $^ -o $@
+		$(CPP) $(CFLAGS) -c $^ -o $@
 
 ## clean
 clean:

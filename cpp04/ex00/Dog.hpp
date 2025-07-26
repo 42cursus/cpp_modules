@@ -18,13 +18,16 @@
 
 class Dog : public Animal
 {
+private:
+	static const std::string _className;
+	static const std::string _classLabel;
 public:
 	Dog();
 	Dog(const Dog &other);
 	~Dog();
 
 	Dog &operator=(const Dog &other);
-
+	const std::string &getClassLabel() const;
 	void makeSound() const;
 };
 
