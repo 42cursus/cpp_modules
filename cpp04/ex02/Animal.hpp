@@ -14,14 +14,14 @@
 #ifndef ANIMAL_HPP
 #define ANIMAL_HPP
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <iomanip> // for std::setw, std::setfill
-#include <sstream> // for std::ostringstream
-#include <string>
-#include <sys/types.h>
+#include <cstdio>	// IWYU pragma: export
+#include <cstdlib>	// IWYU pragma: export
+#include <cstring>	// IWYU pragma: export
+#include <iostream>	// IWYU pragma: export
+#include <iomanip>	// IWYU pragma: export
+#include <sstream>	// IWYU pragma: export
+#include <string>	// IWYU pragma: export
+#include <sys/types.h> // IWYU pragma: export
 #include "generic.h"
 
 // ************************************************************************** //

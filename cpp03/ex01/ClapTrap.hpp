@@ -85,10 +85,15 @@
 
 /**
  * https://borderlands.fandom.com/wiki/Claptrap
+ *
+ * The base class destructor shall be virtual when using inheritance and
+ * polymorphism. Deleting a derived class object using a base class pointer,
+ * if the base class destructor is not virtual, will only  run the base class
+ * destructor. The derived class destructor will not run, which can cause leaks
+ * or undefined behavior.
  */
 class ClapTrap
 {
-
 private:
 	static const u_int	DEFAULT_HEALTH = 10;
 	static const u_int	DEFAULT_ENERGY = 10;
@@ -122,7 +127,7 @@ public:
 	ClapTrap();
 	explicit ClapTrap(const std::string &name);
 	ClapTrap(const ClapTrap &);
-	~ClapTrap();
+	virtual ~ClapTrap();
 
 	ClapTrap& operator=(const ClapTrap &);
 	virtual void attack(const std::string &target);

@@ -32,7 +32,7 @@ ScavTrap::ScavTrap() : ClapTrap()
 	_energy = _maxEnergy = DEFAULT_ENERGY;
 	_damage = DEFAULT_DAMAGE;
 	std::cout << _classLabel << _nameLabel << FT_OLIVE_GREEN
-			  << " 'default' constructor called" FT_RST << std::endl;
+			  << "'default' constructor called" FT_RST << std::endl;
 }
 
 ScavTrap::ScavTrap(const std::string &Name) : ClapTrap(Name)
@@ -41,19 +41,19 @@ ScavTrap::ScavTrap(const std::string &Name) : ClapTrap(Name)
 	_energy = _maxEnergy = DEFAULT_ENERGY;
 	_damage = DEFAULT_DAMAGE;
 	std::cout << _classLabel << _nameLabel << FT_OLIVE_GREEN
-			  << " 'name' constructor called" FT_RST << std::endl;
+			  << "'name' constructor called" FT_RST << std::endl;
 }
 
 ScavTrap::ScavTrap(ScavTrap &other) : ClapTrap(other)
 {
 	std::cout << _classLabel << _nameLabel << FT_OLIVE_GREEN
-			  << " 'copy' constructor called" FT_RST << std::endl;
+			  << "'copy' constructor called" FT_RST << std::endl;
 }
 
 ScavTrap::~ScavTrap()
 {
 	std::cout << _classLabel << _nameLabel
-			  << FT_PUMPKIN2" destructor" FT_RST << " called" << std::endl;
+			  << FT_PUMPKIN2"destructor" FT_RST << " called" << std::endl;
 }
 
 ScavTrap &ScavTrap::operator=(const ScavTrap &other)
@@ -72,11 +72,11 @@ void ScavTrap::attack(const std::string &target)
 	std::cout << getClassLabel() << getNameLabel();
 
 	if (_energy <= 0 || _health <= 0)
-		std::cout << " can't act (no energy or dead)." << std::endl;
+		std::cout << "can't act (no energy or dead)." << std::endl;
 	else
 	{
 		_energy--;
-		std::cout << " ferociously attacks " << target << ", inflicting "
+		std::cout << "ferociously attacks " << target << ", inflicting "
 				  << FT_SALMON << _damage << FT_RST << " DMG." << std::endl;
 		printStatus();
 	}
@@ -84,7 +84,7 @@ void ScavTrap::attack(const std::string &target)
 
 void ScavTrap::guardGate() {
 	std::cout << getClassLabel() << getNameLabel()
-			  << FT_BOLD_Y " Gate keeper mode engaged" FT_RST << std::endl;
+			  << FT_BOLD_Y "Gate keeper mode engaged" FT_RST << std::endl;
 }
 
 /*

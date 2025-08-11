@@ -1,49 +1,70 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IMateriaSource.hpp                                 :+:      :+:    :+:   */
+/*   Character.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 23:48:12 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/24 23:48:12 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/26 21:43:45 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/26 21:43:46 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#ifndef IMATERIASOURCE_HPP
-#define IMATERIASOURCE_HPP
+#ifndef CHARACTER_HPP
+#define CHARACTER_HPP
 
-#include <string>
-#include "AMateria.hpp"
+#include "ICharacter.hpp"
 
 // ************************************************************************** //
-//                           IMateriaSource Class                             //
+//                              AMateria Class                                //
 // ************************************************************************** //
 
-class AMateria;
-
-class IMateriaSource
+class Character : public ICharacter
 {
-protected:
+private:
+	static const std::string &DEFAULT_NAME;
+	static const u_int INVENTORY_SIZE = 4;
 	static const std::string _className;
 	static const std::string _classLabel;
-
-	static std::string buildClassLabel(const std::string &classname,
-									   const char *colour);
+	std::string _name;
+	std::string _nameLabel;
+	AMateria *_inventory[INVENTORY_SIZE];
+	static AMateria *_floor[50];
+protected:
+	static std::string buildNameLabel(const std::string &classname,
+									  const char *colour);
 
 public:
-	virtual ~IMateriaSource()
-	{}
+	Character();
 
-	virtual void learnMateria(AMateria *) = 0;
+	explicit Character(std::string const &name);
 
-	virtual AMateria *createMateria(std::string const &type) = 0;
+	Character(Character const &other);
 
-	virtual const std::string &getClassName() const;
+	~Character();
 
-	virtual const std::string &getClassLabel() const;
+	Character &operator=(const Character &);
 
+	virtual void equip(AMateria *materia);
+
+	virtual void unequip(int idx);
+
+	virtual void use(int idx, ICharacter &target);
+
+	const std::string &getClassLabel() const;
+
+	const std::string &getName() const;
+
+	const std::string &getNameLabel() const;
+
+	AMateria *getInventory(int idx) const;
+
+	void setInventory(int idx, AMateria *materia);
+
+	static u_int getInventorySize();
+
+	const std::string &getClassName() const;
 };
 
 // ************************************************************************** //
@@ -53,4 +74,4 @@ public:
 // -*- fill-column: 75; comment-column: 75;                                  -*-
 // ************************************************************************** //
 
-#endif //IMATERIASOURCE_HPP
+#endif //CHARACTER_HPP

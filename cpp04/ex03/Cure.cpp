@@ -1,44 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Animal.cpp                                         :+:      :+:    :+:   */
+/*   Cure.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/23 15:30:05 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/26 21:19:04 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/26 21:42:37 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/26 21:42:38 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Animal.hpp"
-#include <cstdio>
+#include "Cure.hpp"
 
 /*
 ** -------------------------------- STATIC VARS -------------------------------
 */
-
-const std::string Animal::_className = "Animal";
-const std::string Animal::_classLabel = buildClassLabel(_className,
-														FT_PALE_TURQUOISE4_B);
+const std::string Cure::_className = "Cure";
+const std::string Cure::_classLabel = buildClassLabel(_className,
+													  FT_PALE_TURQUOISE4_B);
+const std::string Cure::MATERIA_TYPE = "cure";
 
 /*
 ** ------------------------------- CONSTRUCTORS -------------------------------
 */
 
-Animal::Animal() : _type("none")
+Cure::Cure() : AMateria(MATERIA_TYPE)
 {
 	std::cout << _classLabel
 			  << FT_DIM_GREEN"'default' constructor called" FT_RST << std::endl;
 }
 
-Animal::Animal(const std::string &type) : _type(type)
+Cure::Cure(const Cure &other) : AMateria(other)
 {
-	std::cout << _classLabel
-			  << FT_DIM_GREEN"'type' constructor called" << std::endl;
-}
-
-Animal::Animal(const Animal &other) : _type(other._type)
-{
+	_type = MATERIA_TYPE;
+	_materia_source = NULL;
 	std::cout << _classLabel
 			  << FT_DIM_GREEN"'copy' constructor called" << std::endl;
 }
@@ -47,23 +42,18 @@ Animal::Animal(const Animal &other) : _type(other._type)
 ** ------------------------------- DESTRUCTOR ---------------------------------
 */
 
-Animal::~Animal()
+Cure::~Cure()
 {
 	std::cout << _classLabel
 			  << FT_LIGHT_BROWN"destructor" FT_RST << " called" << std::endl;
 }
 
+
 /*
 ** -------------------------------- OPERATORS ---------------------------------
 */
 
-/**
- * Copy assignment operator
- * https://en.cppreference.com/w/cpp/language/as_operator.html
- * @param other
- * @return
- */
-Animal& Animal::operator=(const Animal& other)
+Cure &Cure::operator=(Cure other)
 {
 	std::cout << _classLabel
 			  << "copy assignment operator called" << std::endl;
@@ -76,38 +66,19 @@ Animal& Animal::operator=(const Animal& other)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void Animal::makeSound() const
+AMateria *Cure::clone() const
 {
-	std::cout << _classLabel
-			  << FT_DIM"says .... nothing..." FT_RST << std::endl;
+	AMateria *temp = new Cure(*this);
+	temp->setMateriaSource(NULL);
+	return temp;
 }
 
-std::string Animal::buildClassLabel(const std::string& classname,
-									const char *colour)
+void Cure::use(ICharacter &target)
 {
-	std::ostringstream oss;
-	oss << std::left << std::setw(CLASS_NAME_PADDING) << (classname + ":");
-	std::string label = oss.str();
-	label.insert(0, colour);
-	label.insert(classname.length() + std::strlen(colour), FT_RST);
-	return label;
+	std::cout << "* heals " << target.getNameLabel() << "’s wounds *"
+			  << std::endl;
 }
 
 /*
 ** -------------------------------- ACCESSORS ---------------------------------
 */
-
-std::string Animal::getType() const
-{
-	return _type;
-}
-
-void Animal::setType(const std::string &type)
-{
-	_type = type;
-}
-
-const std::string &Animal::getClassLabel() const
-{
-	return _classLabel;
-}

@@ -29,7 +29,7 @@ int main()
 	Cat basicCat;
 	const Animal* j = new Dog();
 	const Animal* i = new Cat();
-	const Animal* generic = new Animal(); // error: invalid new-expression of abstract class type ‘Animal’
+//	const Animal* generic = new Animal(); // error: invalid new-expression of abstract class type ‘Animal’
 
 	std::cout << std::endl;
 	std::cout << "-----------------------------------"  << std::endl;

@@ -12,10 +12,18 @@
 
 #include "DiamondTrap.hpp"
 
+/*
+** -------------------------------- STATIC VARS -------------------------------
+*/
+
 const std::string& DiamondTrap::DEFAULT_NAME = "D4MND-TP#";
 const std::string DiamondTrap::_className = "DiamondTrap";
 const std::string DiamondTrap::_classLabel = buildClassLabel(_className,
 															 FT_LIGHT_PURPLE);
+
+/*
+** ------------------------------- CONSTRUCTORS -------------------------------
+*/
 
 DiamondTrap::DiamondTrap()
 	: ClapTrap(DEFAULT_NAME + "_clap_name"),
@@ -28,12 +36,7 @@ DiamondTrap::DiamondTrap()
 	_energy = _maxEnergy = ScavTrap::DEFAULT_ENERGY;
 	_damage = FragTrap::DEFAULT_DAMAGE;
 	std::cout << _classLabel << _nameLabel << FT_OLIVE_GREEN
-			  << " 'default' constructor called" FT_RST << std::endl;
-}
-
-DiamondTrap::~DiamondTrap()
-{
-	std::cout << _classLabel << _nameLabel << " destructor called" << std::endl;
+			  << "'default' constructor called" FT_RST << std::endl;
 }
 
 DiamondTrap::DiamondTrap(const std::string &Name)
@@ -47,21 +50,30 @@ DiamondTrap::DiamondTrap(const std::string &Name)
 	_energy = _maxEnergy = ScavTrap::DEFAULT_ENERGY;
 	_damage = FragTrap::DEFAULT_DAMAGE;
 	std::cout << _classLabel << _nameLabel << FT_SEA_GREEN2_B
-			  << " 'name' constructor called" FT_RST << std::endl;
+			  << "'name' constructor called" FT_RST << std::endl;
 }
 
-const std::string& DiamondTrap::getClassLabel() const
-{
-	return _classLabel;
-}
 
 DiamondTrap::DiamondTrap(DiamondTrap &other)
 	: ClapTrap(other), ScavTrap(other), FragTrap(other),
 	  _name(other._name),
 	  _nameLabel(other._nameLabel)
 {
-	std::cout << _classLabel << " copy constructor called" << std::endl;
+	std::cout << _classLabel << "copy constructor called" << std::endl;
 }
+
+/*
+** ------------------------------- DESTRUCTOR ---------------------------------
+*/
+
+DiamondTrap::~DiamondTrap()
+{
+	std::cout << _classLabel << _nameLabel << "destructor called" << std::endl;
+}
+
+/*
+** -------------------------------- OPERATORS ---------------------------------
+*/
 
 DiamondTrap &DiamondTrap::operator=(const DiamondTrap &other)
 {
@@ -73,14 +85,13 @@ DiamondTrap &DiamondTrap::operator=(const DiamondTrap &other)
 		_name = other._name;
 		_nameLabel = other._nameLabel;
 	}
-	std::cout << _classLabel << " assignment operator called" << std::endl;
+	std::cout << _classLabel << "assignment operator called" << std::endl;
 	return *this;
 }
 
-const std::string &DiamondTrap::getClassName() const
-{
-	return _className;
-}
+/*
+** --------------------------------- METHODS ----------------------------------
+*/
 
 void DiamondTrap::whoAmI()
 {
@@ -92,4 +103,18 @@ void DiamondTrap::whoAmI()
 void DiamondTrap::attack(const std::string &target)
 {
 	ScavTrap::attack(target);
+}
+
+/*
+** -------------------------------- ACCESSORS ---------------------------------
+*/
+
+const std::string &DiamondTrap::getClassName() const
+{
+	return _className;
+}
+
+const std::string& DiamondTrap::getClassLabel() const
+{
+	return _classLabel;
 }

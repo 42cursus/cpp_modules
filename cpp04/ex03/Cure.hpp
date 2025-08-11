@@ -1,49 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   IMateriaSource.hpp                                 :+:      :+:    :+:   */
+/*   Cure.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/24 23:48:12 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/24 23:48:12 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/26 21:42:30 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/26 21:42:31 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#ifndef IMATERIASOURCE_HPP
-#define IMATERIASOURCE_HPP
+#ifndef CURE_HPP
+#define CURE_HPP
 
-#include <string>
 #include "AMateria.hpp"
 
 // ************************************************************************** //
-//                           IMateriaSource Class                             //
+//                              AMateria Class                                //
 // ************************************************************************** //
 
-class AMateria;
-
-class IMateriaSource
+class Cure : public AMateria
 {
-protected:
+private:
 	static const std::string _className;
 	static const std::string _classLabel;
-
-	static std::string buildClassLabel(const std::string &classname,
-									   const char *colour);
-
+	static const std::string MATERIA_TYPE;
 public:
-	virtual ~IMateriaSource()
-	{}
+	Cure();
 
-	virtual void learnMateria(AMateria *) = 0;
+	Cure(const Cure &other);
 
-	virtual AMateria *createMateria(std::string const &type) = 0;
+	~Cure();
 
-	virtual const std::string &getClassName() const;
+	Cure &operator=(Cure other);
 
-	virtual const std::string &getClassLabel() const;
+	AMateria *clone() const;
 
+	void use(ICharacter &target);
 };
 
 // ************************************************************************** //
@@ -53,4 +47,4 @@ public:
 // -*- fill-column: 75; comment-column: 75;                                  -*-
 // ************************************************************************** //
 
-#endif //IMATERIASOURCE_HPP
+#endif //CURE_HPP

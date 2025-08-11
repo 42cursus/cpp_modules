@@ -39,7 +39,7 @@ ClapTrap::ClapTrap() : _name(DEFAULT_NAME),
 					   _damage(DEFAULT_DAMAGE)
 {
 	std::cout << _classLabel << _nameLabel
-			  << FT_DIM_GREEN" 'default' constructor called" FT_RST << std::endl;
+			  << FT_DIM_GREEN"'default' constructor called" FT_RST << std::endl;
 }
 
 ClapTrap::ClapTrap(const std::string &name) : _name(name),
@@ -51,7 +51,7 @@ ClapTrap::ClapTrap(const std::string &name) : _name(name),
 											  _damage(DEFAULT_DAMAGE)
 {
 	std::cout << _classLabel << _nameLabel
-			  << FT_DIM_GREEN" 'name' constructor called" FT_RST << std::endl;;
+			  << FT_DIM_GREEN"'name' constructor called" FT_RST << std::endl;
 }
 
 ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
@@ -63,7 +63,7 @@ ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 											_damage(other._damage)
 {
 	std::cout << _classLabel << _nameLabel
-			  << FT_DIM_GREEN" 'copy' constructor called" << std::endl;
+			  << FT_DIM_GREEN"'copy' constructor called" << std::endl;
 }
 
 /*
@@ -73,7 +73,7 @@ ClapTrap::ClapTrap(const ClapTrap &other) : _name(other._name),
 ClapTrap::~ClapTrap()
 {
 	std::cout << _classLabel << _nameLabel
-			  << FT_LIGHT_BROWN" destructor" FT_RST << " called" << std::endl;
+			  << FT_LIGHT_BROWN"destructor" FT_RST << " called" << std::endl;
 }
 
 /*
@@ -89,7 +89,7 @@ ClapTrap::~ClapTrap()
 ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 {
 	std::cout << _classLabel << _nameLabel
-			  << " copy assignment operator called" << std::endl;
+			  << "copy assignment operator called" << std::endl;
 	if (this != &other)
 	{
 		this->_damage = other._damage;
@@ -110,7 +110,7 @@ ClapTrap &ClapTrap::operator=(const ClapTrap &other)
 std::string ClapTrap::buildNameLabel(const std::string& name,
 									 const char *colour)
 {
-	std::string label = name;
+	std::string label = (name + " ");
 	label.insert(0, colour);
 	label.insert(name.length() + std::strlen(colour), FT_RST);
 	return label;
@@ -206,12 +206,12 @@ void ClapTrap::beRepaired(u_int amount)
 	std::cout << getClassLabel() << getNameLabel();
 	if (!_energy || !_health)
 	{
-		std::cout << " can't repair itself (no energy or dead)." << std::endl;
+		std::cout << "can't repair itself (no energy or dead)." << std::endl;
 		return;
 	}
 	else if (_health >= _maxHealth)
 	{
-		std::cout << " won't repair itself (maximum health)." << std::endl;
+		std::cout << "won't repair itself (maximum health)." << std::endl;
 		return;
 	}
 
@@ -220,7 +220,7 @@ void ClapTrap::beRepaired(u_int amount)
 
 	_energy--;
 	_health += delta;
-	std::cout << " repairs itself."
+	std::cout << "repairs itself."
 			  << FT_BOLD_G << " (+" << delta << " HP)" << FT_RST << std::endl;
 	printStatus();
 }
@@ -234,12 +234,12 @@ void ClapTrap::takeDamage(u_int amount)
 		if (amount > _health)
 		{
 			_health = 0;
-			std::cout << " receives an Overkill!";
+			std::cout << "receives an Overkill!";
 		}
 		else
 		{
 			_health -= amount;
-			std::cout << " been attacked";
+			std::cout << "been attacked";
 		}
 
 		ssize_t amountLost = _health - amount;
@@ -248,7 +248,7 @@ void ClapTrap::takeDamage(u_int amount)
 		printHealth();
 	}
 	else
-		std::cout << " is already dead X_X" << std::endl;
+		std::cout << "is already dead X_X" << std::endl;
 }
 
 void ClapTrap::attack(const std::string &target)
@@ -256,11 +256,11 @@ void ClapTrap::attack(const std::string &target)
 	std::cout << getClassLabel() << getNameLabel();
 
 	if (_energy <= 0 || _health <= 0)
-		std::cout << " can't act (no energy or dead)." << std::endl;
+		std::cout << "can't act (no energy or dead)." << std::endl;
 	else
 	{
 		_energy--;
-		std::cout << " attacks " << target << ", inflicting "
+		std::cout << "attacks " << target << ", inflicting "
 				  << FT_SALMON << _damage << FT_RST << " DMG." << std::endl;
 		printStatus();
 	}

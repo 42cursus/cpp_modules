@@ -18,6 +18,7 @@ set(CMAKE_CXX_COMPILER clang++)
 project(cpp_modules CXX)
 
 set(CMAKE_CXX_STANDARD 98)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include_directories(include)
 
