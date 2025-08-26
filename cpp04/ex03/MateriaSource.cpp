@@ -23,25 +23,33 @@ const std::string MateriaSource::_classLabel = buildClassLabel(_className,
 ** ------------------------------- CONSTRUCTORS -------------------------------
 */
 
-MateriaSource::MateriaSource() : IMateriaSource()
+MateriaSource::MateriaSource()
+	: IMateriaSource(),
+	_inventory()
 {
-	for (int i = 0; i < (int) INVENTORY_SIZE; i++) this->_inventory[i] = NULL;
+	for (int i = 0; i < (int) INVENTORY_SIZE; i++)
+		_inventory[i] = NULL;
 	std::cout << _classLabel
 			  << FT_DIM_GREEN"'default' constructor called" FT_RST << std::endl;
 }
 
-MateriaSource::MateriaSource(const std::string &name) : _name(name)
+MateriaSource::MateriaSource(const std::string &name)
+	: _name(name),
+	  _inventory()
 {
-	for (int i = 0; i < (int) INVENTORY_SIZE; i++) this->_inventory[i] = NULL;
+	for (int i = 0; i < (int) INVENTORY_SIZE; i++)
+		_inventory[i] = NULL;
 	std::cout << _classLabel
 			  << FT_DIM_GREEN"'name' constructor called" FT_RST << std::endl;
 }
 
-MateriaSource::MateriaSource(const MateriaSource &other) : IMateriaSource(other)
+MateriaSource::MateriaSource(const MateriaSource &other)
+	: IMateriaSource(other),
+	_inventory()
 {
 	for (int i = 0; i < (int) INVENTORY_SIZE; i++)
 	{
-		if (other._inventory[i])
+		if (other._inventory[i] != 0)
 		{
 			this->_inventory[i] = other._inventory[i]->clone();
 			this->_inventory[i]->setMateriaSource(this);
@@ -60,7 +68,8 @@ MateriaSource::MateriaSource(const MateriaSource &other) : IMateriaSource(other)
 MateriaSource::~MateriaSource()
 {
 	for (int i = 0; i < (int) INVENTORY_SIZE; i++)
-		if (this->_inventory[i]) delete this->_inventory[i];
+		if (this->_inventory[i] != 0)
+			delete this->_inventory[i];
 	std::cout << _classLabel
 			  << FT_LIGHT_BROWN"destructor" FT_RST << " called" << std::endl;
 }
@@ -69,14 +78,9 @@ MateriaSource::~MateriaSource()
 ** -------------------------------- OPERATORS ---------------------------------
 */
 
-void MateriaSource::swap(MateriaSource &first, MateriaSource &second)
-{
-	std::swap(first._inventory, second._inventory);
-}
-
 MateriaSource &MateriaSource::operator=(MateriaSource other)
 {
-	MateriaSource::swap(*this, other);
+	swap(*this, other);
 	return *this;
 }
 
@@ -84,17 +88,22 @@ MateriaSource &MateriaSource::operator=(MateriaSource other)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-// Functions
+void MateriaSource::swap(MateriaSource &first, MateriaSource &second)
+{
+	std::swap(first._inventory, second._inventory);
+}
+
 void MateriaSource::learnMateria(AMateria *materia)
 {
+	std::cout << _classLabel;
+
 	for (int i = 0; i < 4; i++)
 	{
 		if (this->_inventory[i] == NULL)
 		{
 			this->_inventory[i] = materia;
 			materia->setMateriaSource(this);
-			std::cout << "Materia source learned " << materia->getType() << "!"
-					  << std::endl;
+			std::cout << "learned " << materia->getType() << "!" << std::endl;
 			return;
 		}
 	}
@@ -104,16 +113,17 @@ void MateriaSource::learnMateria(AMateria *materia)
 
 AMateria *MateriaSource::createMateria(std::string const &type)
 {
+	std::cout << _classLabel;
+
 	for (int i = 3; i >= 0; i--)
 	{
 		if (this->_inventory[i] && this->_inventory[i]->getType() == type)
 		{
-			std::cout << "Materia source creates " << type << std::endl;
+			std::cout << "* creates " << type << " *"<<std::endl;
 			return this->_inventory[i]->clone();
 		}
 	}
-	std::cout << "Materia source cannot create " << type << ". Not learned."
-			  << std::endl;
+	std::cout << " cannot create " << type << ". Not learned." << std::endl;
 	return NULL;
 }
 

@@ -10,12 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef __clang__
-#  pragma clang diagnostic push
-#  pragma ide diagnostic ignored "modernize-use-auto"
-#  pragma ide diagnostic ignored "modernize-loop-convert"
-#endif
-
 #include "Cat.hpp"
 #include "Dog.hpp"
 
@@ -95,7 +89,3 @@ int main()
 		delete animals[k];
 	return 0;
 }
-
-#ifdef __clang__
-#  pragma clang diagnostic pop
-#endif

@@ -44,11 +44,6 @@ int ftDoTest(Input &input)
 	return (0);
 }
 
-#ifdef __clang__
-#  pragma clang diagnostic push
-#  pragma ide diagnostic ignored "modernize-loop-convert"
-#endif
-
 int main()
 {
 	Input inputs[] = {
@@ -209,7 +204,3 @@ int main()
 		ftDoTest(inputs[i]);
 	return (0);
 }
-
-#ifdef __clang__
-#  pragma clang diagnostic pop
-#endif

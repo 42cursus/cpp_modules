@@ -11,13 +11,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef __clang__
-#  pragma clang diagnostic push
-#  pragma ide diagnostic ignored "modernize-loop-convert"
-#endif
-
 #include "Character.hpp"
-
 
 /*
 ** -------------------------------- STATIC VARS -------------------------------
@@ -71,7 +65,7 @@ Character::Character(const Character &other) : _name(other._name), _inventory()
 Character::~Character()
 {
 	for (int i = 0; i < (int) INVENTORY_SIZE; i++)
-		if (this->_inventory[i])
+		if (this->_inventory[i] != 0)
 			delete this->_inventory[i];
 	std::cout << _classLabel << _nameLabel
 			  << FT_LIGHT_BROWN" destructor" FT_RST << " called" << std::endl;
@@ -108,12 +102,12 @@ std::string Character::buildNameLabel(const std::string &name,
 
 void Character::equip(AMateria *materia)
 {
-	if (!materia)
+	if (materia == 0)
 	{
 		std::cout << "Materia doesn't exist!" << std::endl;
 		return;
 	}
-	if (materia->getMateriaSource())
+	if (materia->getMateriaSource() != 0)
 	{
 		std::cout << materia->getType()
 				  << " is already equipped to a materia source. Can't equip it to "
@@ -166,7 +160,7 @@ void Character::unequip(int idx)
 		std::cout << "Inventory slot already empty!" << std::endl;
 		return;
 	}
-	int i;
+	int i = 0;
 	for (i = 0; i < 50; i++)
 	{
 		if (Character::_floor[i] == NULL)
@@ -249,7 +243,3 @@ const std::string &Character::getNameLabel() const
 {
 	return _nameLabel;
 }
-
-#ifdef __clang__
-#  pragma clang diagnostic pop
-#endif

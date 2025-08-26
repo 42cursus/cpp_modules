@@ -48,7 +48,7 @@ public:
 
 	MateriaSource &operator=(MateriaSource);
 
-	void swap(MateriaSource &first, MateriaSource &second);
+	static void swap(MateriaSource &first, MateriaSource &second);
 
 	const std::string &getClassLabel() const;
 
