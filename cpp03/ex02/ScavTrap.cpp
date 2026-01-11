@@ -21,6 +21,7 @@ const std::string ScavTrap::_className = "ScavTrap";
 const std::string ScavTrap::_classLabel = buildClassLabel(_className,
 														  FT_DARK_SEA_GREEN4_B);
 const std::string& ScavTrap::DEFAULT_NAME = "SC4V-TP#";
+
 /*
 ** ------------------------------- CONSTRUCTORS -------------------------------
 */
