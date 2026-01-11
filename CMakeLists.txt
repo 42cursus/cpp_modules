@@ -33,7 +33,6 @@ set(COMMON_CFLAGS
 		-frtti
         -O0
         -masm=att
-        -fno-exceptions
         -ffunction-sections
         -fdata-sections
         -fno-omit-frame-pointer
