@@ -10,13 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef SHRUBBERYCREATIONFORM_HPP
 #define SHRUBBERYCREATIONFORM_HPP
 
+#include "AForm.hpp"
 
-class ShrubberyCreationForm
+class ShrubberyCreationForm : public AForm
 {
-
+private:
+    static const AForm::RequiredGrades REQUIRED_GRADES;
+    std::string	_target;
+public:
+    ShrubberyCreationForm(const ShrubberyCreationForm& other);
+    ShrubberyCreationForm& operator=(const ShrubberyCreationForm& other);
+    explicit ShrubberyCreationForm(const std::string& target);
+    virtual ~ShrubberyCreationForm(){};
+    void	execute(Bureaucrat const &bureaucrat) const;
 };
 
 

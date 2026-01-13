@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-project(cpp04_ex00 CXX)
+project(cpp05_ex00 CXX)
 set(CMAKE_CXX_STANDARD 98)
 
 set(TARGET_EXE_NAME "${PROJECT_NAME}_bureaucrat")
@@ -25,4 +25,3 @@ target_link_options(${TARGET_EXE_NAME} PRIVATE ${COMMON_LDFLAGS} -lstdc++)
 set_target_properties(${TARGET_EXE_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
         OUTPUT_NAME "bureaucrat")
-

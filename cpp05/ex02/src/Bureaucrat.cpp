@@ -12,7 +12,7 @@
 
 #include <sstream>
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 
 /*
 ** -------------------------------- STATIC VARS -------------------------------
@@ -95,28 +95,44 @@ int Bureaucrat::getGrade() const {
     return _grade;
 }
 
-void Bureaucrat::signForm(Form &form) {
+void Bureaucrat::signForm(AForm &form) {
     try {
         form.beSigned(*this);
         std::cout << _name
                   << " (grade " << _grade << ") signed the form "
                   << form.getName()
-                  << " (sign grade " << form.getGradeToSign()
+                  << " (SIGN grade " << form.getGradeToSign()
                   << ", execute grade "
                   << form.getGradeToExecute()
                   << ")"
                   << std::endl;
-    } catch(Form::GradeException& e) {
+    } catch(AForm::GradeException& e) {
         std::cout << _name
-                  << " (grade " << _grade << ")"
-                  << "couldn't sign the form " << form.getName()
-                  << " (sign grade "
-                  << form.getGradeToSign()
+                  << " (grade " << _grade << ") couldn't SIGN the form "
+                  << form.getName()
+                  << " (SIGN grade " << form.getGradeToSign()
                   << ", execute grade "
                   << form.getGradeToExecute()
                   << ") because ->"
                   << std::endl;
         std::cout << "Exception: " << e.what() << std::endl;
+    }
+}
+
+void Bureaucrat::executeForm(const AForm &form) const {
+    try
+    {
+        form.execute(*this);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << _name
+                  << " (grade " << _grade << ") couldn't execute form "
+                  << form.getName()
+                  << " (sign grade " << form.getGradeToSign()
+                  << ", execute grade " << form.getGradeToExecute()
+                  << ") with reason: \n";
+        std::cout << "Exception: " << e.what() <<  std::endl;
     }
 }
 
@@ -131,7 +147,6 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other) {
     }
     return *this;
 }
-
 
 /*
 ** -------------------------------- OVERLOADS ---------------------------------

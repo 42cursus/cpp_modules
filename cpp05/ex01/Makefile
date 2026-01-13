@@ -26,6 +26,7 @@ CFLAGS 			:= $(MANDATORY_FLAGS) $(DEBUG_FLAGS) $(OPTIMIZE_FLAGS) \
                    					$(INCLUDE_FLAGS)
 CPP 			= c++
 
+SRC_DIR			= src
 _SRCS			= main.cpp \
 					Form.cpp \
 					Bureaucrat.cpp
