@@ -1,54 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Intern.cpp                                         :+:      :+:    :+:   */
+/*   RobotomyRequestForm.cpp                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 15:54:24 by abelov            #+#    #+#             */
-/*   Updated: 2026/01/13 15:54:24 by abelov           ###   ########.fr       */
+/*   Created: 2025/07/25 21:28:51 by abelov            #+#    #+#             */
+/*   Updated: 2025/07/25 21:28:52 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "Intern.hpp"
-#include "AForm.hpp"
+#include "RobotomyRequestForm.hpp"
 
 /*
 ** -------------------------------- STATIC VARS -------------------------------
 */
 
+const AForm::RequiredGrades RobotomyRequestForm::REQUIRED_GRADES = {
+        .SIGN = 72,
+        .EXEC = 45
+};
 
 /*
 ** ------------------------------- CONSTRUCTORS -------------------------------
 */
 
-Intern::Intern() {}
-
-Intern::Intern(const Intern& other)
-{
-    *this = other;
-}
-
+RobotomyRequestForm::RobotomyRequestForm(const std::string& target)
+        : AForm("RobotomyRequestForm", REQUIRED_GRADES.SIGN, REQUIRED_GRADES.EXEC)
+        , _target(target) {}
 
 /*
 ** ------------------------------- DESTRUCTORS --------------------------------
 */
 
-Intern::~Intern() {
-
-}
 
 /*
 ** -------------------------------- OPERATORS ---------------------------------
 */
-
-Intern& Intern::operator=(const Intern& other)
-{
-    if (this == &other)
-        return (*this);
-    return (*this);
-}
 
 /*
 ** -------------------------------- OVERLOADS ---------------------------------
@@ -58,18 +46,24 @@ Intern& Intern::operator=(const Intern& other)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-AForm*	Intern::makeForm(std::string form_name, const std::string& target)
+void	RobotomyRequestForm::execute(Bureaucrat const &bureaucrat) const
 {
-    AForm	*form = NULL;
-
-    form = AForm::makeForm(form_name, target);
-    if (form == NULL) {
-        std::cout << "Form " << form_name << " can not be found" << std::endl;
-        throw FormNotFoundException();
+    if (!isSigned())
+        throw RobotomyRequestForm::FormIsNotSignedException();
+    if (bureaucrat.getGrade() > getGradeToExecute())
+    {
+        std::cout << _target << ": robotomy failed" << std::endl;
+        throw RobotomyRequestForm::GradeTooLowException();
     }
-    std::cout << "Intern creates " << form->getName() << std::endl;
-    return (form);
+
+    if (bureaucrat.getGrade() <= getGradeToExecute())
+    {
+        std::cout << "MAKING NOISES!!!!" << std::endl;
+        std::cout << _target << " has been robotomized successfully 50% of the time" << std::endl;
+    }
 }
+
+
 
 /*
 ** -------------------------------- ACCESSORS ---------------------------------
@@ -78,10 +72,6 @@ AForm*	Intern::makeForm(std::string form_name, const std::string& target)
 /*
 ** -------------------------------- EXCEPTIONS --------------------------------
 */
-
-const char *Intern::FormNotFoundException::what() const throw() {
-    return "Specified form name not found in the form register";
-}
 
 /*
 ** -------------------------------- MISCELLANEOUS --------------------------------

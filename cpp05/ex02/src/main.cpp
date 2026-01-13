@@ -19,21 +19,21 @@
 
 int main() {
     try {
-        Bureaucrat Potts("Potts", 30);
+        Bureaucrat Potts("Mrs. Potts", 30);
         Bureaucrat Wanda("Wanda", 70);
         Bureaucrat TonyStark("TonyStark", 150);
-        Bureaucrat HWR("One Who Remains", 1);
+        Bureaucrat HWR("He Who Remains", 1);
         RobotomyRequestForm Repeat("Wanda");
         ShrubberyCreationForm Tree("Wanda");
         RobotomyRequestForm Repeat2("TonyStark");
         PresidentialPardonForm Sorry("Potts");
 
         std::cout << FT_BOLD << "\n--------- Welcome to Time Variance Authority ----------\n\n"
-                  << FT_RST << FT_UND << "See below our TVA Bureaucrats:" << FT_RST << std::endl;
+                  << FT_RST << FT_UND << "See below top level TVA agents:" << FT_RST << std::endl;
         std::cout << Potts;
         std::cout << TonyStark;
         std::cout << Wanda << std::endl;
-        std::cout << FT_UND << "The One Who Remains:" << FT_RST << std::endl;
+        std::cout << FT_UND << "The He Who Remains:" << FT_RST << std::endl;
         std::cout << HWR << std::endl;
         std::cout << FT_UND << "The available forms:" << FT_RST << std::endl;
         std::cout << Repeat << std::endl;
