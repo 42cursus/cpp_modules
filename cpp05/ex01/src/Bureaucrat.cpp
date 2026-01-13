@@ -12,6 +12,7 @@
 
 #include <sstream>
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 /*
 ** -------------------------------- STATIC VARS -------------------------------
@@ -86,6 +87,42 @@ void Bureaucrat::decrementGrade()
     decrementGrade(1);
 }
 
+std::string Bureaucrat::getName() const {
+    return _name;
+}
+
+int Bureaucrat::getGrade() const {
+    return _grade;
+}
+
+void Bureaucrat::signForm(Form &form) {
+    try {
+        form.beSigned(*this);
+        std::cout << _name
+                  << " (grade " << _grade << ") signed the form "
+                  << form.getName()
+                  << " (sign grade " << form.getGradeToSign()
+                  << ", execute grade "
+                  << form.getGradeToExecute()
+                  << ")"
+                  << std::endl;
+    } catch(Form::GradeException& e) {
+        std::cout << _name
+                  << " (grade " << _grade << ") couldn't sign the form "
+                  << form.getName()
+                  << " (sign grade " << form.getGradeToSign()
+                  << ", execute grade "
+                  << form.getGradeToExecute()
+                  << ") because ->"
+                  << std::endl;
+        std::cout << "Exception: " << e.what() << std::endl;
+    }
+}
+
+/*
+** -------------------------------- OPERATORS ---------------------------------
+*/
+
 Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other) {
     if (this != &other) {
         _name = other._name;
@@ -94,14 +131,6 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other) {
     return *this;
 }
 
-
-std::string Bureaucrat::getName() const {
-    return _name;
-}
-
-int Bureaucrat::getGrade() const {
-    return _grade;
-}
 
 /*
 ** -------------------------------- OVERLOADS ---------------------------------
@@ -142,6 +171,7 @@ Bureaucrat::GradeGenericException::operator=(const Bureaucrat::GradeGenericExcep
     return *this;
 }
 
+
 const char *Bureaucrat::GradeTooLowException::msg() const throw() {
     return _msg.c_str();
 }
@@ -153,8 +183,6 @@ const char *Bureaucrat::GradeTooHighException::msg() const throw() {
 /*
 ** ---------------------------------- OTHER -----------------------------------
 */
-
-
 
 std::string Bureaucrat::GradeTooLowException::build_msg() {
     std::ostringstream oss;

@@ -72,6 +72,8 @@
 #define FT_BOLD_W	"\033[1;37m"    // Bold white
 #define FT_RST		"\033[0m"       // Reset to default color
 
+class Form;
+
 class Bureaucrat
 {
 private:
@@ -95,6 +97,8 @@ public:
     void decrementGrade(int);
     void decrementGrade();
 
+    void signForm(Form &form);
+
     class GradeException : public std::exception {
     public:
         virtual const char* what() const throw();
@@ -102,12 +106,6 @@ public:
         virtual const char* msg() const throw() = 0;
     };
 
-    /**
-     * If the caller violates your function’s contract, use assert.
-     * If the world violates your assumptions, throw.
-     *
-     * You’re not giving up safety, you’re clarifying responsibility.
-     */
     class GradeGenericException : public GradeException {
     public:
         explicit GradeGenericException(const std::string &msg);

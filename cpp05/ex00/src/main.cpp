@@ -15,12 +15,12 @@
 
 int main(){
     try {
-        Bureaucrat Bobby("Bobby", 30);
-        Bureaucrat Mandy("Mandy", 1);
-        Bureaucrat Tonny("Tonny", 150);
+        Bureaucrat Poppy("Poppy", 42);
+        Bureaucrat Vendy("Vendy", 1);
+        Bureaucrat Ronnie("Ronnie", 149);
 
         try {
-            Bureaucrat Victoria("Victoria", 0);
+            Bureaucrat Lika("Lika", 0);
         } catch (Bureaucrat::GradeTooHighException &tooHight) {
             std::cout << "Error: " << tooHight.what() << std::endl;
         } catch (Bureaucrat::GradeTooLowException &tooLow) {
@@ -28,70 +28,80 @@ int main(){
         }
 
         try {
-            Bureaucrat Leon("Leon", 151);
+            Bureaucrat Theon("Theon", 151);
         } catch (Bureaucrat::GradeException &ex) {
             std::cout << "Error: " << ex.what() << std::endl;
         }
 
         std::cout << std::endl;
-        std::cout << FT_UND "Bureaucrats:" FT_RST << std::endl;
-        std::cout << Bobby;
-        std::cout << Mandy;
-        std::cout << Tonny;
+        std::cout << FT_BOLD "Bureaucrats:" FT_RST << std::endl;
+        std::cout << Poppy;
+        std::cout << Vendy;
+        std::cout << Ronnie;
         std::cout << std::endl;
 
-        std::cout << FT_UND "Decrementing Grades\n" FT_RST << std::endl;
-        std::cout << "Demoting Bobby's grade by 4:" << std::endl;
+        std::cout << FT_BOLD "Decrementing Grades\n" FT_RST << std::endl;
+        std::cout << "Demoting Poppy's grade by 4:" << std::endl;
         try {
-            Bobby.decrementGrade(4);
+            Poppy.decrementGrade(4);
         } catch (Bureaucrat::GradeTooLowException &ex) {
             std::cout << "Error: " << ex.what() << std::endl;
         }
-        std::cout << Bobby << std::endl;
+        std::cout << Poppy << std::endl;
 
-        std::cout << "Demoting Mandy's grade by 3:" << std::endl;
+        std::cout << "Demoting Vendy's grade by 3:" << std::endl;
         try {
-            Mandy.decrementGrade(3);
+            Vendy.decrementGrade(3);
         } catch (Bureaucrat::GradeTooLowException &ex) {
             std::cout << "Error: " << ex.what() << std::endl;
         }
-        std::cout << Mandy << std::endl;
+        std::cout << Vendy << std::endl;
 
-        std::cout << "Demoting Tonny's grade by 14:" << std::endl;
+        std::cout << "Demoting Ronnie's grade by 14:" << std::endl;
         try {
-            Tonny.decrementGrade(14);
+            Ronnie.decrementGrade(14);
         } catch (Bureaucrat::GradeTooLowException &ex) {
             std::cout << "Error: " << ex.what() << std::endl;
         }
-        std::cout << Tonny << std::endl;
+        std::cout << Ronnie << std::endl;
 
-        std::cout << FT_UND "\nIncrementting Grades\n" FT_RST << std::endl;
-        std::cout << "Promoting Bobby's grade by 14:" << std::endl;
+        std::cout << FT_BOLD "\nIncrementting Grades\n" FT_RST << std::endl;
+        std::cout << "Promoting Poppy's grade by 14:" << std::endl;
         try {
-            Bobby.incrementGrade(14);
+            Poppy.incrementGrade(14);
         } catch (Bureaucrat::GradeTooHighException &ex) {
             std::cout << "Error: " << ex.what() << std::endl;
         }
-        std::cout << Bobby << std::endl;
+        std::cout << Poppy << std::endl;
 
-        std::cout << "Promoting Mandy's grade by 4:" << std::endl;
+        std::cout << "Promoting Vendy's grade by -1:" << std::endl;
         try {
-            Mandy.incrementGrade(4);
+            Vendy.incrementGrade(-1);
+        } catch (Bureaucrat::GradeException &ex) {
+            std::cout << "Error: " << ex.what() << std::endl;
+        }
+
+        std::cout << "Promoting Vendy's grade by 4:" << std::endl;
+        try {
+            Vendy.incrementGrade();
+            Vendy.incrementGrade();
+            Vendy.incrementGrade();
+            Vendy.incrementGrade();
         } catch (Bureaucrat::GradeTooHighException &ex) {
             std::cout << "Error: " << ex.what() << std::endl;
         }
 
-        std::cout << Mandy << std::endl;
-        std::cout << "Promoting Tonny's grade by 20:" << std::endl;
+        std::cout << Vendy << std::endl;
+        std::cout << "Promoting Ronnie's grade by 20:" << std::endl;
         try {
-            Tonny.incrementGrade(20);
+            Ronnie.incrementGrade(20);
         } catch (Bureaucrat::GradeTooHighException &ex) {
             std::cout << "Error: " << ex.what() << std::endl;
         }
-        std::cout << Tonny << std::endl;
+        std::cout << Ronnie << std::endl;
 
     } catch (Bureaucrat::GradeException &ex) {
         std::cout << "Error: " << ex.what() << std::endl;
     }
     return 0;
-};
+}
