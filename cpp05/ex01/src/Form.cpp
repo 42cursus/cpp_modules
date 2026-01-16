@@ -17,6 +17,8 @@
 ** -------------------------------- STATIC VARS -------------------------------
 */
 
+const int Form::GRADE_RANGE_MAX = 1;
+const int Form::GRADE_RANGE_MIN = 150;
 const   std::string& Form::DEFAULT_NAME = "default";
 
 /*
@@ -29,7 +31,12 @@ Form::Form(const int gradeToExecute, const int gradeToSign)
         , _gradeToSign(gradeToSign)
         , _gradeToExecute(gradeToExecute)
         , _isSigned(false)
-{}
+{
+    if (gradeToSign > GRADE_RANGE_MIN || gradeToExecute > GRADE_RANGE_MIN)
+        throw Form::GradeTooHighException();
+    if (gradeToSign < GRADE_RANGE_MAX || gradeToExecute < GRADE_RANGE_MAX)
+        throw Form::GradeTooLowException();
+}
 
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 Form::Form(const std::string& name, const int gradeToSign, const int gradeToExecute)
@@ -37,13 +44,19 @@ Form::Form(const std::string& name, const int gradeToSign, const int gradeToExec
         , _gradeToSign(gradeToSign)
         , _gradeToExecute(gradeToExecute)
         , _isSigned(false)
-{}
+{
+    if (gradeToSign > GRADE_RANGE_MIN || gradeToExecute > GRADE_RANGE_MIN)
+        throw Form::GradeTooHighException();
+    if (gradeToSign < GRADE_RANGE_MAX || gradeToExecute < GRADE_RANGE_MAX)
+        throw Form::GradeTooLowException();
+}
 
 Form::Form(const Form &other)
         : _name(other._name)
         , _gradeToSign(other._gradeToSign)
         , _gradeToExecute(other._gradeToExecute)
-        , _isSigned(other._isSigned) {}
+        , _isSigned(other._isSigned) {
+}
 
 /*
 ** ------------------------------- DESTRUCTORS --------------------------------
@@ -91,8 +104,8 @@ std::ostream& operator<<(std::ostream& oss, const Form& other)
 */
 
 void Form::beSigned(const Bureaucrat& bureaucrat) {
-    if (bureaucrat.getGrade() <= this->getGradeToSign())
-        this->_isSigned = true;
+    if (bureaucrat.getGrade() <= _gradeToSign)
+        _isSigned = true;
     else
         throw Form::GradeTooLowException();
 }

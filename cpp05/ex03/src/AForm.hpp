@@ -86,6 +86,8 @@ private:
     const int           _gradeToSign;
     const int           _gradeToExecute;
     bool                _isSigned;
+    static const int GRADE_RANGE_MAX;
+    static const int GRADE_RANGE_MIN;
     static const std::string &DEFAULT_NAME;
     // NOLINTEND(*-avoid-const-or-ref-data-members); explicit design choice
     static Command getCommand(const std::string &input);

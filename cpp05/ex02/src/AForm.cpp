@@ -17,6 +17,8 @@
 ** -------------------------------- STATIC VARS -------------------------------
 */
 
+const int AForm::GRADE_RANGE_MAX = 1;
+const int AForm::GRADE_RANGE_MIN = 150;
 const   std::string& AForm::DEFAULT_NAME = "default";
 
 /*
@@ -29,7 +31,12 @@ AForm::AForm(const int gradeToExecute, const int gradeToSign)
         , _gradeToSign(gradeToSign)
         , _gradeToExecute(gradeToExecute)
         , _isSigned(false)
-{}
+{
+    if (gradeToSign > GRADE_RANGE_MIN || gradeToExecute > GRADE_RANGE_MIN)
+        throw AForm::GradeTooHighException();
+    if (gradeToSign < GRADE_RANGE_MAX || gradeToExecute < GRADE_RANGE_MAX)
+        throw AForm::GradeTooLowException();
+}
 
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 AForm::AForm(const std::string& name, const int gradeToSign, const int gradeToExecute)
@@ -37,7 +44,12 @@ AForm::AForm(const std::string& name, const int gradeToSign, const int gradeToEx
         , _gradeToSign(gradeToSign)
         , _gradeToExecute(gradeToExecute)
         , _isSigned(false)
-{}
+{
+    if (gradeToSign > GRADE_RANGE_MIN || gradeToExecute > GRADE_RANGE_MIN)
+        throw AForm::GradeTooHighException();
+    if (gradeToSign < GRADE_RANGE_MAX || gradeToExecute < GRADE_RANGE_MAX)
+        throw AForm::GradeTooLowException();
+}
 
 AForm::AForm(const AForm &other)
         : _name(other._name)
