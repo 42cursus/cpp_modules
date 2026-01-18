@@ -105,18 +105,14 @@ void ScalarConverter::convert(const std::string &str) {
 ** -------------------------------- EXCEPTIONS --------------------------------
 */
 
-
-
 /*
 ** -------------------------------- MISCELLANEOUS --------------------------------
 */
 
+/*
+** -------------------------------- TYPE DETECTION FUNCTIONS --------------------------------
+*/
 namespace {
-
-//******************************************************************************************/
-//                            TYPE DETECTION FUNCTIONS
-//******************************************************************************************/
-
     bool isSpecial(const std::string &str) {
         return str == "nan" || str == "nanf" ||
                str == "inf" || str == "inff" ||
@@ -212,15 +208,17 @@ namespace {
 
     DataType detectDataType(const std::string &str) {
 
-        struct Rule { DataType type; bool (*match)(const std::string &); };
-        static const Rule rules[] = {
-                {TYPE_SPECIAL, isSpecial },
-                {TYPE_CHAR,    isCharLiteral },
-                {TYPE_CHAR,    isSingleNonDigitChar },
-                {TYPE_FLOAT,   isFloat },
-                {TYPE_DOUBLE,  isDouble },
-                {TYPE_INT,     isInt }
+        struct Rule {
+            DataType type;
+            bool (*match)(const std::string &);
         };
+        static const Rule rules[] = {
+                {TYPE_SPECIAL, isSpecial},
+                {TYPE_CHAR, isCharLiteral},
+                {TYPE_CHAR, isSingleNonDigitChar},
+                {TYPE_FLOAT, isFloat},
+                {TYPE_DOUBLE, isDouble},
+                {TYPE_INT, isInt}};
 
         DataType type = TYPE_INVALID;
 
@@ -232,51 +230,89 @@ namespace {
         }
         return type;
     }
+}// namespace
 
-//******************************************************************************************/
-//                            PRINTING FUNCTIONS
-//******************************************************************************************/
-
-    template <typename T>
-    void printConversion(DataType type, T num) {
-        if (num < 32 || num > 126)
-            std::cout << "char: " FT_RED << "non displayable" << FT_RST << std::endl;
-        else if (type == TYPE_CHAR)
-            std::cout << "char: " FT_PUMPKIN2 "'" << num << FT_RST "'" << std::endl;
-        else if (isprint(static_cast<char>(num)))
-            std::cout << "char: " FT_PUMPKIN2 "'" << static_cast<char>(num) << FT_RST "'" << std::endl;
-        else
-            std::cout << "char: " FT_RED "impossible" FT_RST << std::endl;
-        if (std::isnan(num) || (num < std::numeric_limits<int>::min() || num > std::numeric_limits<int>::max()))
-            std::cout << "int: " << FT_RED "impossible" FT_RST << std::endl;
-        else {
-            if (type == TYPE_INT)
-                std::cout << "int: " << FT_CADET_BLUE << num << FT_RST << std::endl;
-            else
-                std::cout << "int: " << FT_CADET_BLUE << static_cast<int>(num) << FT_RST << std::endl;
-        }
-        if (isnan(num) || (num < -std::numeric_limits<float>::max() || num > std::numeric_limits<float>::max()))
-            std::cout << "float: " << FT_RED "impossible" FT_RST << std::endl;
-        else {
-            if (type == TYPE_FLOAT)
-                std::cout << "float: " FT_GREEN << std::fixed << std::setprecision(1) << num << "f" FT_RST << std::endl;
-            else
-                std::cout << "float: " FT_GREEN << std::fixed << std::setprecision(1) << static_cast<float>(num) << "f" FT_RST << std::endl;
-        }
-        if (isnan(num) || (num < -std::numeric_limits<double>::max() || num > std::numeric_limits<double>::max()))
-            std::cout << "double: " << FT_RED "impossible" FT_RST << std::endl;
-        else {
-            if (type == TYPE_DOUBLE)
-                std::cout << "double: " FT_CYAN << std::fixed << std::setprecision(1) << num << FT_RST << std::endl;
-            else
-                std::cout << "double: " FT_CYAN << std::fixed << std::setprecision(1) << static_cast<double>(num) << FT_RST << std::endl;
+/*
+** -------------------------------- PRINTING FUNCTIONS --------------------------------
+*/
+namespace {
+    template<typename T>
+    void printChar(const DataType &type, T num) {
+        std::cout << "char: ";
+        double digit = static_cast<double>(num);
+        if (std::isnan(digit) || digit < 0 || digit > 255) {
+            std::cout << FT_RED "impossible" FT_RST << std::endl;
+        } else {
+            unsigned char uchr = static_cast<unsigned char>(digit);
+            if (!isprint(uchr)) {
+                std::cout << FT_RED "non displayable" FT_RST << std::endl;
+            } else {
+                char chr = static_cast<char>(uchr);
+                std::cout << FT_PUMPKIN2 "'";
+                std::cout << ((type == TYPE_CHAR) ? num : chr);
+                std::cout << "'" FT_RST << std::endl;
+            }
         }
     }
 
-//******************************************************************************************/
-//								CONVERTION FUNCTIONS
-//******************************************************************************************/
+    template<typename T>
+    void printInt(const DataType &type, T num) {
+        std::cout << "int: ";
+        double digit = static_cast<double>(num);
+        if (std::isnan(digit) ||
+            digit < static_cast<double>(std::numeric_limits<int>::min()) ||
+            digit > static_cast<double>(std::numeric_limits<int>::max())) {
+            std::cout << FT_RED "impossible" FT_RST << std::endl;
+        } else {
+            std::cout << FT_CADET_BLUE;
+            std::cout << ((type == TYPE_INT) ? num : static_cast<int>(digit));
+            std::cout << FT_RST << std::endl;
+        }
+    }
 
+    template<typename T>
+    void printFloat(const DataType &type, T num) {
+        std::cout << "float: ";
+        double digit = static_cast<double>(num);
+        if (std::isnan(digit) ||
+            digit < -std::numeric_limits<float>::max() ||
+            digit > std::numeric_limits<float>::max()) {
+            std::cout << FT_RED "impossible" FT_RST << std::endl;
+        } else {
+            std::cout << FT_GREEN << std::fixed << std::setprecision(1);
+            std::cout << ((type == TYPE_FLOAT) ? num : static_cast<float>(digit));
+            std::cout << "f" FT_RST << std::endl;
+        }
+    }
+
+    template<typename T>
+    void printDouble(const DataType &type, T num) {
+        std::cout << "double: ";
+        double digit = static_cast<double>(num);
+        if (std::isnan(digit) ||
+            digit < -std::numeric_limits<double>::max() ||
+            digit > std::numeric_limits<double>::max()) {
+            std::cout << FT_RED "impossible" FT_RST << std::endl;
+        } else {
+            std::cout << FT_CYAN << std::fixed << std::setprecision(1);
+            std::cout << ((type == TYPE_DOUBLE) ? num : digit);
+            std::cout << FT_RST << std::endl;
+        }
+    }
+
+    template<typename T>
+    void printConversion(DataType type, T num) {
+        printChar(type, num);
+        printInt(type, num);
+        printFloat(type, num);
+        printDouble(type, num);
+    }
+}// namespace
+
+/*
+** -------------------------------- CONVERSION FUNCTIONS --------------------------------
+*/
+namespace {
     void convertToChar(const std::string &str) {
         char chr = str[0];
         printConversion(TYPE_CHAR, chr);
@@ -356,6 +392,3 @@ namespace {
     };
 
 }// namespace
-
-
-
