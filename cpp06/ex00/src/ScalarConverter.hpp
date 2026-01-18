@@ -10,14 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef SCALARCONVERTER_HPP
 #define SCALARCONVERTER_HPP
 
+#include <string>
+#include <cmath>
+#include <math.h>
+#include <iomanip>
+#include <sstream>
+#include <iostream>
+#include <limits>
+#include "formatting.h"
 
-class ScalarConverter
-{
+class ScalarConverter {
+public:
+    static void convert(const std::string &str);
 
+private:
+    ScalarConverter();
+    ~ScalarConverter();
+    ScalarConverter(const ScalarConverter &other);
+    ScalarConverter &operator=(const ScalarConverter &other);
 };
-
 
 #endif //SCALARCONVERTER_HPP
