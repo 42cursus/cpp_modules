@@ -35,7 +35,7 @@ private:
 	 * "C++17 §7.1.6.1/5, C++20 §9.2.1/3"
 	 * ISO/IEC 14882:1998, Section 7.1.5 "Type specifiers"
 	 * 	7.1.5.1 "cv-qualifiers" (C++98): const can appear before or after
-	 * 	the type specifier without changing its meaning.
+	 * 	the tag specifier without changing its meaning.
 	 * 	https://en.cppreference.com/w/cpp/language/cv
 	 */
 	const Fixed _x;

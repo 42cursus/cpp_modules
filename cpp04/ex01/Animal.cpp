@@ -34,7 +34,7 @@ Animal::Animal() : _type("none")
 Animal::Animal(const std::string &type) : _type(type)
 {
 	std::cout << _classLabel
-			  << FT_DIM_GREEN"'type' constructor called" << std::endl;
+			  << FT_DIM_GREEN"'tag' constructor called" << std::endl;
 }
 
 

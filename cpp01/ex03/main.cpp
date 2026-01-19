@@ -21,7 +21,7 @@ int main()
 		Weapon club = Weapon("crude spiked club");
 		HumanA bob("Bob", club);
 		bob.attack();
-		club.setType("some other type of club");
+		club.setType("some other tag of club");
 		bob.attack();
 	}
 	{
@@ -30,7 +30,7 @@ int main()
 		jim.attack();
 		jim.setWeapon(club);
 		jim.attack();
-		club.setType("some other type of club");
+		club.setType("some other tag of club");
 		jim.attack();
 	}
 	return (EX_OK);

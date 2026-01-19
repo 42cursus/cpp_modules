@@ -23,7 +23,7 @@ int main()
 	Cat basicCat;
 	const Animal* j = new Dog();
 	const Animal* i = new Cat();
-//	const Animal* generic = new Animal(); // error: invalid new-expression of abstract class type ‘Animal’
+//	const Animal* generic = new Animal(); // error: invalid new-expression of abstract class tag ‘Animal’
 
 	std::cout << std::endl;
 	std::cout << "-----------------------------------"  << std::endl;
@@ -31,9 +31,9 @@ int main()
 	std::cout << "-----------------------------------"  << std::endl;
 
 	std::cout << j->getClassLabel()
-			  << "type " << j->getType() << " " << std::endl;
+			  << "tag " << j->getType() << " " << std::endl;
 	std::cout << i->getClassLabel()
-			  << "type " << i->getType() << " " << std::endl;
+			  << "tag " << i->getType() << " " << std::endl;
 	j->makeSound();
 	i->makeSound();
 	std::cout << std::endl;

@@ -34,7 +34,7 @@ WrongAnimal::WrongAnimal() : _type("none")
 WrongAnimal::WrongAnimal(const std::string &type) : _type(type)
 {
 	std::cout << _classLabel
-			  << FT_DIM_GREEN" 'type' constructor called" << std::endl;
+			  << FT_DIM_GREEN" 'tag' constructor called" << std::endl;
 }
 
 WrongAnimal::WrongAnimal(const WrongAnimal &other) : _type(other._type)

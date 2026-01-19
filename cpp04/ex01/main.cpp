@@ -35,9 +35,9 @@ int main()
 	std::cout << "-----------------------------------"  << std::endl;
 
 	std::cout << j->getClassLabel()
-			  << "type " << j->getType() << " " << std::endl;
+			  << "tag " << j->getType() << " " << std::endl;
 	std::cout << i->getClassLabel()
-			  << "type " << i->getType() << " " << std::endl;
+			  << "tag " << i->getType() << " " << std::endl;
 	j->makeSound();
 	i->makeSound();
 	std::cout << std::endl;

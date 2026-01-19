@@ -35,27 +35,27 @@ int main()
 	std::cout << "-----------------------------------"  << std::endl;
 
 	std::cout << dog->getClassLabel()
-			  << "type " << dog->getType() << " " << std::endl;
+			  << "tag " << dog->getType() << " " << std::endl;
 	std::cout << cat->getClassLabel()
-			  << "type " << cat->getType() << " " << std::endl;
+			  << "tag " << cat->getType() << " " << std::endl;
 	std::cout << generic->getClassLabel()
-			  << "type " << generic->getType() << " " << std::endl;
+			  << "tag " << generic->getType() << " " << std::endl;
 	std::cout << std::endl;
 	cat->makeSound(); // will output the cat sound!
 	dog->makeSound(); // will output the dog sound!
 	generic->makeSound();
 	std::cout << std::endl;
 	std::cout << wCat->getClassLabel()
-			  << "type " << wCat->getType() << " " << std::endl;
+			  << "tag " << wCat->getType() << " " << std::endl;
 	std::cout << wrongCat->getClassLabel()
-			  << "type " << wrongCat->getType() << " " << std::endl;
+			  << "tag " << wrongCat->getType() << " " << std::endl;
 	std::cout << wGeneric->getClassLabel()
-			  << "type " << wGeneric->getType() << " " << std::endl;
+			  << "tag " << wGeneric->getType() << " " << std::endl;
 	std::cout << std::endl;
 	wGeneric->makeSound();
 	wrongCat->makeSound();	// will output the cat sound
 	wCat->makeSound();	// will not output the cat sound as
-						// the pointer is of a type WrongAnimal and makeSound()
+						// the pointer is of a tag WrongAnimal and makeSound()
 						// is not virtual!
 
 

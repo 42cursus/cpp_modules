@@ -24,11 +24,11 @@ const                           /* this is a const object...     */
 class nullptr_t
 {
 public:
-	template<class T>          	// convertible to any type
+	template<class T>          	// convertible to any tag
 	operator T*() const        	// of null non-member
 		{ return (NULL); }      // pointer...
 
-	template<class C, class T>	// or any type of null
+	template<class C, class T>	// or any tag of null
 		operator T C::*() const	// member pointer...
 		{ return (NULL); }
 

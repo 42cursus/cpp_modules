@@ -57,7 +57,7 @@ public:
 
 	AMateria &operator=(AMateria const &other);
 
-	std::string const &getType() const; // Returns the materia type
+	std::string const &getType() const; // Returns the materia tag
 	static std::string buildClassLabel(const std::string &classname,
 									   const char *colour);
 

@@ -36,7 +36,7 @@ AMateria::AMateria(const std::string &type) : _type(type)
 {
 	this->_materia_source = NULL;
 	std::cout << _classLabel
-			  << FT_DIM_GREEN"'type' constructor called" << std::endl;
+			  << FT_DIM_GREEN"'tag' constructor called" << std::endl;
 }
 
 AMateria::AMateria(const AMateria &other) : _type(other._type)
