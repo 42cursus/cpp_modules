@@ -33,8 +33,7 @@ protected:
 									   const char *colour);
 
 public:
-	virtual ~IMateriaSource()
-	{}
+	virtual ~IMateriaSource() {}
 
 	virtual void learnMateria(AMateria *) = 0;
 

@@ -40,11 +40,9 @@ set(COMMON_CFLAGS
         -fcf-protection=none
         -g3 -gdwarf-3
         -fasynchronous-unwind-tables
-        -fsanitize=address
-        -fsanitize=undefined
-        -fno-sanitize-recover=all
-        -fsanitize=float-divide-by-zero
-        -fsanitize=float-cast-overflow
+        -fsanitize=address,undefined
+		-fsanitize=float-divide-by-zero,float-cast-overflow
+		-fno-sanitize-recover=all
 )
 
 add_subdirectory(cpp00)

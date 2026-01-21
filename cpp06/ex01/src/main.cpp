@@ -27,54 +27,43 @@ int main() {
     dataPtr->tag[2] = '\0';
     dataPtr->len = 64;
     dataPtr->kind = 'c';
-    dataPtr->flags = 1u;
+    dataPtr->flags = 1U;
 
-    Data *befire = new Data();
+    Data *before = new Data();
     dataPtr->tag[0] = 'm';
     dataPtr->tag[1] = 'f';
     dataPtr->tag[2] = '\0';
-    befire->len = 640;
-    befire->kind = 'm';
-    befire->flags = 0u;
+    before->len = 640;
+    before->kind = 'm';
+    before->flags = 0U;
 
     uintptr_t dataRaw = Serializer::serialize(dataPtr);
     Data *restored = Serializer::deserialize(dataRaw);
 
     std::cout << "Pointer round-trip: \n" << std::endl;
-    std::cout << "Initial : " << FT_GREEN << dataPtr << FT_RST << std::endl;
-    std::cout << "    raw = " FT_GREEN "0x" << std::hex << dataRaw << FT_RST << std::dec << "\n";
+    std::cout << "initial : " << FT_GREEN << dataPtr << FT_RST << std::endl;
+    std::cout << *dataPtr << std::endl;
+    std::cout << "reinterpreted : " FT_GREEN "0x" << std::hex << dataRaw << FT_RST << std::dec << "\n" << std::endl;
     std::cout << "restored: " << FT_GREEN << restored << FT_RST << std::endl;
+    std::cout << *restored << std::endl;
     std::cout << std::endl;
 
-    std::cout << FT_BOLD "POINTER COMPARISON BEFORE REINTERPRET_CAST" FT_RST << std::endl;
 
-    std::cout << "dataPtr: " << FT_BLUE << dataPtr  << FT_RST << std::endl;
-    std::cout << "restored: " << FT_CYAN << restored << FT_RST << std::endl;
-
-    std::cout << FT_BOLD "\nTESTING DIRECT REINTERPRET_CAST WITHOUT RAW CONVERSION" FT_RST << std::endl;
-
-    Data *after = reinterpret_cast<Data*>(befire); // NOLINT(*-redundant-casting, *-pro-tag-reinterpret-cast)
-    std::cout << "Address of befire: " << FT_GREEN << befire << FT_RST << std::endl;
-    std::cout << "Address of dataPtrTest1: " << FT_GREEN << after << FT_RST "\n" << std::endl;
-
-    std::cout << FT_BOLD "POINTER COMPARISON AFTER REINTERPRET_CAST" FT_RST << std::endl;
-    std::cout << "befire: " << FT_BLUE << befire << FT_RST "\n" << std::endl;
-    std::cout << "dataPtrTest1: " << FT_CYAN << after << FT_RST "\n" << std::endl;
 
     char value[4] = {'5'};
     char *ptrValue = &value[0];
-    int *numValue = reinterpret_cast<int*>(ptrValue); // NOLINT(*-pro-tag-reinterpret-cast)
+    int *numValue = reinterpret_cast<int*>(ptrValue); // NOLINT(*-pro-tag-reinterpret-cast, *-pro-type-reinterpret-cast)
 
     std::cout << "Address of ptrValue: " << FT_GREEN << static_cast<void*>(ptrValue) << FT_RST << std::endl;
     std::cout << "Address of numValue: " << FT_GREEN << numValue << FT_RST << std::endl;
     std::cout << "Value of ptrValue:   " << FT_BLUE << *ptrValue << FT_RST << std::endl;
     std::cout << "Value of numValue: " << FT_BLUE << *numValue << FT_RST << std::endl;
-    *numValue = 10;
+    *numValue = 42;
     std::cout << "Value of ptrValue after reassignment: " << FT_CYAN << *ptrValue << FT_RST << std::endl;
     std::cout << "Value of numValue after reassignment: " << FT_CYAN << *numValue << FT_RST << std::endl;
 
     delete dataPtr;
-    delete befire;
+    delete before;
 
     return 0;
 }

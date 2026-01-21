@@ -15,16 +15,25 @@ NAME 			= serializer
 BUILD_DIR		= build
 SRC_DIR			= src
 
+CPP 			= clang++
+COMPILER		:= $(shell echo | $(CPP) -dM -E - | grep -q '__clang__' && echo clang || echo gcc)
+
 MANDATORY_FLAGS	:= -Wall -Wextra -Werror -std=c++98 \
 					-Wshadow -Woverloaded-virtual -Wstrict-aliasing=2
 OPTIMIZE_FLAGS	:= -O0 -fasynchronous-unwind-tables
+
+ifeq ($(COMPILER),clang)
+	OPTIMIZE_FLAGS	+= -fstandalone-debug
+else
+endif
+
 DEBUG_FLAGS		:= -g3 -gdwarf-3 \
 					-fsanitize=address,undefined
 INCLUDE_FLAGS	:= -I. -I./src -I$(INC_DIR) -I/usr/include
 
 CFLAGS 			:= $(MANDATORY_FLAGS) $(DEBUG_FLAGS) $(OPTIMIZE_FLAGS) \
                    					$(INCLUDE_FLAGS)
-CPP 			= c++
+
 
 SRC_DIR			= src
 _SRCS			= \

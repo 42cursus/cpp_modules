@@ -34,8 +34,7 @@ protected:
 									   const char *colour);
 
 public:
-	virtual ~ICharacter()
-	{}
+	virtual ~ICharacter() {}
 
 	virtual const std::string &getClassLabel() const;
 
