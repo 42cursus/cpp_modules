@@ -6,10 +6,11 @@
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/25 21:46:11 by abelov            #+#    #+#              #
-#    Updated: 2025/07/25 21:46:11 by abelov           ###   ########.fr        #
+#    Updated: 2026/01/21 01:38:17 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 build
 ex00/convert
 ex01/serializer
+ex02/identifier

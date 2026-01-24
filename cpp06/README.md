@@ -15,3 +15,12 @@ TERM=dumb clang-query ScalarConverter.cpp -c \
     | grep --color=never -E '\) *;'
 done  | awk '!seen[$0]++'
 ```
+
+
+#### Q: How do i pin my task to a pecific core?
+#### A: Use `taskset`
+
+```bash
+for i in $(seq 1 200); do taskset -c 0-15 ./a.out >/dev/null || break; done
+for i in $(seq 1 200); do taskset -c 16-27 ./a.out >/dev/null || break; done
+```

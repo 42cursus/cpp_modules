@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Base.hpp                                           :+:      :+:    :+:   */
+/*   A.hpp                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/25 21:45:13 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/25 21:45:14 by abelov           ###   ########.fr       */
+/*   Created: 2026/01/21 01:11:39 by abelov            #+#    #+#             */
+/*   Updated: 2026/01/21 01:11:39 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#ifndef BASE_HPP
-#define BASE_HPP
+#ifndef A_HPP
+#define A_HPP
 
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
-#include "formatting.h"
+#include "Base.hpp"
 
-class Base
+class A : public Base
 {
-public:
-    virtual ~Base() {};
+
 };
 
-Base*	generate(void);
-void	identify(Base *ptr);
-void	identify(Base &ref);
-
-#endif //BASE_HPP
+#endif

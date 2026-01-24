@@ -15,7 +15,7 @@ NAME 			= serializer
 BUILD_DIR		= build
 SRC_DIR			= src
 
-CPP 			= clang++
+CPP 			= c++
 COMPILER		:= $(shell echo | $(CPP) -dM -E - | grep -q '__clang__' && echo clang || echo gcc)
 
 MANDATORY_FLAGS	:= -Wall -Wextra -Werror -std=c++98 \
