@@ -85,10 +85,9 @@ void identify(Base *ptr) {
         return;
     }
 
-    (void)(
-    (dynamic_cast<A*>(ptr) && (type = TYPE_A, true)) ||
-    (dynamic_cast<B*>(ptr) && (type = TYPE_B, true)) ||
-    (dynamic_cast<C*>(ptr) && (type = TYPE_C, true)));
+    (void)(((dynamic_cast<A*>(ptr) != NULL) && (type = TYPE_A, true))
+            || ((dynamic_cast<B*>(ptr) != NULL) && (type = TYPE_B, true))
+            || ((dynamic_cast<C*>(ptr) != NULL) && (type = TYPE_C, true)));
 
     switch (type) {
         case TYPE_A:
@@ -113,48 +112,21 @@ void identify(Base &ref)
         std::cout << "A has been identified" << std::endl;
         (void)aref;
         return;
-    } catch (const std::exception &) {}
+    } catch (const std::exception &ex) { (void)ex;}
 
     try {
         B &bref = dynamic_cast<B&>(ref);
         std::cout << "B has been identified" << std::endl;
         (void)bref;
         return;
-    } catch (const std::exception &) {}
+    } catch (const std::exception &ex) { (void)ex;}
 
     try {
         C &cref = dynamic_cast<C&>(ref);
         std::cout << "C has been identified" << std::endl;
         (void)cref;
         return;
-    } catch (const std::exception &) {}
+    } catch (const std::exception &ex) { (void)ex;}
 
     std::cout << "Unknown\n";
 }
-
-/*
-void	identify(Base &ref)
-{
-    try
-    {
-        A &aref = dynamic_cast <A&> (ref);
-        std::cout << "A has been identified" << std::endl;
-        (void) aref;
-    }
-    catch (const std::exception){ (void)ref; }
-    try
-    {
-        B &bref = (dynamic_cast <B&> (ref));
-        std::cout << "B has been identified" << std::endl;
-        (void) bref;
-    }
-    catch (const std::exception){ (void)ref; }
-    try
-    {
-        C &cref = (dynamic_cast <C&> (ref));
-        std::cout << "C has been identified" << std::endl;
-        (void) cref;
-    }
-    catch (const std::exception){ (void)ref; }
-}
-*/

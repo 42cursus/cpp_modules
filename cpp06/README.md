@@ -24,3 +24,19 @@ done  | awk '!seen[$0]++'
 for i in $(seq 1 200); do taskset -c 0-15 ./a.out >/dev/null || break; done
 for i in $(seq 1 200); do taskset -c 16-27 ./a.out >/dev/null || break; done
 ```
+
+#### Q: How do i fix ASan “DEADLYSIGNAL” spam with the loader repeatedly trying to resolve a pthread symbol, and it only reproduces sometimes.
+One widely reported root trigger is that the ASLR placing mappings in a way such that ASan’s shadow / reserved ranges
+collide or early init takes a bad path, leading to crashes before anything useful exists.
+
+* [Address space layout randomization](https://en.wikipedia.org/wiki/Address_space_layout_randomization)
+* https://stackoverflow.com/questions/77894856/possible-bug-in-gcc-sanitizers
+* https://stackoverflow.com/questions/78293129/c-programs-fail-with-asan-addresssanitizerdeadlysignal
+
+# workaround: do `setarch $(uname -m) -R` to disable ASLR
+```bash
+setarch $(uname -m) -R ./a.out
+
+# or in the loop
+for i in $(seq 1 200); do setarch $(uname -m) -R taskset -c 0-15 ./a.out >/dev/null || break; done
+```

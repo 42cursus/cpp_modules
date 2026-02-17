@@ -249,10 +249,11 @@ namespace {
             } else {
                 char chr = static_cast<char>(uchr);
                 std::cout << FT_PUMPKIN2 "'";
-                std::cout << ((type == TYPE_CHAR) ? num : chr);
+                std::cout << chr;
                 std::cout << "'" FT_RST << std::endl;
             }
         }
+        (void)type;
     }
 
     template<typename T>
