@@ -11,40 +11,37 @@
 /* ************************************************************************** */
 
 #include "MutantStack.hpp"
+#include <cstdlib>
 
 int main()
 {
 	MutantStack<int> mstack;
 
-	mstack.push(5);
-	mstack.push(17);
+	std::srand(time(NULL));
+	for (int i = 0; i < 2; ++i)
+		mstack.push(std::rand() % 4097);
+
 	std::cout << mstack.top() << std::endl;
 	mstack.pop();
 	std::cout << mstack.size() << std::endl;
 
-	mstack.push(3);
-	mstack.push(5);
-	mstack.push(737);
-	mstack.push(0);
-
-	MutantStack<int>::iterator it = mstack.begin();
-	MutantStack<int>::iterator ite = mstack.end();
-	++it;
-	--it;
-	while (it != ite)
-	{
-		std::cout << *it << std::endl;
-		++it;
+	for (int i = 0; i < 4; ++i) {
+		const int val = rand();
+		mstack.push(val);
 	}
 
-	std::stack<int> s(mstack);
-	// Output the copied stack
-	std::cout << "Contents of the copied stack:" << std::endl;
+	MutantStack<int>::iterator iter = mstack.begin();
+	++iter;
+	--iter;
+	for (; iter != mstack.end(); ++iter)
+		std::cout << *iter << std::endl;
 
-	while (!s.empty())
-	{
-		std::cout << s.top() << std::endl; // Print the top element of `s`
-		s.pop(); // Remove the top element from `s`
+	std::stack<int> stck(mstack);
+	std::cout << "\nContents of the copied stack:" << std::endl;
+
+	while (!stck.empty()) {
+		std::cout << stck.top() << std::endl;
+		stck.pop();
 	}
 
 	return 0;
