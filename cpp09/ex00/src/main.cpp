@@ -11,22 +11,32 @@
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
-#include <iostream>
 
-int	main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	BitcoinExchange	exchange;
+	BitcoinExchange exchange;
 
 	if (argc != 2) {
-		std::cout << "Error: could not open file." << std::endl;
-		return (1);
+		std::cerr << "Error: expected exactly one argument." << std::endl;
+
+		// NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+		std::cerr << "Usage: " << argv[0] << " <input_file>" << std::endl;
+		return (EXIT_FAILURE);
 	}
 
 	try {
-		exchange.process_input(argv[1]);
-	}
-	catch (std::exception& e) {
+		const char *filename = static_cast<const char *>(BitcoinExchange::DATABASE_FILENAME);
+		exchange.loadDatabase(filename);
+	} catch (std::exception &e) {
 		std::cout << e.what() << std::endl;
+		std::cerr << "Error: Could not create database." << std::endl;
+		return (EXIT_FAILURE);
 	}
 
+	try {
+		const char *inputFileName = argv[1]; // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+		exchange.processInput(inputFileName);
+	} catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+	}
 }

@@ -6,8 +6,12 @@
 #    By: abelov <abelov@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/25 23:01:06 by abelov            #+#    #+#              #
-#    Updated: 2025/07/25 23:01:07 by abelov           ###   ########.fr        #
+#    Updated: 2026/02/28 14:16:40 by abelov           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 build
+data.csv
+input.txt
+/ex00/btc
+

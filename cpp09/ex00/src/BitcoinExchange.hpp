@@ -13,29 +13,49 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
 #include <map>
+#include <sstream>
 #include <string>
 
 class BitcoinExchange {
 public:
-	BitcoinExchange(void);
-	~BitcoinExchange(void);
-	BitcoinExchange(BitcoinExchange const &src);
+	struct Date {
+		int year;
+		int month;
+		int day;
+
+		Date &operator=(const Date &other);
+
+		bool operator<(const Date &other) const;
+		bool operator==(const Date &other) const;
+		bool operator!=(const Date &other) const;
+		bool operator>(const Date &other) const;
+		bool operator<=(const Date &other) const;
+		bool operator>=(const Date &other) const;
+
+		static bool formatIsValid(const std::string &date_str);
+		void		setDate(const std::string &date_str);
+		std::string outputDate() const;
+		virtual ~Date();
+	};
+
+	BitcoinExchange();
+	~BitcoinExchange();
+	BitcoinExchange(BitcoinExchange const &other);
 
 	BitcoinExchange &operator=(BitcoinExchange const &src);
+	void			 loadDatabase(const std::string &filename);
+	void			 processInput(const char *filename);
 
-	void   load_db(const char *filename);
-	double lookup_value(std::string date, double amount) const;
-	void   print_lookup(std::string date, double amount) const;
-	void   print_lookup(std::string date, long amount) const;
-	void   process_input(const char *filename) const;
-
-	class DBSyntaxException : public std::exception {
+	class DBSyntaxException : public std::exception { // CSV parses but syntax is invalid
 	public:
 		virtual const char *what() const throw();
 	};
 
-	class FileLoadException : public std::exception {
+	class FileLoadException : public std::exception { // I/O open failure
 	public:
 		virtual const char *what() const throw();
 	};
@@ -45,16 +65,15 @@ public:
 		virtual const char *what() const throw();
 	};
 
-	class NegativeAmountException : public std::exception {
-	public:
-		virtual const char *what() const throw();
-	};
+	static const char DATABASE_FILENAME[];
 
 private:
-	std::map<std::string, double> _db;
-
-	void _assertDateValid(std::string date) const;
+	std::map<Date, float> _db;
+	float				  _findRateForDate(const Date &date) const;
+	static float		  parseValue(const std::string &val_str);
+	float				  parseRate(const std::string &rate_str) const;
 };
 
+std::string trim(const std::string &str);
 
 #endif //BITCOINEXCHANGE_HPP

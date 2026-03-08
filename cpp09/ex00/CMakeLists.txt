@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-project(cpp08_ex00 CXX)
+project(cpp09_ex00 CXX)
 set(CMAKE_CXX_STANDARD 98)
 
 set(TARGET_EXE_NAME "${PROJECT_NAME}_btc")
