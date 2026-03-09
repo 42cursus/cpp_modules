@@ -74,6 +74,4 @@ private:
 	float				  parseRate(const std::string &rate_str) const;
 };
 
-std::string trim(const std::string &str);
-
 #endif //BITCOINEXCHANGE_HPP

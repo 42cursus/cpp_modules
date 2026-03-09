@@ -324,16 +324,3 @@ const char *BitcoinExchange::InvalidDateException::what() const throw()
 ** -------------------------------- MISCELLANEOUS --------------------------------
 */
 
-std::string trim(const std::string &str)
-{
-	std::string		  substr;
-	const std::string whitespace = " \t\n\r\f\v";
-
-	std::string::size_type start = str.find_first_not_of(whitespace);
-	if (start != std::string::npos) {
-		std::string::size_type end = str.find_last_not_of(whitespace);
-		substr					   = str.substr(start, end - start + 1);
-	} else
-		substr = "";
-	return substr;
-}
