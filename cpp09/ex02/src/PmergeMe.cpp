@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <cerrno>
 #include <climits>
+#include <stdexcept>
 
 std::vector<std::size_t> PmergeMe::_mergeInsertStage(const std::vector<int>			&data,
 													 const SplitStage				&split,
@@ -23,14 +24,14 @@ std::vector<std::size_t> PmergeMe::_mergeInsertStage(const std::vector<int>			&d
 	std::vector<TaggedIndex> pend;
 
 	if (!sortedLarges.empty()) {
-		const PairInfo *firstPair = _findPairByLarge(split.pairs, sortedLarges[0]);
-		chain.push_back(firstPair->smallTag());
-		chain.push_back(firstPair->largeTag());
+		const PairInfo &firstPair = _findPairByLarge(split.pairs, sortedLarges[0]);
+		chain.push_back(firstPair.smallTag());
+		chain.push_back(firstPair.largeTag());
 
 		for (std::size_t i = 1; i < sortedLarges.size(); ++i) {
-			const PairInfo *currentPair = _findPairByLarge(split.pairs, sortedLarges[i]);
-			chain.push_back(currentPair->largeTag());
-			pend.push_back(currentPair->smallTag());
+			const PairInfo &currentPair = _findPairByLarge(split.pairs, sortedLarges[i]);
+			chain.push_back(currentPair.largeTag());
+			pend.push_back(currentPair.smallTag());
 		}
 	}
 
@@ -118,15 +119,15 @@ void PmergeMe::printValues(const std::vector<int> &values)
 	std::cout << std::endl; // NOLINT(performance-avoid-endl)
 }
 
-const PmergeMe::PairInfo *PmergeMe::_findPairByLarge(const std::vector<PmergeMe::PairInfo> &pairs,
+const PmergeMe::PairInfo &PmergeMe::_findPairByLarge(const std::vector<PmergeMe::PairInfo> &pairs,
 													 size_t largeIndex)
 {
 	for (std::size_t i = 0; i < pairs.size(); ++i) {
 		const PairInfo &pair = pairs[i];
 		if (pair.largeIndex == largeIndex)
-			return &pair;
+			return pair;
 	}
-	return 0;
+	throw std::logic_error("Pair not found for large index");
 }
 
 std::size_t PmergeMe::_findPairBound(const std::vector<PmergeMe::TaggedIndex> &chain,

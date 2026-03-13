@@ -26,8 +26,8 @@ public:
 		PairInfo(size_t smallIndexValue, size_t largeIndexValue, size_t pairIdValue);
 		TaggedIndex smallTag() const;
 		TaggedIndex largeTag() const;
-		std::size_t largeIndex;
 		std::size_t smallIndex;
+		std::size_t largeIndex;
 		std::size_t pairId;
 	};
 
@@ -58,7 +58,7 @@ public:
 
 private:
 	static size_t _findPairBound(const std::vector<TaggedIndex> &chain, std::size_t pairId);
-	static const PairInfo *_findPairByLarge(const std::vector<PairInfo> &pairs, size_t largeIndex);
+	static const PairInfo &_findPairByLarge(const std::vector<PairInfo> &pairs, size_t largeIndex);
 	static bool			   _parsePositiveInt(const char *raw, int &out);
 	static SplitStage	   _splitStage(const std::vector<int>		  &data,
 									   const std::vector<std::size_t> &ord);
