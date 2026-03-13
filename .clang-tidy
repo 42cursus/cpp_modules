@@ -5,11 +5,12 @@ Checks: >
   cppcoreguidelines-*,
   clang-analyzer-*,
   -modernize*,
-  -performance-avoid-endl,
+  -readability-braces-around-statements,
   -readability-magic-numbers,
   -cppcoreguidelines-avoid-magic-numbers,
   -cppcoreguidelines-owning-memory,
-  -readability-braces-around-statements,
-  -cppcoreguidelines-pro-bounds-constant-array-index
+  -cppcoreguidelines-pro-bounds-avoid-unchecked-container-access,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic
 WarningsAsErrors: ''
 HeaderFilterRegex: '.*'
