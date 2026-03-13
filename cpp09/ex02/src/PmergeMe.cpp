@@ -6,7 +6,7 @@
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 23:32:52 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/25 23:32:53 by abelov           ###   ########.fr       */
+/*   Updated: 2026/03/13 21:35:17 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,80 @@
 #include <cerrno>
 #include <climits>
 
-namespace {
+std::vector<std::size_t> PmergeMe::_mergeInsertStage(const std::vector<int>			&data,
+													 const SplitStage				&split,
+													 const std::vector<std::size_t> &sortedLarges)
+{
+	std::vector<TaggedIndex> chain;
+	std::vector<TaggedIndex> pend;
 
+	if (!sortedLarges.empty()) {
+		const PairInfo *firstPair = _findPairByLarge(split.pairs, sortedLarges[0]);
+		chain.push_back(firstPair->smallTag());
+		chain.push_back(firstPair->largeTag());
 
+		for (std::size_t i = 1; i < sortedLarges.size(); ++i) {
+			const PairInfo *currentPair = _findPairByLarge(split.pairs, sortedLarges[i]);
+			chain.push_back(currentPair->largeTag());
+			pend.push_back(currentPair->smallTag());
+		}
+	}
 
-} // namespace
+	if (split.hasStraggler)
+		pend.push_back(TaggedIndex(split.stragglerIndex, 0));
 
+	std::size_t pendPairCount = pend.size();
+	if (split.hasStraggler)
+		--pendPairCount;
+
+	const std::vector<std::size_t> insertionOrder = buildJacobsthalOrder(pendPairCount);
+	for (std::size_t i = 0; i < insertionOrder.size(); ++i) {
+		const TaggedIndex &candidate = pend[insertionOrder[i]];
+		const std::size_t  bound	 = _findPairBound(chain, candidate.pairId());
+		_boundedBinaryInsert(chain, candidate, bound, data);
+	}
+
+	if (split.hasStraggler)
+		_boundedBinaryInsert(chain, pend[pend.size() - 1], chain.size(), data);
+
+	std::vector<std::size_t> result;
+	result.reserve(chain.size());
+	for (std::size_t i = 0; i < chain.size(); ++i)
+		result.push_back(chain[i].dataIndex());
+	return result;
+}
+
+PmergeMe::SplitStage PmergeMe::_splitStage(const std::vector<int>		  &data,
+										   const std::vector<std::size_t> &ord)
+{
+	SplitStage stage	 = {};
+	stage.hasStraggler	 = false;
+	stage.stragglerIndex = 0;
+
+	std::vector<PairInfo>	 &pairs	 = stage.pairs;
+	std::vector<std::size_t> &larges = stage.larges;
+
+	for (std::size_t i = 0; i + 1 < ord.size(); i += 2) {
+		std::size_t left   = ord[i];
+		std::size_t right  = ord[i + 1];
+		std::size_t pairId = pairs.size() + 1;
+		if (data[right] < data[left])
+			std::swap(left, right);
+		pairs.push_back(PairInfo(left, right, pairId));
+		larges.push_back(right);
+	}
+
+	if (ord.size() % 2 != 0) {
+		stage.hasStraggler	 = true;
+		stage.stragglerIndex = ord[ord.size() - 1];
+	}
+	return stage;
+}
 
 bool PmergeMe::_parsePositiveInt(const char *raw, int &out)
 {
-	char *end = 0;
-	errno = 0;
+	char *end  = 0;
+	errno	   = 0;
 	long value = std::strtol(raw, &end, 10);
 
 	if (raw[0] == '\0' || *end != '\0' || errno == ERANGE || value <= 0 || value > INT_MAX)
@@ -36,9 +99,6 @@ bool PmergeMe::_parsePositiveInt(const char *raw, int &out)
 
 bool PmergeMe::parseInput(int argc, char *argv[], std::vector<int> &data)
 {
-	if (argc < 2)
-		return false;
-
 	for (int i = 1; i < argc; ++i) {
 		int value = 0;
 		if (!_parsePositiveInt(argv[i], value))
@@ -58,40 +118,38 @@ void PmergeMe::printValues(const std::vector<int> &values)
 	std::cout << std::endl; // NOLINT(performance-avoid-endl)
 }
 
-const PmergeMe::PairInfo *PmergeMe::findPairByLarge(
-	const std::vector<PmergeMe::PairInfo> &pairs,
-	std::size_t largeIndex)
+const PmergeMe::PairInfo *PmergeMe::_findPairByLarge(const std::vector<PmergeMe::PairInfo> &pairs,
+													 size_t largeIndex)
 {
 	for (std::size_t i = 0; i < pairs.size(); ++i) {
-		if (pairs[i].largeIndex == largeIndex)
-			return &pairs[i];
+		const PairInfo &pair = pairs[i];
+		if (pair.largeIndex == largeIndex)
+			return &pair;
 	}
 	return 0;
 }
 
-std::size_t PmergeMe::findPairBound(
-	const std::vector<PmergeMe::TaggedIndex> &chain,
-	std::size_t pairId)
+std::size_t PmergeMe::_findPairBound(const std::vector<PmergeMe::TaggedIndex> &chain,
+									 std::size_t							   pairId)
 {
 	for (std::size_t i = 0; i < chain.size(); ++i) {
-		if (chain[i].pairId == pairId)
+		if (chain[i].pairId() == pairId)
 			return i;
 	}
 	return chain.size();
 }
 
-void PmergeMe::boundedBinaryInsert(
-	std::vector<TaggedIndex> &chain,
-	const TaggedIndex &candidate,
-	std::size_t upperBound,
-	const std::vector<int> &data)
+void PmergeMe::_boundedBinaryInsert(std::vector<TaggedIndex> &chain,
+									const TaggedIndex		 &candidate,
+									std::size_t				  upperBound,
+									const std::vector<int>	 &data)
 {
-	std::size_t left = 0;
+	std::size_t left  = 0;
 	std::size_t right = upperBound;
 
 	while (left < right) {
 		const std::size_t mid = left + ((right - left) / 2);
-		if (data[chain[mid].dataIndex] < data[candidate.dataIndex])
+		if (data[chain[mid].dataIndex()] < data[candidate.dataIndex()])
 			left = mid + 1;
 		else
 			right = mid;
@@ -110,123 +168,81 @@ std::vector<std::size_t> PmergeMe::buildJacobsthalOrder(std::size_t count)
 	if (count == 1)
 		return order;
 
-	std::size_t inserted = 1;
+	std::size_t inserted  = 1;
 	std::size_t prevJacob = 1;
 	std::size_t currJacob = 3;
 
 	while (inserted < count) {
 		std::size_t limit = currJacob;
-		limit = std::min(limit, count);
+		limit			  = std::min(limit, count);
 
-		std::size_t i = limit;
-		while (i > inserted) {
+		for (std::size_t i = limit; i > inserted; --i)
 			order.push_back(i - 1);
-			--i;
-		}
 
-		inserted = limit;
+		inserted					= limit;
 		const std::size_t nextJacob = currJacob + 2 * prevJacob;
-		prevJacob = currJacob;
-		currJacob = nextJacob;
+		prevJacob					= currJacob;
+		currJacob					= nextJacob;
 	}
 	return order;
 }
 
-std::vector<std::size_t> PmergeMe::fordJohnsonPermutation(
-	const std::vector<int> &data,
-	const std::vector<std::size_t> &ord)
+std::vector<std::size_t> PmergeMe::fordJohnsonPermutation(const std::vector<int>		 &data,
+														  const std::vector<std::size_t> &ord)
 {
 	if (ord.size() <= 1)
 		return ord;
 
-	std::vector<PairInfo> pairs;
-	std::vector<std::size_t> larges;
-	bool hasStraggler = false;
-	std::size_t stragglerIndex = 0;
-
-	for (std::size_t i = 0; i + 1 < ord.size(); i += 2) {
-		std::size_t left = ord[i];
-		std::size_t right = ord[i + 1];
-		if (data[right] < data[left])
-			std::swap(left, right);
-
-		PairInfo pair = {};
-		pair.smallIndex = left;
-		pair.largeIndex = right;
-		pair.pairId = pairs.size() + 1;
-		pairs.push_back(pair);
-		larges.push_back(right);
-	}
-
-	if (ord.size() % 2 != 0) {
-		hasStraggler = true;
-		stragglerIndex = ord[ord.size() - 1];
-	}
-
-	std::vector<std::size_t> sortedLarges = fordJohnsonPermutation(data, larges);
-
-	std::vector<TaggedIndex> chain;
-	std::vector<TaggedIndex> pend;
-
-	if (!sortedLarges.empty()) {
-		const PairInfo *firstPair = findPairByLarge(pairs, sortedLarges[0]);
-		chain.push_back(TaggedIndex());
-		chain.back().dataIndex = firstPair->smallIndex;
-		chain.back().pairId = firstPair->pairId;
-		chain.push_back(TaggedIndex());
-		chain.back().dataIndex = firstPair->largeIndex;
-		chain.back().pairId = firstPair->pairId;
-
-		for (std::size_t i = 1; i < sortedLarges.size(); ++i) {
-			const PairInfo *currentPair = findPairByLarge(pairs, sortedLarges[i]);
-
-			chain.push_back(TaggedIndex());
-			chain.back().dataIndex = currentPair->largeIndex;
-			chain.back().pairId = currentPair->pairId;
-
-			pend.push_back(TaggedIndex());
-			pend.back().dataIndex = currentPair->smallIndex;
-			pend.back().pairId = currentPair->pairId;
-		}
-	}
-
-	if (hasStraggler) {
-		pend.push_back(TaggedIndex());
-		pend.back().dataIndex = stragglerIndex;
-		pend.back().pairId = 0;
-	}
-
-	std::size_t pendPairCount = pend.size();
-	if (hasStraggler)
-		--pendPairCount;
-
-	const std::vector<std::size_t> insertionOrder = PmergeMe::buildJacobsthalOrder(pendPairCount);
-	for (std::size_t i = 0; i < insertionOrder.size(); ++i) {
-		const TaggedIndex candidate = pend[insertionOrder[i]];
-		const std::size_t bound = findPairBound(chain, candidate.pairId);
-		boundedBinaryInsert(chain, candidate, bound, data);
-	}
-
-	if (hasStraggler)
-		boundedBinaryInsert(chain, pend[pend.size() - 1], chain.size(), data);
-
-	std::vector<std::size_t> result;
-	result.reserve(chain.size());
-	for (std::size_t i = 0; i < chain.size(); ++i)
-		result.push_back(chain[i].dataIndex);
-	return result;
+	const SplitStage			   split		= _splitStage(data, ord);
+	const std::vector<std::size_t> sortedLarges = fordJohnsonPermutation(data, split.larges);
+	return _mergeInsertStage(data, split, sortedLarges);
 }
 
 std::vector<int> PmergeMe::fordJohnsonSort(const std::vector<int> &data)
 {
+	std::vector<int>		 result;
 	std::vector<std::size_t> ord(data.size());
 	for (std::size_t i = 0; i < ord.size(); ++i)
 		ord[i] = i;
 
 	const std::vector<std::size_t> sortedOrd = fordJohnsonPermutation(data, ord);
-	std::vector<int> result;
+
 	result.reserve(sortedOrd.size());
 	for (std::size_t i = 0; i < sortedOrd.size(); ++i)
 		result.push_back(data[sortedOrd[i]]);
 	return result;
+}
+
+PmergeMe::TaggedIndex::TaggedIndex() : _dataIndex(), _pairId()
+{}
+
+PmergeMe::TaggedIndex::TaggedIndex(std::size_t dataIndex, std::size_t pairId) :
+	_dataIndex(dataIndex),
+	_pairId(pairId)
+{}
+
+size_t PmergeMe::TaggedIndex::pairId() const
+{
+	return _pairId;
+}
+
+size_t PmergeMe::TaggedIndex::dataIndex() const
+{
+	return _dataIndex;
+}
+
+PmergeMe::PairInfo::PairInfo(size_t smallIndexValue, size_t largeIndexValue, size_t pairIdValue) :
+	smallIndex(smallIndexValue),
+	largeIndex(largeIndexValue),
+	pairId(pairIdValue)
+{}
+
+PmergeMe::TaggedIndex PmergeMe::PairInfo::smallTag() const
+{
+	return TaggedIndex(smallIndex, pairId);
+}
+
+PmergeMe::TaggedIndex PmergeMe::PairInfo::largeTag() const
+{
+	return TaggedIndex(largeIndex, pairId);
 }

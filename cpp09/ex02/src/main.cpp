@@ -6,7 +6,7 @@
 /*   By: abelov <abelov@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 23:32:30 by abelov            #+#    #+#             */
-/*   Updated: 2025/07/25 23:32:31 by abelov           ###   ########.fr       */
+/*   Updated: 2026/03/13 21:35:14 by abelov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,14 @@
  */
 int main(int argc, char *argv[])
 {
+	if (argc < 2) {
+		std::cerr << "Error" << std::endl; // NOLINT(performance-avoid-endl)
+		return EXIT_FAILURE;
+	}
+
 	std::vector<int> data;
 	if (!PmergeMe::parseInput(argc, argv, data)) {
-		std::cerr << "Error" << std::endl;  // NOLINT(performance-avoid-endl)
+		std::cerr << "Error" << std::endl; // NOLINT(performance-avoid-endl)
 		return EXIT_FAILURE;
 	}
 
