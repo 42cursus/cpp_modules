@@ -14,4 +14,4 @@
     in which operators follow their operands. 
 
 ### ex02:
-    
+    PmergeMe::fordJohnsonSort(data)

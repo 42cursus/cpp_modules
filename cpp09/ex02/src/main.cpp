@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+#include <ctime>
+#include <iomanip>
 
 /**
  * Exercise 02: PmergeMe
@@ -31,9 +33,26 @@ int main(int argc, char *argv[])
 	std::cout << "Before: ";
 	PmergeMe::printValues(data);
 
+	const std::clock_t vectorStart = std::clock();
 	std::vector<int> sorted = PmergeMe::fordJohnsonSort(data);
+	const std::clock_t vectorEnd = std::clock();
+
+	const std::list<int> listData(data.begin(), data.end());
+	const std::clock_t listStart = std::clock();
+	const std::list<int> sortedList = PmergeMe::fordJohnsonSort(listData);
+	const std::clock_t listEnd = std::clock();
+
 	std::cout << "After: ";
 	PmergeMe::printValues(sorted);
+
+	(void)sortedList;
+	std::cout << std::fixed << std::setprecision(5);
+	std::cout << "Time to process a range of " << data.size()
+			  << " elements with std::vector : " << PmergeMe::elapsedTime(vectorStart, vectorEnd) << " us"
+			  << std::endl; // NOLINT(performance-avoid-endl)
+	std::cout << "Time to process a range of " << data.size()
+			  << " elements with std::list   : " << PmergeMe::elapsedTime(listStart, listEnd) << " us"
+			  << std::endl; // NOLINT(performance-avoid-endl)
 
 	return EXIT_SUCCESS;
 }
